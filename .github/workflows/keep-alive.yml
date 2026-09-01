@@ -1,0 +1,48 @@
+name: Keep Supabase awake
+
+# A free Supabase project pauses after seven days without traffic, which takes
+# the live demo down with it. Every three days is comfortably inside that
+# window and cheap enough to be invisible.
+on:
+  schedule:
+    - cron: '0 6 */3 * *'
+  # So it can be proved to work without waiting three days.
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Ping the REST API
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check the secrets exist
+        id: guard
+        env:
+          URL: ${{ secrets.SUPABASE_URL }}
+          KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$URL" ] || [ -z "$KEY" ]; then
+            echo "::warning::SUPABASE_URL or SUPABASE_ANON_KEY is not set — skipping."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Ping
+        if: steps.guard.outputs.ready == 'true'
+        env:
+          URL: ${{ secrets.SUPABASE_URL }}
+          KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          # RLS means an anonymous read returns an empty array; the point is the
+          # request reaching Postgres, not what comes back. --fail-with-body
+          # turns a 4xx/5xx into a red run instead of a silent no-op, so a
+          # project that paused anyway is something you find out about.
+          status=$(curl --silent --show-error --fail-with-body \
+            --write-out '%{http_code}' --output /dev/null \
+            --max-time 30 \
+            -H "apikey: $KEY" \
+            -H "Authorization: Bearer $KEY" \
+            "$URL/rest/v1/transactions?select=id&limit=1")
+
+          echo "HTTP $status"

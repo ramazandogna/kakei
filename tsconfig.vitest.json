@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.app.json",
+
+  // Override to include only test files and clear exclusions.
+  // Application code imported in tests is automatically included via module
+  // resolution -- but ambient declaration files are not, because nothing
+  // imports them. They have to be listed, or this project type-checks the app's
+  // components against an unaugmented RouteMeta.
+  "include": ["src/**/__tests__/*", "src/**/*.d.ts", "env.d.ts"],
+  "exclude": [],
+
+  "compilerOptions": {
+    // Vitest runs in a different environment than the application code.
+    // Adjust lib and types accordingly. Tests run on Node 24, so the modern
+    // standard library is available (Array.prototype.at, etc).
+    "lib": ["ESNext"],
+    "types": ["node", "jsdom"],
+
+    // `vue-tsc --build` produces a .tsbuildinfo file for incremental type-checking.
+    // Specified here to keep it out of the root directory.
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.vitest.tsbuildinfo"
+  }
+}
