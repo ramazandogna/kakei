@@ -155,12 +155,27 @@ Both come from **Project Settings → API Keys**.
 > deployed, **revoke it in the dashboard first** — replacing the variable does
 > not invalidate the key that is already out.
 
+### Checking a key before it goes anywhere
+
+```sh
+pnpm check:env
+```
+
+Reads `.env.local` (or the real environment, so CI can use it too) and answers
+the three questions that have each cost this project an outage: is the variable
+set, is it a secret key, and does it belong to *this* project. Then it asks the
+project itself, and prints which sign-in providers are enabled.
+
+A key carries the project it was issued for in its `ref` claim, so one borrowed
+from another Supabase project is caught here rather than as a 401 on every
+request after the deploy.
+
 ### On Vercel — Project Settings → Environment Variables
 
 | Name                     | Value                             | Environments                     |
 | ------------------------ | --------------------------------- | -------------------------------- |
 | `VITE_SUPABASE_URL`      | `https://<project-ref>.supabase.co` | Production, Preview, Development |
-| `VITE_SUPABASE_ANON_KEY` | the anon key                      | Production, Preview, Development |
+| `VITE_SUPABASE_ANON_KEY` | the `anon` / publishable key      | Production, Preview, Development |
 | `VITE_SITE_URL`          | `https://kakei-money.vercel.app`  | Production                       |
 
 `VITE_SITE_URL` is only read at build time, to turn the `og:` URLs in

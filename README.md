@@ -76,6 +76,7 @@ migrations in [`supabase/migrations/`](supabase/migrations), in order.
 | `pnpm check`     | Everything CI runs: format, lint, types, tests, build |
 | `pnpm test:unit` | Vitest, watch mode                                    |
 | `pnpm lint`      | oxlint + ESLint, with `--fix`                         |
+| `pnpm check:env` | Check the Supabase URL and key before deploying them  |
 | `pnpm types:db`  | Regenerate `database.types.ts` from the live schema   |
 
 ## How it is put together
