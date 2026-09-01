@@ -6,6 +6,7 @@ import { setRememberMe, supabase } from '@/shared/lib/supabase'
 import type { User } from '@supabase/supabase-js'
 
 import { queryClient } from '@/app/providers/query'
+import { activeLocale } from '@/shared/i18n'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = shallowRef<User | null>(null)
@@ -31,11 +32,23 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  /**
+   * Creates the account, carrying the active language into the database.
+   *
+   * The signup trigger seeds a set of preset categories, and it runs before the
+   * app has ever spoken to Postgres — so the language has to arrive as user
+   * metadata or the seed can only be in English. Google sign-in has no such
+   * hook, and falls back to English by design.
+   */
   async function signUp(
     email: string,
     password: string,
   ): Promise<{ needsEmailConfirmation: boolean }> {
-    const { data, error } = await supabase.auth.signUp({ email, password })
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { locale: activeLocale.value } },
+    })
     if (error) throw error
 
     if (data.session) user.value = data.session.user
