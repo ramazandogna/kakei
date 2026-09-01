@@ -1,0 +1,145 @@
+# Deploying Kakei
+
+Everything below is done once. The app itself needs two environment variables;
+the rest is Supabase configuration that lives in the dashboard rather than in
+this repository.
+
+## 1. The Supabase project
+
+Kakei needs **its own project** — separate from Hibi's, separate keys. A shared
+project would put two apps' tables behind one set of policies, and the seed
+trigger on `auth.users` would fire for both.
+
+1. Create a project at [supabase.com/dashboard](https://supabase.com/dashboard).
+   Pick the region nearest to you; free tier is enough.
+2. Open **SQL Editor** and run the files in
+   [`supabase/migrations/`](../supabase/migrations) **in order**:
+
+   | File                          | What it does                                              |
+   | ----------------------------- | --------------------------------------------------------- |
+   | `0001_init.sql`               | `profiles`, `categories`, `transactions` and their indexes |
+   | `0002_rls.sql`                | RLS on all three, every policy scoped to `auth.uid()`, and the `user_id` defaults |
+   | `0003_new_user.sql`           | The trigger that creates a profile and seeds preset categories in the user's language |
+   | `0004_reorder_categories.sql` | One-statement re-ordering                                  |
+   | `0005_reports.sql`            | `category_report` and `monthly_totals`                      |
+
+   Or, with the CLI: `pnpm exec supabase link --project-ref <ref>` then
+   `pnpm exec supabase db push`.
+
+3. Optional, for a project that should look lived-in:
+   [`supabase/seed/demo_month.sql`](../supabase/seed/demo_month.sql) — run it in
+   the SQL editor while signed in. It is safe to run twice.
+
+### Checking it took
+
+In the SQL editor:
+
+```sql
+-- Should list three tables, all with rowsecurity = true.
+select tablename, rowsecurity from pg_tables where schemaname = 'public';
+
+-- Should list four policies.
+select tablename, policyname, cmd from pg_policies where schemaname = 'public';
+```
+
+If `rowsecurity` is ever `false` on a table, stop: the anon key ships in the
+bundle, so the policies are the only thing standing between one user's ledger
+and everyone else's.
+
+## 2. Auth
+
+**Authentication → Providers**
+
+- **Email** is on by default. Decide whether to require confirmation; the app
+  handles both — it shows "check your inbox" when Supabase returns no session.
+- **Google**: enable it, and paste in a client ID and secret from a Google Cloud
+  OAuth 2.0 Web application credential. That credential's
+  *Authorized redirect URI* is `https://<project-ref>.supabase.co/auth/v1/callback`.
+
+**Authentication → URL Configuration**
+
+- **Site URL**: the production origin, e.g. `https://kakei.vercel.app`.
+- **Redirect URLs**: add `http://localhost:5173/**` for development, plus the
+  Vercel preview pattern if you use previews: `https://kakei-*.vercel.app/**`.
+
+The app signs in with `redirectTo: window.location.origin`, so any origin it is
+served from has to be on that list or Google returns to the Site URL instead.
+
+## 3. Environment variables
+
+### Locally — `.env.local`
+
+```sh
+VITE_SUPABASE_URL=https://<project-ref>.supabase.co
+VITE_SUPABASE_ANON_KEY=<the anon / public key>
+```
+
+Both come from **Project Settings → API**. Both are public by design: the anon
+key ships inside the JavaScript bundle. The **service_role** key must never
+appear here, in Vercel's client-side variables, or anywhere the browser can
+reach it — it bypasses every policy in section 1.
+
+### On Vercel — Project Settings → Environment Variables
+
+| Name                     | Value                             | Environments                     |
+| ------------------------ | --------------------------------- | -------------------------------- |
+| `VITE_SUPABASE_URL`      | `https://<project-ref>.supabase.co` | Production, Preview, Development |
+| `VITE_SUPABASE_ANON_KEY` | the anon key                      | Production, Preview, Development |
+| `VITE_SITE_URL`          | `https://kakei.vercel.app`        | Production                       |
+
+`VITE_SITE_URL` is only read at build time, to turn the `og:` URLs in
+`index.html` into absolute ones. Leave it unset and the social card falls back
+to root-relative paths, which most crawlers still follow — nothing else breaks.
+
+A `VITE_` variable is inlined into the bundle at build time, so **changing one
+requires a redeploy**, not just a restart.
+
+### On GitHub — Settings → Secrets and variables → Actions
+
+Only needed for the keep-alive workflow, which stops a free Supabase project
+pausing after seven idle days and taking the live demo with it:
+
+| Secret                  | Value                               |
+| ----------------------- | ----------------------------------- |
+| `SUPABASE_URL`          | `https://<project-ref>.supabase.co` |
+| `SUPABASE_ANON_KEY`     | the anon key                        |
+
+Without them the workflow logs a warning and skips, rather than failing.
+
+## 4. Vercel
+
+Import the repository and accept the defaults — the framework preset is Vite.
+
+| Setting          | Value           |
+| ---------------- | --------------- |
+| Build command    | `pnpm build`    |
+| Output directory | `dist`          |
+| Install command  | `pnpm install`  |
+| Node version     | 24.x            |
+
+[`vercel.json`](../vercel.json) rewrites everything to `index.html`, which is
+what makes a cold load of `/ledger?direction=out` work — every route in this app
+is client-side.
+
+## 5. After the first deploy
+
+- Sign up with email, and confirm the ledger opens with a tree of categories in
+  your language. If it is empty, migration `0003` did not run.
+- Sign in with Google from the deployed origin. A redirect back to the wrong
+  host means the origin is missing from **Redirect URLs**.
+- Add an entry, then open the Month tab: in, out and net should all move.
+- Install it to the Home Screen and reopen it offline; the shell should still
+  render.
+
+## What is deliberately not here
+
+- **No custom domain.** Add one in Vercel and update `VITE_SITE_URL` and the
+  Supabase **Site URL** together, or the social card and the OAuth return will
+  point at different hosts.
+- **No account deletion.** Supabase does not let a client delete its own auth
+  user — that needs the service role, which must never reach the browser.
+  Settings deletes all of the data and says so plainly; an Edge Function can
+  finish the job later.
+- **No multi-currency.** One ledger holds one currency. Changing it in Settings
+  changes how amounts are *displayed*; it does not convert what is already
+  stored.
