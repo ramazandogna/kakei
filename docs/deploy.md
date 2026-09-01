@@ -22,6 +22,7 @@ trigger on `auth.users` would fire for both.
    | `0003_new_user.sql`           | The trigger that creates a profile and seeds preset categories in the user's language |
    | `0004_reorder_categories.sql` | One-statement re-ordering                                  |
    | `0005_reports.sql`            | `category_report` and `monthly_totals`                      |
+   | `0006_hardening.sql`          | Closes three holes RLS does not cover — see below           |
 
    Or, with the CLI: `pnpm exec supabase link --project-ref <ref>` then
    `pnpm exec supabase db push`.
@@ -30,16 +31,43 @@ trigger on `auth.users` would fire for both.
    [`supabase/seed/demo_month.sql`](../supabase/seed/demo_month.sql) — run it in
    the SQL editor while signed in. It is safe to run twice.
 
+### What `0006` closes, and why RLS alone was not enough
+
+Each of these was confirmed by attacking a real database as an ordinary
+signed-in user, and confirmed closed the same way.
+
+| Hole | Why RLS missed it |
+| --- | --- |
+| **Anyone could call `seed_default_categories` on anyone.** Fifteen rows written into a stranger's account; a victim's count went 15 → 30. | The function is `security definer`, so it runs as its owner and RLS does not apply to it — and Postgres grants `EXECUTE` on a new function to `PUBLIC`, which PostgREST exposes as an RPC endpoint. |
+| **A transaction could reference another user's category, and a category could be parented under one.** Not reading their data — writing into their tree. | A foreign key is checked with the *referenced* table's rights, so RLS is not consulted. Knowing a UUID was enough. |
+| **`currency`, `theme` and `display_name` accepted anything.** A five-thousand-character display name was stored and rendered. | RLS decides *whose* rows you may write, never *what* you may put in them. |
+
+Revoking from `PUBLIC` alone does not fix the first one: Supabase grants
+`EXECUTE` to `anon` and `authenticated` explicitly, and an explicit grant
+survives a revoke aimed at `PUBLIC`. `0006` revokes from all three.
+
 ### Checking it took
 
 In the SQL editor:
 
 ```sql
--- Should list three tables, all with rowsecurity = true.
+-- Three tables, all with rowsecurity = true.
 select tablename, rowsecurity from pg_tables where schemaname = 'public';
 
--- Should list four policies.
+-- Four policies.
 select tablename, policyname, cmd from pg_policies where schemaname = 'public';
+
+-- The two security-definer functions must be callable by postgres only.
+-- Seeing `anon=X` or `authenticated=X` here means 0006 has not been applied.
+select p.proname, p.prosecdef as security_definer, p.proacl::text as grants
+  from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+ where n.nspname = 'public'
+   and p.proname in ('seed_default_categories', 'handle_new_user');
+
+-- The tenant-safe foreign keys: both must be two-column.
+select conname, pg_get_constraintdef(oid)
+  from pg_constraint
+ where conname in ('transactions_category_fkey', 'categories_parent_fkey');
 ```
 
 If `rowsecurity` is ever `false` on a table, stop: the anon key ships in the

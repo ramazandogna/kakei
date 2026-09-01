@@ -92,10 +92,18 @@ person means the same thing by both.
 twelve-month series by the user's own month start day. Both are `security
 invoker`, so RLS still applies and neither can become a way around the policies.
 
-**Security lives in Postgres.** Router guards are a convenience for the user,
-not a boundary. Every table has RLS enabled and every policy is scoped to
-`auth.uid()`; `user_id` defaults to `auth.uid()` in the database, so the client
-never sends it and cannot spoof it.
+**Security lives in Postgres — and RLS is only part of it.** Router guards are a
+convenience for the user, not a boundary. Every table has RLS enabled and every
+policy is scoped to `auth.uid()`; `user_id` defaults to `auth.uid()` in the
+database, so the client never sends it and cannot spoof it.
+
+Three things RLS does not cover were found by attacking a real database as an
+ordinary signed-in user, and are closed in `0006_hardening.sql`: a
+`security definer` function that Postgres had granted to `PUBLIC` and PostgREST
+had published as an RPC; foreign keys, which are checked with the referenced
+table's rights and so let a transaction point at another account's category; and
+preference columns that accepted anything at all. Each is verified closed the
+same way it was found.
 
 **Dates are local, always.** `toISOString()` would put a late-evening entry on
 tomorrow for anyone east of UTC — and in a money app that lands it in the wrong
