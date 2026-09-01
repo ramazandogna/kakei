@@ -58,9 +58,9 @@ and everyone else's.
 
 **Authentication → URL Configuration**
 
-- **Site URL**: the production origin, e.g. `https://kakei.vercel.app`.
+- **Site URL**: the production origin — `https://kakei-money.vercel.app`.
 - **Redirect URLs**: add `http://localhost:5173/**` for development, plus the
-  Vercel preview pattern if you use previews: `https://kakei-*.vercel.app/**`.
+  Vercel preview pattern if you use previews: `https://kakei-money-*.vercel.app/**`.
 
 The app signs in with `redirectTo: window.location.origin`, so any origin it is
 served from has to be on that list or Google returns to the Site URL instead.
@@ -85,7 +85,7 @@ reach it — it bypasses every policy in section 1.
 | ------------------------ | --------------------------------- | -------------------------------- |
 | `VITE_SUPABASE_URL`      | `https://<project-ref>.supabase.co` | Production, Preview, Development |
 | `VITE_SUPABASE_ANON_KEY` | the anon key                      | Production, Preview, Development |
-| `VITE_SITE_URL`          | `https://kakei.vercel.app`        | Production                       |
+| `VITE_SITE_URL`          | `https://kakei-money.vercel.app`  | Production                       |
 
 `VITE_SITE_URL` is only read at build time, to turn the `og:` URLs in
 `index.html` into absolute ones. Leave it unset and the social card falls back
@@ -109,6 +109,11 @@ Without them the workflow logs a warning and skips, rather than failing.
 ## 4. Vercel
 
 Import the repository and accept the defaults — the framework preset is Vite.
+
+The **project name** decides the subdomain, and it is the one setting that is
+awkward to change later: it is baked into `VITE_SITE_URL`, into Supabase's Site
+URL and into the OAuth redirect list. `kakei-money` — the same name-plus-subject
+shape as `hibi-habit`, since the two are siblings.
 
 | Setting          | Value           |
 | ---------------- | --------------- |

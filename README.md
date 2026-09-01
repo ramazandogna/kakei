@@ -8,6 +8,10 @@
   and everything you type is there to make it possible.</p>
 
   <p>
+    <a href="https://kakei-money.vercel.app"><strong>Open the app →</strong></a>
+  </p>
+
+  <p>
     <img alt="Vue 3" src="https://img.shields.io/badge/Vue-3.5-42b883?style=flat-square">
     <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-strict-3178c6?style=flat-square">
     <img alt="Supabase" src="https://img.shields.io/badge/Supabase-Postgres%20%2B%20RLS-3ecf8e?style=flat-square">
