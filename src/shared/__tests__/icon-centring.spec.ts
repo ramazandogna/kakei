@@ -31,7 +31,9 @@ describe('icons sit in the middle of their box', () => {
 
     for (const { path, source } of files) {
       source.split('\n').forEach((line, index) => {
-        for (const [, classes] of line.matchAll(/class="([^"]*)"/g)) {
+        for (const match of line.matchAll(/class="([^"]*)"/g)) {
+          const classes = match[1] ?? ''
+
           const isIconBox = /\bsize-\d/.test(classes) && /\bflex\b/.test(classes)
           if (!isIconBox || classes.includes('flex-col')) continue
 
@@ -51,7 +53,9 @@ describe('icons sit in the middle of their box', () => {
     const offenders: string[] = []
 
     for (const { path, source } of files) {
-      for (const [, body] of source.matchAll(/<template #icon>([\s\S]*?)<\/template>/g)) {
+      for (const match of source.matchAll(/<template #icon>([\s\S]*?)<\/template>/g)) {
+        const body = match[1] ?? ''
+
         if (body.includes('<') && !body.includes('mx-auto')) offenders.push(path)
       }
     }
