@@ -139,9 +139,15 @@ Both come from **Project Settings → API Keys**.
 > ### The one mistake that matters
 >
 > `VITE_SUPABASE_ANON_KEY` takes the **publishable** key — the one beginning
-> `sb_publishable_`, or on an older project the `anon` `public` JWT. That key is
-> public by design: it ships inside the JavaScript bundle, and row-level
-> security is the boundary, not the key.
+> `sb_publishable_`. That key is public by design: it ships inside the
+> JavaScript bundle, and row-level security is the boundary, not the key. On its
+> own it returns nothing: every policy is scoped to `auth.uid()`, which is null
+> without a session.
+>
+> **Do not reach for the Legacy API keys.** There are two, both begin `eyJ`, and
+> one of them is `service_role`. They are indistinguishable at a glance and the
+> wrong one is a total bypass — that mistake broke this deploy twice. The
+> publishable key does the same job with nothing to get wrong.
 >
 > The **`sb_secret_`** key (older projects: `service_role`) must never go there.
 > It bypasses every policy in section 1, so anyone who opens the site's
