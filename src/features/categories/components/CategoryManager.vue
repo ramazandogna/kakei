@@ -251,6 +251,10 @@ const showArchived = ref(false)
         {{ $t('category.archived') }} ({{ archivedForDirection.length }})
       </button>
 
+      <p v-if="showArchived" class="text-ink-soft px-1 text-xs">
+        {{ $t('category.archivedBody') }}
+      </p>
+
       <ul
         v-if="showArchived"
         class="border-hair bg-surface rounded-card divide-hair divide-y border"

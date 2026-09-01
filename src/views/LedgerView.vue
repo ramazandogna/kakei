@@ -91,7 +91,11 @@ function dayDate(dateKey: string): string {
           type="button"
           class="filter-button"
           :class="activeCount > 0 ? 'filter-on' : 'filter-off'"
-          :aria-label="$t('ledger.filters')"
+          :aria-label="
+            activeCount > 0
+              ? $t('ledger.activeFilters', { count: activeCount })
+              : $t('ledger.filters')
+          "
           @click="filterOpen = true"
         >
           <SlidersHorizontal class="size-5" />
@@ -138,7 +142,7 @@ function dayDate(dateKey: string): string {
             <span class="text-ink-soft font-normal">· {{ dayDate(day.dateKey) }}</span>
           </h2>
 
-          <span class="tnum text-ink-soft text-[11px]">
+          <span class="tnum text-ink-soft text-[11px]" :aria-label="$t('ledger.dayTotal')">
             <span v-if="day.inMinor > 0" class="text-positive">
               {{ signed(day.inMinor, 'in') }}
             </span>

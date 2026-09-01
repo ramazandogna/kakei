@@ -108,9 +108,10 @@ function openPeriod(periodStart: string) {
 
         <ShareOfIncome v-if="incomeMinor > 0" :slices="spending" :income-minor="incomeMinor" />
 
-        <p v-else class="text-ink-soft rounded-card bg-muted/60 px-3 py-3 text-xs">
-          {{ $t('insights.noIncomeBody') }}
-        </p>
+        <div v-else class="rounded-card bg-muted/60 px-3 py-3">
+          <p class="text-ink text-xs font-medium">{{ $t('insights.noIncome') }}</p>
+          <p class="text-ink-soft mt-0.5 text-xs">{{ $t('insights.noIncomeBody') }}</p>
+        </div>
       </section>
 
       <section class="flex flex-col gap-3">

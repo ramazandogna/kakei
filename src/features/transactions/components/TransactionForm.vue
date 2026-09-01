@@ -201,6 +201,8 @@ async function confirmDelete() {
           {{ $t('necessity.want') }}
         </button>
       </div>
+
+      <p class="text-ink-soft text-xs">{{ $t('necessity.hint') }}</p>
     </section>
 
     <!-- Collapsed, because none of it is needed to record that money moved. -->

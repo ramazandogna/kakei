@@ -29,6 +29,7 @@ const auth = useAuthStore()
 const isExporting = ref(false)
 const isDeleting = ref(false)
 const errorMessage = ref('')
+const deleted = ref(false)
 
 const confirmOpen = ref(false)
 const typedEmail = ref('')
@@ -55,6 +56,7 @@ async function deleteData() {
     queryClient.clear()
     confirmOpen.value = false
     typedEmail.value = ''
+    deleted.value = true
   } catch (error) {
     errorMessage.value = toAppError(error).message
   } finally {
@@ -92,6 +94,10 @@ async function deleteData() {
   </SettingsGroup>
 
   <p v-if="errorMessage" role="alert" class="text-negative mt-2 text-sm">{{ errorMessage }}</p>
+
+  <p v-else-if="deleted" role="status" class="text-ink-soft mt-2 text-sm">
+    {{ $t('settings.deleteAllDone') }}
+  </p>
 
   <BaseSheet
     v-model="confirmOpen"

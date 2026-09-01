@@ -62,7 +62,10 @@ const keptPercent = computed(() => share(Math.max(0, keptMinor.value), incomeMin
     </ul>
 
     <div class="border-hair flex items-baseline justify-between border-t pt-3">
-      <span class="text-ink text-sm font-semibold">{{ $t('insights.kept') }}</span>
+      <span class="flex flex-col">
+        <span class="text-ink text-sm font-semibold">{{ $t('insights.kept') }}</span>
+        <span class="text-ink-soft text-[11px]">{{ $t('insights.keptBody') }}</span>
+      </span>
 
       <span v-if="keptMinor >= 0" class="flex items-baseline gap-2">
         <span class="tnum text-ink-soft text-xs">{{ format(keptMinor) }}</span>
