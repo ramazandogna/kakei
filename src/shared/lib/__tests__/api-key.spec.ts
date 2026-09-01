@@ -63,9 +63,14 @@ describe('assertPublishableKey', () => {
   it.each([['sb_secret_abc'], [legacyKey('service_role')]])(
     'refuses a secret key, and says what to do about it',
     (key) => {
+      // The message is the whole point: it is read by someone whose deploy has
+      // just failed, and it has to say what to change, where, and what to do
+      // about the key that is already out.
       expect(() => assertPublishableKey(key, 'the build')).toThrow(/SECRET key/)
       expect(() => assertPublishableKey(key, 'the build')).toThrow(/sb_publishable_/)
-      expect(() => assertPublishableKey(key, 'the build')).toThrow(/revoke it first/)
+      expect(() => assertPublishableKey(key, 'the build')).toThrow(/Environment Variables/)
+      expect(() => assertPublishableKey(key, 'the build')).toThrow(/\.env\.local/)
+      expect(() => assertPublishableKey(key, 'the build')).toThrow(/revoke/)
     },
   )
 

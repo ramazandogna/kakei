@@ -85,8 +85,15 @@ export function assertPublishableKey(key: string, where: string): void {
       `every visitor.\n\n` +
       `A secret key bypasses row-level security completely: whoever reads it can read ` +
       `and write every user's data.\n\n` +
-      `Use the publishable key instead — Supabase dashboard → Project Settings → ` +
-      `API Keys → the one beginning "sb_publishable_" (older projects: the "anon" ` +
-      `"public" key). If the secret key has already been deployed, revoke it first.`,
+      `Fix it where the variable is set:\n` +
+      `  • Vercel  → Settings → Environment Variables → VITE_SUPABASE_ANON_KEY\n` +
+      `             (check Production, Preview AND Development — all three)\n` +
+      `  • locally → .env.local\n\n` +
+      `The value it wants is the publishable key: Supabase dashboard → Project ` +
+      `Settings → API Keys → the one beginning "sb_publishable_" (older projects: ` +
+      `the "anon" "public" JWT, under Legacy API keys).\n\n` +
+      `VITE_ variables are baked in at build time, so change the value and then ` +
+      `redeploy — editing it alone changes nothing. If the secret key has already ` +
+      `been deployed, revoke it in the dashboard first.`,
   )
 }

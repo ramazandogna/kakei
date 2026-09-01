@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
-    "test:unit": "vitest",
+    "test:unit": "VITE_CONFIG_NATIVE_IGNORE_WARNING=true vitest",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "check:env": "node scripts/check-env.mjs",
@@ -19,7 +19,7 @@
     "check:lint": "run-s check:lint:*",
     "check:lint:oxlint": "oxlint .",
     "check:lint:eslint": "eslint .",
-    "test:ci": "vitest run",
+    "test:ci": "VITE_CONFIG_NATIVE_IGNORE_WARNING=true vitest run",
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",
     "format": "prettier --write src/"
