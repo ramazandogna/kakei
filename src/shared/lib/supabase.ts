@@ -1,5 +1,6 @@
 import { createSupabaseClient, setRememberMe } from 'rei-kit/supabase'
 
+import { assertPublishableKey } from './api-key'
 import type { Database } from '@/shared/types/database.types'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
@@ -14,6 +15,10 @@ if (!supabaseAnonKey) {
     'VITE_SUPABASE_ANON_KEY is missing. Copy .env.example to .env.local and fill it in.',
   )
 }
+
+// The build refuses a secret key too (see vite.config.ts). This is the same
+// check at startup, for `pnpm dev`, which never goes through that plugin.
+assertPublishableKey(supabaseAnonKey, 'this app')
 
 /**
  * The app's client.

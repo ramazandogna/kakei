@@ -4,10 +4,31 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { assertPublishableKey } from './src/shared/lib/api-key'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    /**
+     * Refuse to build a bundle that carries a secret key.
+     *
+     * `VITE_` variables are inlined at build time, so the wrong one in the
+     * dashboard becomes a public file on the next deploy — the app builds
+     * clean, deploys clean, and the only sign is in the JavaScript. This
+     * happened once. It fails the build now, which is the last point at which
+     * it can still be caught for free.
+     */
+    {
+      name: 'kakei:refuse-secret-key',
+      // 'pre' so it runs before anything else has spent time on the bundle.
+      enforce: 'pre',
+      config: () => {
+        const key = process.env['VITE_SUPABASE_ANON_KEY'] ?? ''
+        if (key) assertPublishableKey(key, 'the build')
+
+        return null
+      },
+    },
     /**
      * Absolute URLs for the social card.
      *

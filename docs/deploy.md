@@ -134,10 +134,26 @@ VITE_SUPABASE_URL=https://<project-ref>.supabase.co
 VITE_SUPABASE_ANON_KEY=<the anon / public key>
 ```
 
-Both come from **Project Settings → API**. Both are public by design: the anon
-key ships inside the JavaScript bundle. The **service_role** key must never
-appear here, in Vercel's client-side variables, or anywhere the browser can
-reach it — it bypasses every policy in section 1.
+Both come from **Project Settings → API Keys**.
+
+> ### The one mistake that matters
+>
+> `VITE_SUPABASE_ANON_KEY` takes the **publishable** key — the one beginning
+> `sb_publishable_`, or on an older project the `anon` `public` JWT. That key is
+> public by design: it ships inside the JavaScript bundle, and row-level
+> security is the boundary, not the key.
+>
+> The **`sb_secret_`** key (older projects: `service_role`) must never go there.
+> It bypasses every policy in section 1, so anyone who opens the site's
+> JavaScript can read and write every user's data. And because `VITE_` variables
+> are **inlined at build time**, putting it in that variable does not keep it on
+> the server — it publishes it.
+>
+> This happened once on this project. The build now refuses to compile a bundle
+> containing a secret key (`kakei:refuse-secret-key` in `vite.config.ts`), and
+> the app refuses to start on one in `pnpm dev`. If one has already been
+> deployed, **revoke it in the dashboard first** — replacing the variable does
+> not invalidate the key that is already out.
 
 ### On Vercel — Project Settings → Environment Variables
 
