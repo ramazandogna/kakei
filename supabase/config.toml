@@ -1,0 +1,3 @@
+# Filled in by `supabase link --project-ref <ref>`; kept here so the CLI knows
+# which project the migrations in this folder belong to.
+project_id = ""
