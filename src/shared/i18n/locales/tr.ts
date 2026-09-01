@@ -145,6 +145,8 @@ const tr: MessageSchema = {
     edit: 'Kategoriyi düzenle',
     name: 'Ad',
     namePlaceholder: 'Bakkal',
+    searchPlaceholder: 'Kategori aramak için yaz',
+    createNamed: '“{name}” ekle',
     parent: 'Şunun altında',
     noParent: 'Kendi başına bir başlık',
     tone: 'Renk',

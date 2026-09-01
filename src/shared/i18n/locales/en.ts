@@ -149,6 +149,8 @@ const en = {
     edit: 'Edit category',
     name: 'Name',
     namePlaceholder: 'Konbini',
+    searchPlaceholder: 'Type to find a category',
+    createNamed: 'Add “{name}”',
     parent: 'Under',
     noParent: 'A heading of its own',
     tone: 'Colour',

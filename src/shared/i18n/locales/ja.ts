@@ -145,6 +145,8 @@ const ja: MessageSchema = {
     edit: 'カテゴリを編集',
     name: '名前',
     namePlaceholder: 'コンビニ',
+    searchPlaceholder: '入力してカテゴリを探す',
+    createNamed: '「{name}」を追加',
     parent: '所属先',
     noParent: '単独の見出し',
     tone: '色',

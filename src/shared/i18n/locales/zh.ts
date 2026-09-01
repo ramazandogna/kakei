@@ -145,6 +145,8 @@ const zh: MessageSchema = {
     edit: '编辑分类',
     name: '名称',
     namePlaceholder: '便利店',
+    searchPlaceholder: '输入以查找分类',
+    createNamed: '添加“{name}”',
     parent: '归属于',
     noParent: '独立的大类',
     tone: '颜色',
