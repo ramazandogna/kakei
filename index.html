@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- SVG first: modern browsers pick it and render the mark at any density.
+         The .ico is the fallback for the ones that do not. -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- interactive-widget=resizes-content: the on-screen keyboard shrinks the
+         viewport instead of scrolling the page under it, so the add sheet with
+         a focused amount field keeps its own layout above the keyboard. -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"
+    />
+    <meta name="theme-color" content="#2F3B8F" />
+
+    <title>Kakei — money tracker</title>
+    <meta
+      name="description"
+      content="What came in, what went out, and where it went. A one-person money tracker with a monthly reckoning, offline-capable and installable to your Home Screen."
+    />
+
+    <!-- %SITE_URL% is substituted at build time from VITE_SITE_URL (see
+         vite.config.ts). Unset, it resolves to an empty string and these fall
+         back to root-relative paths, which most crawlers still follow. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Kakei" />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:title" content="Kakei — money tracker" />
+    <meta
+      property="og:description"
+      content="What came in, what went out, and where it went."
+    />
+    <meta property="og:image" content="%SITE_URL%/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="The Kakei mark beside the words: what came in, what went out, and where it went."
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Kakei — money tracker" />
+    <meta
+      name="twitter:description"
+      content="What came in, what went out, and where it went."
+    />
+    <meta name="twitter:image" content="%SITE_URL%/og.png" />
+    <script>
+      // Runs before the bundle: a dark-theme user must not see a white flash.
+      ;(function () {
+        try {
+          var pref = localStorage.getItem('kakei-theme') || 'system'
+          var dark =
+            pref === 'dark' ||
+            (pref === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          if (dark) document.documentElement.classList.add('dark')
+        } catch (e) {
+          /* storage blocked */
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <!-- Teleport target for sheets. Lives outside the Vue tree because Vue
+         mounts children before inserting the tree into the document, so any
+         target rendered by the app itself is unreachable on first mount. -->
+    <div id="sheet-root"></div>
+
+    <script type="module" src="/src/app/main.ts"></script>
+  </body>
+</html>

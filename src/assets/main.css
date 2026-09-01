@@ -1,0 +1,151 @@
+@import 'tailwindcss';
+
+/* Colour roles, the dark variant, the shell geometry and the page transitions.
+   Everything below only redefines values; nothing is renamed. */
+@import 'rei-kit/tokens.css';
+
+/* Scoped styles of the kit's components (BaseSheet, TabBar, ...). They ship as
+   plain [data-v-*] rules, so nothing here can collide with Kakei's own CSS. */
+@import 'rei-kit/styles.css';
+
+/* Tailwind only generates a utility it has seen in a scanned file, and it never
+   walks node_modules on its own. Without this line every class the kit's
+   compiled components use exists in the markup but not in the stylesheet: the
+   build stays green, the tests pass, and the app renders unstyled. */
+@source '../../node_modules/rei-kit/dist';
+
+/* ── The palette ───────────────────────────────────────────────────────────
+   Kakei is a ledger, so it borrows a ledger's colours: indigo covers and red
+   ink. Pigment names on the left, the kit's roles bridged to them below, which
+   is what keeps a repaint an edit to this block and nothing else. */
+@theme {
+  /* Palette */
+  --color-kon: #2f3b8f; /* 紺 — deep indigo, the main action */
+  --color-ai: #5b6bd6; /* 藍 — lighter indigo, secondary emphasis */
+  --color-matcha: #2f8f63; /* money in */
+  --color-beni: #c8443c; /* 紅 — money out */
+  --color-kohaku: #c98a2b; /* 琥珀 — amber, a want rather than a need */
+  --color-mist: #ebeaf6; /* tinted fill, inactive segment */
+
+  /* ── Category tones ──
+     Eight, because a donut of six slices plus a leftover needs to stay legible
+     and no more than that fits before the labels start guessing. Categories
+     store the token name ('clay'), never a value, so a repaint here reaches
+     every row already written. */
+  --color-tone-indigo: #4f5bd5;
+  --color-tone-plum: #8b5fbf;
+  --color-tone-teal: #2b8a9e;
+  --color-tone-amber: #c98a2b;
+  --color-tone-rose: #d4557a;
+  --color-tone-sage: #5f9e6a;
+  --color-tone-clay: #b5654a;
+  --color-tone-slate: #6b7385;
+
+  /* Surfaces (light) */
+  --color-washi: #f7f5f0; /* 和紙 — paper, behind the shell */
+  --color-surface: #ffffff; /* card */
+  --color-ink: #1b1d2b; /* text */
+  --color-ink-soft: #6a6c85; /* secondary text */
+  --color-hair: #e6e3ef; /* rule */
+
+  /* ── The rei-kit bridge ──
+     The kit names colours by role, Kakei names them by pigment. These aliases
+     are the whole translation layer. They stay var() references rather than
+     copies so a repaint of the palette — including the .dark overrides below —
+     carries into the kit's components for free. */
+  --color-primary: var(--color-kon);
+  --color-accent: var(--color-ai);
+  --color-positive: var(--color-matcha);
+  --color-negative: var(--color-beni);
+  --color-warning: var(--color-kohaku);
+  --color-muted: var(--color-mist);
+  --color-canvas: var(--color-washi);
+
+  /* Scale. The radii come from the kit; only the font and the shell height are
+     the app's own. */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --mobile-height: 100dvh;
+}
+
+/* ── Night ──
+   Class-based rather than media-based, so a preference set in Settings beats
+   the operating system. The kit ships its own .dark block; these lines land
+   after it and win. */
+.dark {
+  --color-washi: #0e1017;
+  --color-surface: #191c27;
+  --color-ink: #eceaf4;
+  --color-ink-soft: #9b9db6;
+  --color-hair: #2a2d3d;
+  --color-mist: #242739; /* a tinted fill has to still read as tinted at night */
+  --color-ai: #8b95e6; /* the light indigo is unreadable on a dark ground */
+}
+
+/* ── Shell basics ───────────────────────────────────────────────────────── */
+@layer base {
+  html,
+  body,
+  #app {
+    height: 100%;
+  }
+
+  body {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none; /* no rubber-banding on a phone */
+  }
+
+  /* Anything under 16px makes iOS zoom the page when the field is focused, and
+     the amount field is the one thing that must never move under a thumb. */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* No scrollbars anywhere. The app is a phone shell: a track running down the
+     side of a 430px column reads as a stray line, and every scrollable area
+     here is short enough that its position is obvious from the content. */
+  * {
+    scrollbar-width: none;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Declared with @utility rather than @layer utilities so component styles can
+   also reach it from @apply. */
+/* The wordmark's gradient, reused as the app's primary surface so the mark and
+   the main actions read as the same brand. */
+@utility brand-gradient {
+  @apply from-kon via-ai to-kon bg-gradient-to-r;
+}
+
+/* Tabular figures. A column of amounts that shifts by a pixel per digit is
+   unreadable as a column, which is most of what this app shows. */
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+@layer components {
+  /* A header title that opens something. The chevron and the tinted pill are
+     the only cues a user gets that a heading is a control, so both stay. */
+  .header-action {
+    @apply hover:bg-mist flex min-w-0 items-center gap-1 rounded-full px-3 py-1 transition-colors;
+  }
+
+  /* One visible focus ring everywhere, so no component can quietly lose it. */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
