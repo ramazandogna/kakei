@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 
 import { BaseButton, BaseInput, SegmentedControl, ToneDot } from 'rei-kit'
 import { useI18n } from 'vue-i18n'
@@ -27,16 +27,13 @@ const emit = defineEmits<{ apply: [filters: TransactionFilters]; clear: [] }>()
 const { t } = useI18n()
 const { data: categories } = useCategories()
 
+/**
+ * A copy, seeded once per opening.
+ *
+ * BaseSheet mounts its slot only while it is open, so this component is new
+ * every time and the applied filters cannot drift away underneath it.
+ */
 const draft = ref<TransactionFilters>({ ...filters })
-
-// The sheet is kept mounted between openings, so the draft has to be re-seeded
-// whenever the applied filters change underneath it.
-watch(
-  () => filters,
-  (next) => {
-    draft.value = { ...next }
-  },
-)
 
 const DIRECTION_OPTIONS = computed(() => [
   { value: 'any', label: t('ledger.anyDirection') },
