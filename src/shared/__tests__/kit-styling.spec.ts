@@ -42,6 +42,33 @@ describe('rei-kit styling contract', () => {
     expect(appCss).toMatch(/@import\s+['"]rei-kit\/styles\.css['"]/)
   })
 
+  it("answers every role the kit's own dark block sets", () => {
+    // The trap this exists for: @theme compiles to `:root`, which Tailwind
+    // emits near the top of the stylesheet, while `rei-kit/tokens.css` brings
+    // its own `.dark` block in after it. A role aliased in @theme but not
+    // restated under `.dark` therefore keeps the kit's value at night — and the
+    // app comes up in the previous product's colours, with a green build and
+    // every test passing.
+    // The bodies of every `.dark { … }` rule, and nothing else. Slicing from
+    // the first `.dark` in the file would start inside a comment that mentions
+    // it and swallow the whole stylesheet, which is how the first version of
+    // this test passed while the bug was live.
+    const darkBodies = (css: string) =>
+      [...css.matchAll(/\.dark\s*\{([^{}]*)\}/g)].map((match) => match[1]).join('\n')
+
+    const kitDarkRoles = colourRoles(darkBodies(kitTokens))
+    const appDarkRoles = colourRoles(darkBodies(appCss))
+
+    // If either side comes back empty the selector has changed shape and this
+    // test is silently checking nothing.
+    expect(kitDarkRoles.size).toBeGreaterThan(0)
+    expect(appDarkRoles.size).toBeGreaterThan(0)
+
+    const missing = [...kitDarkRoles].filter((role) => !appDarkRoles.has(role))
+
+    expect(missing, `main.css's .dark block does not answer: ${missing.join(', ')}`).toEqual([])
+  })
+
   it('tells Tailwind to scan the kit for utility classes', () => {
     // Tailwind generates a utility only where it has seen the class, and it
     // does not walk node_modules unless pointed at it.

@@ -17,7 +17,7 @@ import BrandMark from '@/shared/ui/BrandMark.vue'
     <div class="flex w-11 justify-center">
       <RouterLink
         to="/settings"
-        class="text-ink-soft hover:bg-mist hover:text-primary rounded-card flex size-9 items-center justify-center transition-colors active:scale-90"
+        class="text-ink-soft hover:bg-muted hover:text-primary rounded-card flex size-9 items-center justify-center transition-colors active:scale-90"
         :aria-label="$t('topbar.settings')"
       >
         <Settings class="size-[18px]" />

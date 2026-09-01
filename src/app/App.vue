@@ -78,12 +78,12 @@ const layoutComponent = computed(() => {
   background-image:
     repeating-linear-gradient(
       45deg,
-      color-mix(in srgb, var(--color-kon) 5%, transparent) 0 1px,
+      color-mix(in srgb, var(--color-midori) 5%, transparent) 0 1px,
       transparent 1px 56px
     ),
     repeating-linear-gradient(
       -45deg,
-      color-mix(in srgb, var(--color-kon) 5%, transparent) 0 1px,
+      color-mix(in srgb, var(--color-midori) 5%, transparent) 0 1px,
       transparent 1px 56px
     );
 }
@@ -92,12 +92,12 @@ const layoutComponent = computed(() => {
   background-image:
     repeating-linear-gradient(
       45deg,
-      color-mix(in srgb, var(--color-ai) 7%, transparent) 0 1px,
+      color-mix(in srgb, var(--color-wakaba) 7%, transparent) 0 1px,
       transparent 1px 56px
     ),
     repeating-linear-gradient(
       -45deg,
-      color-mix(in srgb, var(--color-ai) 7%, transparent) 0 1px,
+      color-mix(in srgb, var(--color-wakaba) 7%, transparent) 0 1px,
       transparent 1px 56px
     );
 }

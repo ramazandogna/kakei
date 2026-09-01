@@ -15,51 +15,58 @@
 @source '../../node_modules/rei-kit/dist';
 
 /* ── The palette ───────────────────────────────────────────────────────────
-   Kakei is a ledger, so it borrows a ledger's colours: indigo covers and red
-   ink. Pigment names on the left, the kit's roles bridged to them below, which
-   is what keeps a repaint an edit to this block and nothing else. */
+   Green on unbleached paper. Pigment names on the left, the kit's roles bridged
+   to them below, which is what keeps a repaint an edit to this block and
+   nothing else — the tokens stay `var()` references so the .dark overrides
+   further down carry into every rei-kit component for free.
+
+   Every pairing below is measured, not eyeballed: text roles clear WCAG AA
+   (4.5:1) against both surface and canvas, and the two colours that carry white
+   text — primary and negative — clear it the other way round too. */
 @theme {
   /* Palette */
-  --color-kon: #2f3b8f; /* 紺 — deep indigo, the main action */
-  --color-ai: #5b6bd6; /* 藍 — lighter indigo, secondary emphasis */
-  --color-matcha: #2f8f63; /* money in */
-  --color-beni: #c8443c; /* 紅 — money out */
-  --color-kohaku: #c98a2b; /* 琥珀 — amber, a want rather than a need */
-  --color-mist: #ebeaf6; /* tinted fill, inactive segment */
+  --color-midori: #2a7c13; /* 緑 — the main action, and money coming in */
+  --color-wakaba: #76c457; /* 若葉 — young leaf; a fill and a gradient stop,
+                              never text: 2.1:1 on white is unreadable */
+  --color-kinari: #fff8cf; /* 生成り — unbleached cloth, the ground behind the shell */
+  --color-suna: #fbe6c2; /* 砂 — sand; tinted fill, inactive segment */
+  --color-beni: #c0442b; /* 紅 — money going out */
+  --color-kohaku: #9c6a15; /* 琥珀 — amber, a want rather than a need */
 
   /* ── Category tones ──
      Eight, because a donut of six slices plus a leftover needs to stay legible
      and no more than that fits before the labels start guessing. Categories
      store the token name ('clay'), never a value, so a repaint here reaches
-     every row already written. */
-  --color-tone-indigo: #4f5bd5;
-  --color-tone-plum: #8b5fbf;
-  --color-tone-teal: #2b8a9e;
-  --color-tone-amber: #c98a2b;
-  --color-tone-rose: #d4557a;
-  --color-tone-sage: #5f9e6a;
-  --color-tone-clay: #b5654a;
-  --color-tone-slate: #6b7385;
+     every row already written. Warmed to sit on paper rather than on white. */
+  --color-tone-sage: #4e8c3a;
+  --color-tone-clay: #b5613a;
+  --color-tone-amber: #b8811f;
+  --color-tone-rose: #c24e63;
+  --color-tone-plum: #7b4f86;
+  --color-tone-teal: #2e8a82;
+  --color-tone-indigo: #3f5ca8;
+  --color-tone-slate: #6e7169;
 
   /* Surfaces (light) */
-  --color-washi: #f7f5f0; /* 和紙 — paper, behind the shell */
   --color-surface: #ffffff; /* card */
-  --color-ink: #1b1d2b; /* text */
-  --color-ink-soft: #6a6c85; /* secondary text */
-  --color-hair: #e6e3ef; /* rule */
+  --color-ink: #23301a; /* text */
+  --color-ink-soft: #616b57; /* secondary text — dark enough to read on sand */
+  --color-hair: #ebe0c4; /* rule */
 
   /* ── The rei-kit bridge ──
      The kit names colours by role, Kakei names them by pigment. These aliases
-     are the whole translation layer. They stay var() references rather than
-     copies so a repaint of the palette — including the .dark overrides below —
-     carries into the kit's components for free. */
-  --color-primary: var(--color-kon);
-  --color-accent: var(--color-ai);
-  --color-positive: var(--color-matcha);
+     are the whole translation layer.
+
+     `positive` and `primary` are deliberately the same green. In a money app
+     the brand colour *is* money coming in, and the lighter leaf that would
+     separate them is a fill colour — as text it fails contrast outright. */
+  --color-primary: var(--color-midori);
+  --color-accent: var(--color-wakaba);
+  --color-positive: var(--color-midori);
   --color-negative: var(--color-beni);
   --color-warning: var(--color-kohaku);
-  --color-muted: var(--color-mist);
-  --color-canvas: var(--color-washi);
+  --color-muted: var(--color-suna);
+  --color-canvas: var(--color-kinari);
 
   /* Scale. The radii come from the kit; only the font and the shell height are
      the app's own. */
@@ -70,15 +77,31 @@
 /* ── Night ──
    Class-based rather than media-based, so a preference set in Settings beats
    the operating system. The kit ships its own .dark block; these lines land
-   after it and win. */
+   after it and win.
+
+   Three pigments move. The greens and the red have to lift off a dark ground to
+   stay readable as text, and because the roles above are var() references, one
+   line here repaints the buttons, the money-in figures and the tab bar at
+   once. */
 .dark {
-  --color-washi: #0e1017;
-  --color-surface: #191c27;
-  --color-ink: #eceaf4;
-  --color-ink-soft: #9b9db6;
-  --color-hair: #2a2d3d;
-  --color-mist: #242739; /* a tinted fill has to still read as tinted at night */
-  --color-ai: #8b95e6; /* the light indigo is unreadable on a dark ground */
+  --color-kinari: #12180f;
+  --color-surface: #1b2317;
+  --color-ink: #eef2e6;
+  --color-ink-soft: #9aa391;
+  --color-hair: #2f3928;
+  --color-suna: #29331f; /* a tinted fill has to still read as tinted at night */
+  --color-midori: #41a026; /* the deep green is unreadable on a dark ground */
+  --color-beni: #e2634a;
+  --color-kohaku: #cf9a2e;
+
+  /* Restated, not redundant. The roles above are aliased in @theme, which
+     Tailwind emits as `:root` near the top of the stylesheet — and rei-kit's
+     own `.dark` block lands after it, so for these two the kit's values would
+     win and the night theme would come out in Hibi's teal. Every role the kit
+     darkens has to be answered here. `src/shared/__tests__/kit-styling.spec.ts`
+     checks that none is missed. */
+  --color-canvas: var(--color-kinari);
+  --color-muted: var(--color-suna);
 }
 
 /* ── Shell basics ───────────────────────────────────────────────────────── */
@@ -126,7 +149,7 @@
 /* The wordmark's gradient, reused as the app's primary surface so the mark and
    the main actions read as the same brand. */
 @utility brand-gradient {
-  @apply from-kon via-ai to-kon bg-gradient-to-r;
+  @apply from-midori via-wakaba to-midori bg-gradient-to-r;
 }
 
 /* Tabular figures. A column of amounts that shifts by a pixel per digit is
@@ -140,7 +163,7 @@
   /* A header title that opens something. The chevron and the tinted pill are
      the only cues a user gets that a heading is a control, so both stay. */
   .header-action {
-    @apply hover:bg-mist flex min-w-0 items-center gap-1 rounded-full px-3 py-1 transition-colors;
+    @apply hover:bg-muted flex min-w-0 items-center gap-1 rounded-full px-3 py-1 transition-colors;
   }
 
   /* One visible focus ring everywhere, so no component can quietly lose it. */

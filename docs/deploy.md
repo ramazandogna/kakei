@@ -48,19 +48,51 @@ and everyone else's.
 
 ## 2. Auth
 
-**Authentication → Providers**
+**Authentication → Sign In / Providers**
 
 - **Email** is on by default. Decide whether to require confirmation; the app
   handles both — it shows "check your inbox" when Supabase returns no session.
-- **Google**: enable it, and paste in a client ID and secret from a Google Cloud
-  OAuth 2.0 Web application credential. That credential's
-  *Authorized redirect URI* is `https://<project-ref>.supabase.co/auth/v1/callback`.
+- **Google** is off by default, and until it is switched on the app gets
+  `{"error_code":"validation_failed","msg":"Unsupported provider: provider is
+  not enabled"}` the moment the button is pressed. Turning it on is two halves,
+  and both are needed:
+
+  **Half one — Google Cloud Console** ([console.cloud.google.com](https://console.cloud.google.com)):
+
+  1. Create or pick a project.
+  2. **APIs & Services → OAuth consent screen**. User type **External**. Fill in
+     the app name, a support email and a developer email. The scopes it needs
+     are the default three: `openid`, `.../auth/userinfo.email` and
+     `.../auth/userinfo.profile`.
+
+     While the consent screen is in **Testing**, only the accounts listed under
+     *Test users* can sign in — everyone else gets "access blocked". Add your
+     own address there, or press **Publish app**.
+  3. **APIs & Services → Credentials → Create credentials → OAuth client ID**,
+     type **Web application**.
+
+     | Field                        | Value                                              |
+     | ---------------------------- | -------------------------------------------------- |
+     | Authorized JavaScript origins | `https://kakei-money.vercel.app` and `http://localhost:5173` |
+     | Authorized redirect URIs      | `https://<project-ref>.supabase.co/auth/v1/callback` |
+
+     The redirect URI is **Supabase's** callback, not the app's own address.
+     This is the single most common mistake: Google returns the user to
+     Supabase, and Supabase is what returns them to the app.
+  4. Copy the **Client ID** and **Client secret**.
+
+  **Half two — Supabase dashboard**: **Authentication → Sign In / Providers →
+  Google**. Toggle it on, paste both values, **Save**. Google can take a few
+  minutes to honour a newly added redirect URI, so a failure straight after
+  saving is worth one retry before debugging it.
 
 **Authentication → URL Configuration**
 
 - **Site URL**: the production origin — `https://kakei-money.vercel.app`.
-- **Redirect URLs**: add `http://localhost:5173/**` for development, plus the
-  Vercel preview pattern if you use previews: `https://kakei-money-*.vercel.app/**`.
+- **Redirect URLs**, one line each:
+  - `https://kakei-money.vercel.app/**`
+  - `http://localhost:5173/**` — development
+  - `https://kakei-money-*.vercel.app/**` — Vercel previews, if you use them
 
 The app signs in with `redirectTo: window.location.origin`, so any origin it is
 served from has to be on that list or Google returns to the Site URL instead.
