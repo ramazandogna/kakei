@@ -1,28 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Kakei — money tracker">
   <defs>
     <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#2A7C13"/>
-      <stop offset="50%" stop-color="#76C457"/>
-      <stop offset="100%" stop-color="#2A7C13"/>
+      <stop offset="0%" stop-color="#12544F"/>
+      <stop offset="50%" stop-color="#2A835F"/>
+      <stop offset="100%" stop-color="#12544F"/>
     </linearGradient>
 
     <!-- The same 45 degree lattice as the app shell, at the app's own spacing:
          this image is a picture of the product, not a poster about it. -->
     <pattern id="lattice" width="56" height="56" patternUnits="userSpaceOnUse">
       <path d="M-14 14 L14 -14 M0 56 L56 0 M42 70 L70 42"
-            stroke="#2A7C13" stroke-opacity="0.07" stroke-width="1.5" fill="none"/>
+            stroke="#12544F" stroke-opacity="0.07" stroke-width="1.5" fill="none"/>
       <path d="M-14 42 L14 70 M0 0 L56 56 M42 -14 L70 14"
-            stroke="#2A7C13" stroke-opacity="0.07" stroke-width="1.5" fill="none"/>
+            stroke="#12544F" stroke-opacity="0.07" stroke-width="1.5" fill="none"/>
     </pattern>
   </defs>
 
-  <rect width="1200" height="630" fill="#FFF8CF"/>
+  <rect width="1200" height="630" fill="#F1F7F3"/>
   <rect width="1200" height="630" fill="url(#lattice)"/>
 
   <!-- Mark, sized and cornered like the real app icon. -->
   <rect x="110" y="165" width="300" height="300" rx="66" fill="#FFFFFF"/>
   <rect x="110" y="165" width="300" height="300" rx="66" fill="none"
-        stroke="#2A7C13" stroke-opacity="0.12" stroke-width="2"/>
+        stroke="#12544F" stroke-opacity="0.12" stroke-width="2"/>
   <text x="260" y="315" fill="url(#ink)"
         font-family="Hiragino Sans, Hiragino Kaku Gothic ProN, Yu Gothic, Noto Sans JP, sans-serif"
         font-size="112" font-weight="600" letter-spacing="-3"
@@ -32,28 +32,28 @@
         font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
         font-size="128" font-weight="700" letter-spacing="-4">Kakei</text>
 
-  <text x="474" y="372" fill="#23301A"
+  <text x="474" y="372" fill="#092328"
         font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
         font-size="38" font-weight="500">What came in, what went out,</text>
-  <text x="474" y="424" fill="#23301A"
+  <text x="474" y="424" fill="#092328"
         font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"
         font-size="38" font-weight="500">and where it went.</text>
 
   <!-- A donut of a month's spending: the app's own visual signature, and it
        fills the bottom band without any words. -->
   <g fill="none" stroke-width="26">
-    <circle cx="530" cy="520" r="42" stroke="#FBE6C2"/>
+    <circle cx="530" cy="520" r="42" stroke="#E4EFE7"/>
     <circle cx="530" cy="520" r="42" stroke="#B5613A"
             stroke-dasharray="92 172" stroke-dashoffset="0" transform="rotate(-90 530 520)"/>
-    <circle cx="530" cy="520" r="42" stroke="#3F5CA8"
+    <circle cx="530" cy="520" r="42" stroke="#5A78C4"
             stroke-dasharray="66 198" stroke-dashoffset="-92" transform="rotate(-90 530 520)"/>
-    <circle cx="530" cy="520" r="42" stroke="#2E8A82"
+    <circle cx="530" cy="520" r="42" stroke="#1E8A86"
             stroke-dasharray="40 224" stroke-dashoffset="-158" transform="rotate(-90 530 520)"/>
     <circle cx="530" cy="520" r="42" stroke="#C24E63"
             stroke-dasharray="28 236" stroke-dashoffset="-198" transform="rotate(-90 530 520)"/>
   </g>
 
-  <g fill="#2A7C13">
+  <g fill="#12544F">
     <rect x="640" y="546" width="18" height="18" rx="4" fill-opacity="0.35"/>
     <rect x="668" y="530" width="18" height="34" rx="4" fill-opacity="0.55"/>
     <rect x="696" y="512" width="18" height="52" rx="4" fill-opacity="0.75"/>

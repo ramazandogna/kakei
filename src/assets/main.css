@@ -15,58 +15,59 @@
 @source '../../node_modules/rei-kit/dist';
 
 /* ── The palette ───────────────────────────────────────────────────────────
-   Green on unbleached paper. Pigment names on the left, the kit's roles bridged
-   to them below, which is what keeps a repaint an edit to this block and
-   nothing else — the tokens stay `var()` references so the .dark overrides
+   Deep teal and green on pale sage. Pigment names on the left, the kit's roles
+   bridged to them below, which is what keeps a repaint an edit to this block
+   and nothing else — the tokens stay `var()` references so the .dark overrides
    further down carry into every rei-kit component for free.
 
-   Every pairing below is measured, not eyeballed: text roles clear WCAG AA
-   (4.5:1) against both surface and canvas, and the two colours that carry white
-   text — primary and negative — clear it the other way round too. */
+   Every pairing is measured rather than eyeballed: text roles clear WCAG AA
+   (4.5:1) against both surface and canvas, and the colours that carry white
+   text clear it the other way round too. */
 @theme {
-  /* Palette */
-  --color-midori: #2a7c13; /* 緑 — the main action, and money coming in */
-  --color-wakaba: #76c457; /* 若葉 — young leaf; a fill and a gradient stop,
-                              never text: 2.1:1 on white is unreadable */
-  --color-kinari: #fff8cf; /* 生成り — unbleached cloth, the ground behind the shell */
-  --color-suna: #fbe6c2; /* 砂 — sand; tinted fill, inactive segment */
-  --color-beni: #c0442b; /* 紅 — money going out */
-  --color-kohaku: #9c6a15; /* 琥珀 — amber, a want rather than a need */
+  /* The four the brand is built on */
+  --color-sumi: #092328; /* 墨 — ink */
+  --color-fukami: #12544f; /* 深み — deep water; the main action */
+  --color-midori: #2a835f; /* 緑 — money coming in */
+  --color-wakanae: #8bbb92; /* 若苗 — young shoot; a fill and a gradient stop,
+                               never text: 2.2:1 on white is unreadable */
+
+  /* Derived, so every role the kit names has a value */
+  --color-akane: #b23a2c; /* 茜 — money going out */
+  --color-kohaku: #8f6212; /* 琥珀 — amber, a want rather than a need */
+  --color-usugiri: #f1f7f3; /* 薄霧 — thin mist, the ground behind the shell */
+  --color-wakaba: #e4efe7; /* 若葉 — tinted fill, inactive segment */
 
   /* ── Category tones ──
      Eight, because a donut of six slices plus a leftover needs to stay legible
      and no more than that fits before the labels start guessing. Categories
      store the token name ('clay'), never a value, so a repaint here reaches
-     every row already written. Warmed to sit on paper rather than on white. */
-  --color-tone-sage: #4e8c3a;
+     every row already written. Each one is legible on both grounds, which is
+     why plum and indigo are lighter than they would be for print. */
+  --color-tone-sage: #5d9a56;
+  --color-tone-teal: #1e8a86;
+  --color-tone-indigo: #5a78c4;
+  --color-tone-plum: #9968a5;
+  --color-tone-rose: #c24e63;
   --color-tone-clay: #b5613a;
   --color-tone-amber: #b8811f;
-  --color-tone-rose: #c24e63;
-  --color-tone-plum: #7b4f86;
-  --color-tone-teal: #2e8a82;
-  --color-tone-indigo: #3f5ca8;
-  --color-tone-slate: #6e7169;
+  --color-tone-slate: #64756c;
 
   /* Surfaces (light) */
   --color-surface: #ffffff; /* card */
-  --color-ink: #23301a; /* text */
-  --color-ink-soft: #616b57; /* secondary text — dark enough to read on sand */
-  --color-hair: #ebe0c4; /* rule */
+  --color-ink: var(--color-sumi); /* text */
+  --color-ink-soft: #556858; /* secondary text — dark enough to read on the fill */
+  --color-hair: #dce7de; /* rule */
 
   /* ── The rei-kit bridge ──
      The kit names colours by role, Kakei names them by pigment. These aliases
-     are the whole translation layer.
-
-     `positive` and `primary` are deliberately the same green. In a money app
-     the brand colour *is* money coming in, and the lighter leaf that would
-     separate them is a fill colour — as text it fails contrast outright. */
-  --color-primary: var(--color-midori);
-  --color-accent: var(--color-wakaba);
+     are the whole translation layer. */
+  --color-primary: var(--color-fukami);
+  --color-accent: var(--color-wakanae);
   --color-positive: var(--color-midori);
-  --color-negative: var(--color-beni);
+  --color-negative: var(--color-akane);
   --color-warning: var(--color-kohaku);
-  --color-muted: var(--color-suna);
-  --color-canvas: var(--color-kinari);
+  --color-muted: var(--color-wakaba);
+  --color-canvas: var(--color-usugiri);
 
   /* Scale. The radii come from the kit; only the font and the shell height are
      the app's own. */
@@ -79,29 +80,28 @@
    the operating system. The kit ships its own .dark block; these lines land
    after it and win.
 
-   Three pigments move. The greens and the red have to lift off a dark ground to
-   stay readable as text, and because the roles above are var() references, one
-   line here repaints the buttons, the money-in figures and the tab bar at
-   once. */
+   The pigments that carry text all lift off a dark ground, and because the
+   roles above are var() references, one line here repaints the buttons, the
+   money-in figures and the tab bar at once. */
 .dark {
-  --color-kinari: #12180f;
-  --color-surface: #1b2317;
-  --color-ink: #eef2e6;
-  --color-ink-soft: #9aa391;
-  --color-hair: #2f3928;
-  --color-suna: #29331f; /* a tinted fill has to still read as tinted at night */
-  --color-midori: #41a026; /* the deep green is unreadable on a dark ground */
-  --color-beni: #e2634a;
+  --color-usugiri: #061518;
+  --color-surface: #0e2a2e;
+  --color-ink: #e9f2ec;
+  --color-ink-soft: #93a99a;
+  --color-hair: #1c4145;
+  --color-wakaba: #14343a; /* a tinted fill has to still read as tinted at night */
+  --color-fukami: #2f9c8d; /* the deep teal is unreadable on a dark ground */
+  --color-midori: #3aa878;
+  --color-akane: #e4705b;
   --color-kohaku: #cf9a2e;
 
   /* Restated, not redundant. The roles above are aliased in @theme, which
      Tailwind emits as `:root` near the top of the stylesheet — and rei-kit's
      own `.dark` block lands after it, so for these two the kit's values would
-     win and the night theme would come out in Hibi's teal. Every role the kit
-     darkens has to be answered here. `src/shared/__tests__/kit-styling.spec.ts`
-     checks that none is missed. */
-  --color-canvas: var(--color-kinari);
-  --color-muted: var(--color-suna);
+     win and the night theme would come out in the previous product's colours.
+     `src/shared/__tests__/kit-styling.spec.ts` fails if a role is missed. */
+  --color-canvas: var(--color-usugiri);
+  --color-muted: var(--color-wakaba);
 }
 
 /* ── Shell basics ───────────────────────────────────────────────────────── */
@@ -149,7 +149,7 @@
 /* The wordmark's gradient, reused as the app's primary surface so the mark and
    the main actions read as the same brand. */
 @utility brand-gradient {
-  @apply from-midori via-wakaba to-midori bg-gradient-to-r;
+  @apply from-fukami via-midori to-fukami bg-gradient-to-r;
 }
 
 /* Tabular figures. A column of amounts that shifts by a pixel per digit is

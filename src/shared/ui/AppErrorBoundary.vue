@@ -48,7 +48,7 @@ const reload = () => window.location.reload()
   <div v-if="failed" class="boundary">
     <EmptyState :title="$t('error.title')" :description="$t('error.body')">
       <template #icon>
-        <TriangleAlert class="text-negative size-7" />
+        <TriangleAlert class="text-negative mx-auto size-7" />
       </template>
 
       <template #action>

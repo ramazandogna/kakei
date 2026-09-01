@@ -8,7 +8,7 @@ import { EmptyState } from 'rei-kit'
 <template>
   <div class="flex w-full flex-col justify-center">
     <EmptyState :title="$t('notFound.title')" :description="$t('notFound.description')">
-      <template #icon><Compass class="size-6" /></template>
+      <template #icon><Compass class="mx-auto size-6" /></template>
       <template #action>
         <RouterLink
           to="/"

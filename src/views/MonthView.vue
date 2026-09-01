@@ -154,7 +154,7 @@ function openLedgerForPeriod() {
     <SkeletonList v-if="report.isPending.value" :rows="4" :label="$t('common.loading')" />
 
     <EmptyState v-else-if="isEmpty" :title="$t('month.empty')" :description="$t('month.emptyBody')">
-      <template #icon><PiggyBank class="size-6" /></template>
+      <template #icon><PiggyBank class="mx-auto size-6" /></template>
     </EmptyState>
 
     <template v-else>

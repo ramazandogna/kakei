@@ -126,7 +126,7 @@ function dayDate(dateKey: string): string {
       :title="activeCount > 0 ? $t('ledger.emptyFiltered') : $t('ledger.empty')"
       :description="activeCount > 0 ? $t('ledger.emptyFilteredBody') : $t('ledger.emptyBody')"
     >
-      <template #icon><ReceiptText class="size-6" /></template>
+      <template #icon><ReceiptText class="mx-auto size-6" /></template>
       <template v-if="activeCount > 0" #action>
         <BaseButton variant="ghost" size="sm" @click="clearFilters">
           {{ $t('ledger.clearFilters') }}

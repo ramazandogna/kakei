@@ -87,7 +87,7 @@ function openPeriod(periodStart: string) {
       :title="$t('insights.empty')"
       :description="$t('insights.emptyBody')"
     >
-      <template #icon><ChartNoAxesColumn class="size-6" /></template>
+      <template #icon><ChartNoAxesColumn class="mx-auto size-6" /></template>
     </EmptyState>
 
     <template v-else>

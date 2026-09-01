@@ -2,25 +2,25 @@
   <defs>
     <!-- The wordmark's own gradient, the one the top bar uses. -->
     <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#2A7C13"/>
-      <stop offset="50%" stop-color="#76C457"/>
-      <stop offset="100%" stop-color="#2A7C13"/>
+      <stop offset="0%" stop-color="#12544F"/>
+      <stop offset="50%" stop-color="#2A835F"/>
+      <stop offset="100%" stop-color="#12544F"/>
     </linearGradient>
 
     <!-- The diamond lattice from behind the phone shell, at the same 45°/-45°
          crossing. Scaled up for the icon: at 56px spacing it would vanish. -->
     <pattern id="lattice" width="72" height="72" patternUnits="userSpaceOnUse">
       <path d="M-18 18 L18 -18 M0 72 L72 0 M54 90 L90 54"
-            stroke="#2A7C13" stroke-opacity="0.13" stroke-width="1.5" fill="none"/>
+            stroke="#12544F" stroke-opacity="0.13" stroke-width="1.5" fill="none"/>
       <path d="M-18 54 L18 90 M0 0 L72 72 M54 -18 L90 18"
-            stroke="#2A7C13" stroke-opacity="0.13" stroke-width="1.5" fill="none"/>
+            stroke="#12544F" stroke-opacity="0.13" stroke-width="1.5" fill="none"/>
     </pattern>
   </defs>
 
-  <rect width="512" height="512" rx="112" fill="#FFF8CF"/>
+  <rect width="512" height="512" rx="112" fill="#F1F7F3"/>
   <rect width="512" height="512" rx="112" fill="url(#lattice)"/>
   <rect x="1" y="1" width="510" height="510" rx="111" fill="none"
-        stroke="#2A7C13" stroke-opacity="0.14" stroke-width="2"/>
+        stroke="#12544F" stroke-opacity="0.14" stroke-width="2"/>
 
   <!-- Set as text rather than traced paths so it stays crisp at any size and
        the file stays a few hundred bytes. -->
