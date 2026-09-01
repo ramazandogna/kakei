@@ -2,14 +2,12 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
-      "//": "Every route is client-side, so a cold load of /ledger has to be answered with the shell. Asset paths are excluded on purpose: a missing chunk must 404, not come back as index.html with a 200. Answering a script request with HTML is what turns a stale tab into 'Expected a JavaScript module but the server responded with text/html', which names neither the cause nor the fix.",
       "source": "/((?!assets/|sw\\.js|workbox-|manifest\\.webmanifest|registerSW\\.js).*)",
       "destination": "/index.html"
     }
   ],
   "headers": [
     {
-      "//": "The entry document must never be cached: it is the only file that knows which hashed chunks belong to this build. A stale copy asks for chunks that no longer exist.",
       "source": "/",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
     },
@@ -18,12 +16,10 @@
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
     },
     {
-      "//": "The service worker decides when the app updates, so it is checked on every load too.",
       "source": "/sw.js",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
     },
     {
-      "//": "Hashed filenames: the content can never change under a given name, so it is safe to keep forever.",
       "source": "/assets/(.*)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     }
