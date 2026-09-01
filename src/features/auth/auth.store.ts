@@ -7,11 +7,22 @@ import type { User } from '@supabase/supabase-js'
 
 import { queryClient } from '@/app/providers/query'
 import { activeLocale } from '@/shared/i18n'
+import { clearOAuthReturn, readOAuthReturn } from './oauth-return'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = shallowRef<User | null>(null)
   const isReady = ref(false)
   const isAuthenticated = computed(() => user.value !== null)
+
+  /**
+   * Why the last redirect back from a provider did not produce a session.
+   *
+   * A message key, shown by LoginView. Without it a rejected OAuth return is
+   * indistinguishable from never having signed in: `getSession()` reports no
+   * session and no error of its own, so the router quietly sends the user back
+   * to the sign-in screen with nothing to go on.
+   */
+  const oauthError = ref('')
 
   let initialized = false
 
@@ -19,15 +30,30 @@ export const useAuthStore = defineStore('auth', () => {
     if (initialized) return
     initialized = true
 
+    // Read before `getSession()`: on success `auth-js` consumes the fragment,
+    // so afterwards there is nothing left to tell us a return even happened.
+    const returned = readOAuthReturn()
+
     try {
       const { data, error } = await supabase.auth.getSession()
       if (error) throw error
       user.value = data.session?.user ?? null
 
+      if (returned.kind !== 'none' && user.value === null) {
+        oauthError.value =
+          returned.kind === 'error' && returned.description
+            ? returned.description
+            : 'authError.oauthFailed'
+      }
+
       supabase.auth.onAuthStateChange((_event, session) => {
         user.value = session?.user ?? null
+        if (session) oauthError.value = ''
       })
     } finally {
+      // Whatever happened, the tokens do not stay in the address bar. On the
+      // happy path auth-js has already removed them; this is the other path.
+      clearOAuthReturn()
       isReady.value = true
     }
   }
@@ -87,5 +113,15 @@ export const useAuthStore = defineStore('auth', () => {
     queryClient.clear()
   }
 
-  return { user, isReady, isAuthenticated, init, signUp, signIn, signInWithGoogle, signOut }
+  return {
+    user,
+    isReady,
+    isAuthenticated,
+    oauthError,
+    init,
+    signUp,
+    signIn,
+    signInWithGoogle,
+    signOut,
+  }
 })

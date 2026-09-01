@@ -246,6 +246,7 @@ const en = {
     over_email_send_rate_limit: 'Too many emails sent. Wait a few minutes.',
     signup_disabled: 'New accounts are closed at the moment.',
     user_banned: 'This account is suspended.',
+    oauthFailed: 'Google sent you back, but the sign-in did not complete. Try again.',
     generic: 'That did not work. Try again.',
   },
 

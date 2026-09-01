@@ -242,6 +242,8 @@ const ja: MessageSchema = {
     over_email_send_rate_limit: 'メールの送信が多すぎます。数分お待ちください。',
     signup_disabled: '現在、新規登録を受け付けていません。',
     user_banned: 'このアカウントは停止されています。',
+    oauthFailed:
+      'Google から戻りましたが、サインインが完了しませんでした。もう一度お試しください。',
     generic: 'うまくいきませんでした。もう一度お試しください。',
   },
 

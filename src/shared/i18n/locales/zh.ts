@@ -242,6 +242,7 @@ const zh: MessageSchema = {
     over_email_send_rate_limit: '发送的邮件太多，请等几分钟。',
     signup_disabled: '目前暂不开放注册。',
     user_banned: '该账号已被停用。',
+    oauthFailed: 'Google 已跳转回来，但登录没有完成。请重试。',
     generic: '没能成功，请重试。',
   },
 

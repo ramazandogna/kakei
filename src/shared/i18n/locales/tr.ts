@@ -242,6 +242,7 @@ const tr: MessageSchema = {
     over_email_send_rate_limit: 'Çok fazla e-posta gönderildi. Birkaç dakika bekle.',
     signup_disabled: 'Şu anda yeni hesap açılmıyor.',
     user_banned: 'Bu hesap askıya alınmış.',
+    oauthFailed: 'Google seni geri gönderdi ama giriş tamamlanmadı. Tekrar dene.',
     generic: 'Olmadı. Tekrar dene.',
   },
 

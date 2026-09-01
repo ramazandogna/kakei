@@ -16,6 +16,15 @@ const route = useRoute()
 const serverError = ref('')
 const rememberMe = ref(true)
 
+/**
+ * A sign-in that came back from Google without a session.
+ *
+ * Read once on mount rather than bound: it describes the navigation that landed
+ * here, and it must not reappear after the user has moved on.
+ */
+const returnError = ref(auth.oauthError)
+auth.oauthError = ''
+
 const { defineField, errors, handleSubmit, isSubmitting } = useForm({
   validationSchema: toTypedSchema(loginSchema()),
 })
@@ -36,6 +45,7 @@ const onSubmit = handleSubmit(async (values) => {
 
 async function signInWithGoogle() {
   serverError.value = ''
+  returnError.value = ''
 
   try {
     await auth.signInWithGoogle(rememberMe.value)
@@ -51,6 +61,10 @@ async function signInWithGoogle() {
       <h2 class="text-ink text-lg font-semibold">{{ $t('auth.welcomeBack') }}</h2>
       <p class="text-ink-soft text-sm">{{ $t('auth.pickUp') }}</p>
     </header>
+
+    <p v-if="returnError && !serverError" role="alert" class="text-negative text-center text-sm">
+      {{ returnError.includes(' ') ? returnError : $t(returnError) }}
+    </p>
 
     <GoogleButton :label="$t('auth.google')" @click="signInWithGoogle" />
 
