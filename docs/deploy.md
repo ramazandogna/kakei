@@ -219,9 +219,33 @@ shape as `hibi-habit`, since the two are siblings.
 | Install command  | `pnpm install`  |
 | Node version     | 24.x            |
 
-[`vercel.json`](../vercel.json) rewrites everything to `index.html`, which is
-what makes a cold load of `/ledger?direction=out` work — every route in this app
-is client-side.
+[`vercel.json`](../vercel.json) rewrites to `index.html`, which is what makes a
+cold load of `/ledger?direction=out` work — every route in this app is
+client-side. Two details in it are load-bearing:
+
+- **Asset paths are excluded from the rewrite.** Every route is a dynamic import
+  with a content-hashed filename, so a tab left open across a deploy asks for
+  chunks the server has already replaced. With a blanket rewrite those requests
+  come back as `index.html` with a **200**, and the browser reports
+  `Expected a JavaScript-or-Wasm module script but the server responded with a
+  MIME type of "text/html"` — which names neither the cause nor the fix. They
+  now 404 honestly, and the router turns that into one reload.
+- **`index.html` and `sw.js` are never cached.** The entry document is the only
+  file that knows which hashed chunks belong to this build; a cached copy keeps
+  asking for the previous one. The hashed assets under `/assets/` are the
+  opposite — their content can never change under a given name, so they are
+  `immutable` for a year.
+
+### If a screen goes blank right after a deploy
+
+That is the stale-tab case above, in a browser that loaded the app before the
+fix shipped. The app now reloads itself once when a chunk fails; a browser
+holding an older service worker needs one nudge:
+
+1. DevTools → **Application** → **Service Workers** → **Unregister**
+2. Reload
+
+Or check it in a private window first, which starts with no worker at all.
 
 ## 5. After the first deploy
 
