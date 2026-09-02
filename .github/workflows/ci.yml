@@ -43,6 +43,12 @@ jobs:
 
       - name: Tests
         run: pnpm test:ci
+        env:
+          # The client throws at import on missing config, so any test that
+          # reaches a store reaches this. Placeholders: nothing here talks to a
+          # real project.
+          VITE_SUPABASE_URL: https://example.supabase.co
+          VITE_SUPABASE_ANON_KEY: ci-placeholder
 
       - name: Build
         run: pnpm build-only

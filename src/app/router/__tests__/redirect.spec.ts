@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { toRedirectPath } from '../guards'
+import { toRedirectPath } from '../redirect'
 
 /**
  * The fragment must never reach the query string.
