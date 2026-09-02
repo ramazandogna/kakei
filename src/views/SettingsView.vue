@@ -2,7 +2,10 @@
 import { useRouter } from 'vue-router'
 import { ArrowLeft } from 'lucide-vue-next'
 
-import { PageHeader } from 'rei-kit'
+import { BaseButton, PageHeader, SettingsGroup, SettingsRow } from 'rei-kit'
+import { GraduationCap } from 'lucide-vue-next'
+
+import { useOnboarding } from '@/features/onboarding/onboarding'
 
 import CategoryManager from '@/features/categories/components/CategoryManager.vue'
 import RecurringManager from '@/features/recurring/components/RecurringManager.vue'
@@ -11,6 +14,7 @@ import DataSection from '@/features/profile/components/DataSection.vue'
 import ProfileSettings from '@/features/profile/components/ProfileSettings.vue'
 
 const router = useRouter()
+const tour = useOnboarding()
 </script>
 
 <template>
@@ -46,6 +50,19 @@ const router = useRouter()
 
       <RecurringManager />
     </section>
+
+    <SettingsGroup :title="$t('onboarding.guide')">
+      <SettingsRow
+        :label="$t('onboarding.guide')"
+        :description="$t('onboarding.guideHint')"
+        :icon="GraduationCap"
+        stacked
+      >
+        <BaseButton variant="ghost" size="sm" class="self-start" @click="tour.restart()">
+          {{ $t('onboarding.guide') }}
+        </BaseButton>
+      </SettingsRow>
+    </SettingsGroup>
 
     <InstallSettings />
 

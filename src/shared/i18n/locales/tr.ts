@@ -160,6 +160,47 @@ const tr: MessageSchema = {
     archiveHint: 'Geri alınabilir olan arşivlemektir. Silmek değildir.',
   },
 
+  onboarding: {
+    skip: 'Atla',
+    next: 'İleri',
+    start: 'İlkini ekle',
+    progress: '{current} / {total}',
+    guide: 'Tanıtımı izle',
+    guideHint: 'Bir dakika — bir kaydın sana maliyeti ve ayın onunla ne yaptığı.',
+    coverTitle: '家計 ev hesabı demek',
+    coverBody:
+      'Bütçe değil, tablo değil, disiplin değil. Sadece ne girdi, ne çıktı, nereye gitti — olduğu anda yazılmış. Bir dakika ver, bunun neden yettiğini göstersin.',
+    secondsValue: '5sn',
+    secondsLabel: 'bir kayıt için',
+    secondsTitle: 'Sadece tutar zorunlu',
+    secondsBody:
+      'Sayfa doğrudan tuş takımıyla açılıyor. Kategori, yer, not ve tarih isteğe bağlı ve kapalı; çünkü kasada bitirebildiğin kayıt, gerçekten yaptığın kayıttır. Gerisi sonra Defter’den doldurulabilir, genelde de öyle olur.',
+    smallValue: '₺62.400',
+    smallLabel: 'yılda, haftada dört kez 300 ₺ ile',
+    smallRange: 'fark ettiğin kira çoğu zaman küçük olan rakam',
+    smallNote: 'Araştırma değil, aritmetik: 300 × 4 × 52 = 62.400.',
+    smallTitle: 'Asıl hikâye küçüklerde',
+    smallBody:
+      'Kirayı kimse unutmaz. Kaçan şey, düşünmeye değmeyecek kadar küçük tutarların art arda gelişi — hatırlanmak yerine yazılması gereken de tam olarak bu.',
+    necessityTitle: 'Gerekli miydi, istek miydi?',
+    necessityBody:
+      'Tek işaret, iki düğme, atlanabilir. Ama uygulamada bir sayı sütununu üzerine düşünebileceğin bir yargıya çeviren tek şey de bu — ay sana harcadığının ne kadarını yine harcayacağını söylüyor.',
+    reckoningTitle: 'Mesele ayın kendisi',
+    reckoningBody:
+      'Gelir, gider, net ve giderin nereye gittiği. Tek ekran, tek istek; telefonda toplanmak yerine veritabanında hesaplanıyor. Bir dilime dokun, Defter zaten ona göre filtrelenmiş açılsın.',
+    againstTitle: 'Geçen aya karşı',
+    againstBody:
+      'Uygulamanın basmak için var olduğu cümle bu. Ne harcadığın değil — kıpırdadı mı, ne yöne, ne kadar. Daha az harcamak iyi sonuç olduğu için, düşüş sayı azalsa bile yeşil.',
+    fixedTitle: 'Sabitleri bir kez tanımla',
+    fixedBody:
+      'Maaş, kira, telefon faturası: her ay aynı tutar. Her birini bir kez tanımla, ay ekranı onları işaretli hâlde tek dokunuşla sunsun. Sensiz hiçbir şey işlenmiyor — farklı geçen bir ay yine senin düzeltmen için orada.',
+    privacyTitle: 'Reddeden uygulama değil, veritabanı',
+    privacyBody:
+      'Her tabloda satır düzeyinde güvenlik var ve her politika senin hesabına bağlı. Kakei başkalarının satırlarını senden gizlemiyor — Postgres onları döndürmüyor. Her şeyi tek dosya olarak dışa aktarabilir ya da tamamını Ayarlar’dan silebilirsin.',
+    startTitle: 'Bir taneyle başla',
+    startBody: 'En son ne harcadıysan. Beş saniye sürüyor, ay kendini oradan kuruyor.',
+  },
+
   recurring: {
     title: 'Sabit aylık kayıtlar',
     settingsBody:

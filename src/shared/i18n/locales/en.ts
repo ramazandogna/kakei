@@ -164,6 +164,48 @@ const en = {
     archiveHint: 'Archiving is the reversible one. Delete is not.',
   },
 
+  onboarding: {
+    skip: 'Skip',
+    next: 'Next',
+    start: 'Add your first',
+    progress: '{current} / {total}',
+    guide: 'Take the tour',
+    guideHint: 'A minute — what an entry costs you, and what the month does with it.',
+    coverTitle: '家計 means household accounts',
+    coverBody:
+      'Not budgets, not spreadsheets, not discipline. Just what came in, what went out, and where it went — written down as it happens. Give this a minute and it will show you why that turns out to be enough.',
+    secondsValue: '5s',
+    secondsLabel: 'to record one entry',
+    secondsTitle: 'Only the amount is required',
+    secondsBody:
+      'The sheet opens on the number pad. Category, merchant, note and date are all optional and all collapsed, because an entry you can finish at the till is an entry you actually make. The rest can be filled in later from the Ledger, and usually is.',
+    smallValue: '¥249,600',
+    smallLabel: 'a year, at ¥1,200 four times a week',
+    smallRange: 'the rent you notice is often the smaller number',
+    smallNote: 'Arithmetic, not a study: 1,200 × 4 × 52 = 249,600.',
+    smallTitle: 'The small ones are the whole story',
+    smallBody:
+      'Nobody forgets the rent. What escapes is the run of amounts too small to think about, which is exactly why they need writing down rather than remembering.',
+    necessityTitle: 'Needed, or wanted?',
+    necessityBody:
+      'One mark, two chips, and it is skippable. It is also the only thing in the app that turns a column of numbers into a judgement you can act on — the month tells you how much of what you spent you would spend again.',
+    reckoningTitle: 'The month is the point',
+    reckoningBody:
+      'In, out, net, and where the out went. One screen, one round trip, computed in the database rather than assembled in your phone. Tap a slice and the Ledger opens already filtered to it.',
+    againstTitle: 'Against last month',
+    againstBody:
+      'This is the sentence the app exists to print. Not what you spent — whether it moved, which way, and by how much. Spending less is the good outcome, so a fall is green even though the number went down.',
+    fixedTitle: 'Set the fixed ones once',
+    fixedBody:
+      'Salary, rent, the phone bill: the same amount every month. Set each up once and the Month screen offers them, ticked, as one tap. Nothing is posted without you — a month that went differently is still yours to correct.',
+    privacyTitle: 'The database refuses, not the app',
+    privacyBody:
+      "Every table has row-level security, and every policy is scoped to your account. It is not that Kakei hides other people's rows from you — Postgres will not return them. You can export everything as one file, or delete all of it, from Settings.",
+    startTitle: 'Start with one',
+    startBody:
+      'Whatever you spent last. It takes five seconds, and the month builds itself from there.',
+  },
+
   recurring: {
     title: 'Fixed monthly entries',
     settingsBody:

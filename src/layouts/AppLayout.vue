@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { defineAsyncComponent, ref } from 'vue'
+import { defineAsyncComponent, onMounted, ref, watch } from 'vue'
 
 import { Plus } from 'lucide-vue-next'
 
 import { BaseSheet, tapFeedback, useOnline } from 'rei-kit'
+import { useOnboarding } from '@/features/onboarding/onboarding'
 import AppNavbar from '@/layouts/components/app/AppNavbar.vue'
 import AppTopBar from '@/layouts/components/app/AppTopBar.vue'
 
@@ -19,7 +20,29 @@ const TransactionForm = defineAsyncComponent(
   () => import('@/features/transactions/components/TransactionForm.vue'),
 )
 
+/** A screen shown once, ever — it has no business on the critical path. */
+const OnboardingTour = defineAsyncComponent(
+  () => import('@/features/onboarding/components/OnboardingTour.vue'),
+)
+
 const isOnline = useOnline()
+
+// First run only. Mounted here rather than in a view so it survives tab changes
+// and covers the chrome as well as the page.
+const tour = useOnboarding()
+onMounted(tour.openIfFirstRun)
+
+/**
+ * Latches on first open and never lets go.
+ *
+ * Gating the component on `isOpen` alone would tear it out of the DOM the
+ * instant it closes, so its leave transition would never play. This defers the
+ * chunk for a returning user without costing the animation.
+ */
+const tourMounted = ref(false)
+watch(tour.isOpen, (open) => {
+  if (open) tourMounted.value = true
+})
 
 /** Adding money is reachable from every screen, not just the Ledger. */
 const createOpen = ref(false)
@@ -55,6 +78,8 @@ function openCreate() {
         <span class="fab-label">{{ $t('transaction.new') }}</span>
       </button>
     </div>
+
+    <OnboardingTour v-if="tourMounted" />
 
     <BaseSheet
       v-model="createOpen"
