@@ -5,6 +5,7 @@ import { ArrowLeft } from 'lucide-vue-next'
 import { PageHeader } from 'rei-kit'
 
 import CategoryManager from '@/features/categories/components/CategoryManager.vue'
+import RecurringManager from '@/features/recurring/components/RecurringManager.vue'
 import InstallSettings from '@/features/pwa/components/InstallSettings.vue'
 import DataSection from '@/features/profile/components/DataSection.vue'
 import ProfileSettings from '@/features/profile/components/ProfileSettings.vue'
@@ -35,6 +36,15 @@ const router = useRouter()
       </h2>
 
       <CategoryManager />
+    </section>
+
+    <section class="flex flex-col gap-2">
+      <h2 class="text-ink-soft px-1 text-xs font-semibold tracking-wide uppercase">
+        {{ $t('recurring.title') }}
+      </h2>
+      <p class="text-ink-soft px-1 text-xs">{{ $t('recurring.settingsBody') }}</p>
+
+      <RecurringManager />
     </section>
 
     <InstallSettings />

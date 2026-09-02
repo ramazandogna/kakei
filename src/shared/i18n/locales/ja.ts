@@ -160,6 +160,26 @@ const ja: MessageSchema = {
     archiveHint: '元に戻せるのはアーカイブです。削除は戻せません。',
   },
 
+  recurring: {
+    title: '毎月の固定項目',
+    settingsBody:
+      '給与、家賃、公共料金。一度登録すれば、毎月入力し直す代わりに月の画面が差し出します。',
+    new: '固定項目を追加',
+    edit: '固定項目を編集',
+    newSubtitle: '毎月、同じ金額を同じ日に。',
+    day: '毎月の日',
+    dayHint: '28 日まで。2 月にも必ず存在するようにです。',
+    everyMonthOn: '毎月 {day} 日',
+    pause: '一時停止',
+    resume: '再開',
+    paused: '停止中',
+    empty: '固定項目はまだありません',
+    emptyBody: '給与や家賃を登録すると、月の画面で待っています。',
+    pendingTitle: 'まだ記録していません',
+    pendingBody: 'この期間に属する固定項目が {count} 件あります。',
+    addSelected: '{count} 件を追加',
+  },
+
   tone: {
     indigo: '藍',
     plum: '梅',

@@ -164,6 +164,26 @@ const en = {
     archiveHint: 'Archiving is the reversible one. Delete is not.',
   },
 
+  recurring: {
+    title: 'Fixed monthly entries',
+    settingsBody:
+      'Salary, rent, the bills. Set one up once and the month offers it instead of asking you to type it again.',
+    new: 'New fixed entry',
+    edit: 'Edit fixed entry',
+    newSubtitle: 'The same amount, the same day, every month.',
+    day: 'Day of the month',
+    dayHint: 'Capped at 28, so the entry exists in February too.',
+    everyMonthOn: 'Day {day} of each month',
+    pause: 'Pause',
+    resume: 'Resume',
+    paused: 'Paused',
+    empty: 'Nothing fixed yet',
+    emptyBody: 'Add your salary or your rent and it will be waiting on the Month screen.',
+    pendingTitle: 'Not recorded yet',
+    pendingBody: '{count} fixed entries belong in this period.',
+    addSelected: 'Add {count} entries',
+  },
+
   tone: {
     indigo: 'Indigo',
     plum: 'Plum',

@@ -8,6 +8,7 @@ import { BaseSheet, EmptyState, SectionHeading, SkeletonList, useToday } from 'r
 import CategoryDonut from '@/features/reports/components/CategoryDonut.vue'
 import MoversList from '@/features/reports/components/MoversList.vue'
 import PeriodHeader from '@/features/reports/components/PeriodHeader.vue'
+import PendingRecurringCard from '@/features/recurring/components/PendingRecurringCard.vue'
 import TransactionForm from '@/features/transactions/components/TransactionForm.vue'
 import TransactionRow from '@/features/transactions/components/TransactionRow.vue'
 import { movers, rollUp, totalFor } from '@/features/reports/roll-up'
@@ -123,6 +124,9 @@ function openLedgerForPeriod() {
 <template>
   <div class="flex w-full flex-col gap-6">
     <PeriodHeader :period="period" :can-step-forward="canStepForward" @step="step" />
+
+    <!-- Above the figures, because posting these changes every one of them. -->
+    <PendingRecurringCard :period="period" />
 
     <!-- Three figures. Net is the headline, so it gets the row to itself. -->
     <section class="border-hair bg-surface rounded-card flex flex-col gap-3 border p-4">

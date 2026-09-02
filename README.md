@@ -35,7 +35,12 @@ Four screens:
 | **Month**    | In, out, net. A donut of spending by category, and the categories that moved most against last month. |
 | **Ledger**   | Every transaction, newest first, grouped by day with subtotals. Filters live in the URL. |
 | **Insights** | Twelve months as bars, each category as a share of income, and any category split against its own last month. |
-| **Profile**  | Display name, categories, currency, the day the month starts on, theme, language. |
+| **Profile**  | Display name, categories, fixed monthly entries, currency, the day the month starts on, theme, language. |
+
+Salary, rent and the bills are set up once as **fixed monthly entries**. Nothing
+is posted automatically — a month that went differently is still yours to
+correct — but the Month screen offers them, ticked, as one tap instead of five
+trips through the add sheet.
 
 The comparison is the reason the app exists. `Konbini · ¥10,000 → ¥8,000 · 20%
 less` is the sentence the Month screen is built to print.

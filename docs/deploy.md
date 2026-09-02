@@ -23,6 +23,7 @@ trigger on `auth.users` would fire for both.
    | `0004_reorder_categories.sql` | One-statement re-ordering                                  |
    | `0005_reports.sql`            | `category_report` and `monthly_totals`                      |
    | `0006_hardening.sql`          | Closes three holes RLS does not cover — see below           |
+   | `0007_recurring.sql`          | Fixed monthly entries, and `pending_recurring`              |
 
    Or, with the CLI: `pnpm exec supabase link --project-ref <ref>` then
    `pnpm exec supabase db push`.

@@ -160,6 +160,25 @@ const zh: MessageSchema = {
     archiveHint: '可以撤销的是归档，删除不能。',
   },
 
+  recurring: {
+    title: '每月固定项',
+    settingsBody: '工资、房租、账单。设置一次，之后每期由本月页面替你提出，不必重新输入。',
+    new: '新建固定项',
+    edit: '编辑固定项',
+    newSubtitle: '每月同一天，同一笔金额。',
+    day: '每月几号',
+    dayHint: '最多 28 号，这样二月也一定存在。',
+    everyMonthOn: '每月 {day} 号',
+    pause: '暂停',
+    resume: '恢复',
+    paused: '已暂停',
+    empty: '还没有固定项',
+    emptyBody: '添加工资或房租，它会在本月页面等你。',
+    pendingTitle: '尚未记录',
+    pendingBody: '本期有 {count} 笔固定项。',
+    addSelected: '添加 {count} 笔',
+  },
+
   tone: {
     indigo: '靛蓝',
     plum: '梅紫',

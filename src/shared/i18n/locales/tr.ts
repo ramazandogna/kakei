@@ -160,6 +160,26 @@ const tr: MessageSchema = {
     archiveHint: 'Geri alınabilir olan arşivlemektir. Silmek değildir.',
   },
 
+  recurring: {
+    title: 'Sabit aylık kayıtlar',
+    settingsBody:
+      'Maaş, kira, faturalar. Bir kez tanımla, ay ekranı her dönem onu sana hazır getirsin.',
+    new: 'Yeni sabit kayıt',
+    edit: 'Sabit kaydı düzenle',
+    newSubtitle: 'Her ay aynı tutar, aynı gün.',
+    day: 'Ayın günü',
+    dayHint: '28 ile sınırlı, böylece şubatta da var.',
+    everyMonthOn: 'Her ayın {day}. günü',
+    pause: 'Duraklat',
+    resume: 'Devam ettir',
+    paused: 'Duraklatılmış',
+    empty: 'Henüz sabit kayıt yok',
+    emptyBody: 'Maaşını ya da kiranı ekle; ay ekranında seni bekler.',
+    pendingTitle: 'Henüz işlenmedi',
+    pendingBody: 'Bu döneme ait {count} sabit kayıt var.',
+    addSelected: '{count} kaydı ekle',
+  },
+
   tone: {
     indigo: 'Çivit',
     plum: 'Erik',

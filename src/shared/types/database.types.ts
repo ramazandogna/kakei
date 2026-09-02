@@ -91,6 +91,56 @@ export type Database = {
         }
         Relationships: []
       }
+      recurring_entries: {
+        Row: {
+          amount_minor: number
+          archived_at: string | null
+          category_id: string | null
+          created_at: string
+          day_of_month: number
+          direction: string
+          id: string
+          merchant: string | null
+          necessity: string | null
+          note: string | null
+          user_id: string
+        }
+        Insert: {
+          amount_minor: number
+          archived_at?: string | null
+          category_id?: string | null
+          created_at?: string
+          day_of_month?: number
+          direction: string
+          id?: string
+          merchant?: string | null
+          necessity?: string | null
+          note?: string | null
+          user_id?: string
+        }
+        Update: {
+          amount_minor?: number
+          archived_at?: string | null
+          category_id?: string | null
+          created_at?: string
+          day_of_month?: number
+          direction?: string
+          id?: string
+          merchant?: string | null
+          necessity?: string | null
+          note?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recurring_entries_category_fkey"
+            columns: ["category_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id", "user_id"]
+          },
+        ]
+      }
       transactions: {
         Row: {
           amount_minor: number
@@ -102,6 +152,7 @@ export type Database = {
           necessity: string | null
           note: string | null
           occurred_on: string
+          recurring_id: string | null
           user_id: string
         }
         Insert: {
@@ -114,6 +165,7 @@ export type Database = {
           necessity?: string | null
           note?: string | null
           occurred_on: string
+          recurring_id?: string | null
           user_id?: string
         }
         Update: {
@@ -126,14 +178,22 @@ export type Database = {
           necessity?: string | null
           note?: string | null
           occurred_on?: string
+          recurring_id?: string | null
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "transactions_category_id_fkey"
-            columns: ["category_id"]
+            foreignKeyName: "transactions_category_fkey"
+            columns: ["category_id", "user_id"]
             isOneToOne: false
             referencedRelation: "categories"
+            referencedColumns: ["id", "user_id"]
+          },
+          {
+            foreignKeyName: "transactions_recurring_fkey"
+            columns: ["recurring_id"]
+            isOneToOne: false
+            referencedRelation: "recurring_entries"
             referencedColumns: ["id"]
           },
         ]
@@ -168,6 +228,20 @@ export type Database = {
           in_minor: number
           out_minor: number
           period_start: string
+        }[]
+      }
+      pending_recurring: {
+        Args: { p_end: string; p_start: string }
+        Returns: {
+          amount_minor: number
+          category_id: string
+          day_of_month: number
+          direction: string
+          due_on: string
+          id: string
+          merchant: string
+          necessity: string
+          note: string
         }[]
       }
       reorder_categories: { Args: { ids: string[] }; Returns: undefined }

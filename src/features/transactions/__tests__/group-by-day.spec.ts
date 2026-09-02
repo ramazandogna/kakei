@@ -13,6 +13,7 @@ const tx = (over: Partial<Transaction>): Transaction => ({
   necessity: null,
   merchant: null,
   note: null,
+  recurring_id: null,
   created_at: '2026-03-14T00:00:00Z',
   ...over,
 })
