@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 
-import { BaseButton, BaseInput, SegmentedControl } from 'rei-kit'
+import { BaseButton, BaseInput, BaseSelect, SegmentedControl } from 'rei-kit'
 import { useI18n } from 'vue-i18n'
 
 import CategoryPicker from '@/features/categories/components/CategoryPicker.vue'
@@ -47,6 +47,13 @@ const DIRECTION_OPTIONS = computed(() => [
 
 /** Every day the shortest month has, so a template can never skip February. */
 const DAY_OPTIONS = Array.from({ length: 28 }, (_, index) => index + 1)
+
+/* 28, not 31: a recurring entry set to the 30th would skip February entirely,
+   and a budget that silently misses a month is worse than one that cannot be
+   set the way you wanted. */
+const DAY_SELECT_OPTIONS = computed(() =>
+  DAY_OPTIONS.map((day) => ({ value: day, label: t('recurring.everyMonthOn', { day }) })),
+)
 
 watch(direction, () => {
   categoryId.value = null
@@ -97,21 +104,13 @@ async function submit() {
       :placeholder="$t('transaction.merchantPlaceholder')"
     />
 
-    <div class="flex flex-col gap-1">
-      <label class="text-ink-soft text-xs font-medium" for="recurring-day">
-        {{ $t('recurring.day') }}
-      </label>
-      <select
-        id="recurring-day"
-        v-model.number="dayOfMonth"
-        class="border-hair bg-surface text-ink rounded-card h-11 border px-3 text-sm"
-      >
-        <option v-for="day in DAY_OPTIONS" :key="day" :value="day">
-          {{ $t('recurring.everyMonthOn', { day }) }}
-        </option>
-      </select>
-      <p class="text-ink-soft text-xs">{{ $t('recurring.dayHint') }}</p>
-    </div>
+    <BaseSelect
+      v-model="dayOfMonth"
+      size="sm"
+      :label="$t('recurring.day')"
+      :hint="$t('recurring.dayHint')"
+      :options="DAY_SELECT_OPTIONS"
+    />
 
     <section class="flex flex-col gap-2">
       <h3 class="text-ink-soft text-xs font-medium">{{ $t('transaction.category') }}</h3>

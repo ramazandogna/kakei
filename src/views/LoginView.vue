@@ -7,7 +7,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { toAuthMessageKey } from '@/features/auth/auth.errors'
 import { loginSchema } from '@/features/auth/auth.schema'
 import { useAuthStore } from '@/features/auth/auth.store'
-import { BaseButton, BaseInput, GoogleButton, safeRedirect } from 'rei-kit'
+import { BaseButton, BaseCheckbox, BaseInput, GoogleButton, safeRedirect } from 'rei-kit'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -94,10 +94,7 @@ async function signInWithGoogle() {
         :error="errors.password"
       />
 
-      <label class="text-ink-soft flex items-center gap-2 text-sm">
-        <input v-model="rememberMe" type="checkbox" class="accent-primary size-4" />
-        {{ $t('auth.rememberMe') }}
-      </label>
+      <BaseCheckbox v-model="rememberMe" size="sm" :label="$t('auth.rememberMe')" />
 
       <p v-if="serverError" role="alert" class="text-negative text-sm">{{ $t(serverError) }}</p>
 

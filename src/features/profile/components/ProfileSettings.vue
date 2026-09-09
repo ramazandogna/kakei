@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { CalendarCog, Coins, Palette } from 'lucide-vue-next'
 
-import { SegmentedControl, SettingsGroup, SettingsRow, useTheme } from 'rei-kit'
+import { BaseSelect, SegmentedControl, SettingsGroup, SettingsRow, useTheme } from 'rei-kit'
 import type { ThemePreference } from 'rei-kit'
 import { useI18n } from 'vue-i18n'
 
@@ -28,10 +28,10 @@ const CURRENCY_OPTIONS = SUPPORTED_CURRENCIES.map((code) => ({ value: code, labe
  * Every day the shortest month has, so the setting can never point at a day
  * some months do not reach — which is also why the column is capped at 28.
  */
-const MONTH_START_OPTIONS = computed(() =>
+const MONTH_START_SELECT_OPTIONS = computed(() =>
   Array.from({ length: 28 }, (_, index) => ({
     value: index + 1,
-    label: String(index + 1),
+    label: t('settings.monthStartDay', { day: index + 1 }),
   })),
 )
 
@@ -85,16 +85,17 @@ const monthStartModel = computed<number>({
         stacked
       >
         <!-- A select, not a segmented control: twenty-eight options is well past
-             where a row of pills stops being readable. -->
-        <select
-          v-model.number="monthStartModel"
-          class="border-hair bg-surface text-ink rounded-card h-11 w-full border px-3 text-sm"
-          :aria-label="$t('settings.monthStart')"
-        >
-          <option v-for="option in MONTH_START_OPTIONS" :key="option.value" :value="option.value">
-            {{ $t('settings.monthStartDay', { day: option.label }) }}
-          </option>
-        </select>
+             where a row of pills stops being readable. The label is hidden
+             because the settings row above already names it; dropped entirely,
+             the control would have no accessible name at all. -->
+        <BaseSelect
+          v-model="monthStartModel"
+          class="w-full"
+          size="sm"
+          label-hidden
+          :label="$t('settings.monthStart')"
+          :options="MONTH_START_SELECT_OPTIONS"
+        />
       </SettingsRow>
     </SettingsGroup>
 
