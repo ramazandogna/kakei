@@ -2,6 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { computed, toValue } from 'vue'
 import type { MaybeRefOrGetter } from 'vue'
 
+import { reportFailed, reportSaved } from '@/shared/lib/report'
+
 import type { Period } from '@/shared/lib/period'
 import {
   archiveRecurring,
@@ -57,7 +59,14 @@ function useRecurringInvalidation(includeLedger = false) {
 export function useCreateRecurring() {
   const invalidate = useRecurringInvalidation()
 
-  return useMutation({ mutationFn: createRecurring, onSuccess: invalidate })
+  return useMutation({
+    mutationFn: createRecurring,
+    onSuccess: () => {
+      invalidate()
+      reportSaved()
+    },
+    onError: reportFailed,
+  })
 }
 
 export function useUpdateRecurring() {
@@ -66,20 +75,38 @@ export function useUpdateRecurring() {
   return useMutation({
     mutationFn: ({ id, patch }: { id: string; patch: RecurringPatch }) =>
       updateRecurring(id, patch),
-    onSuccess: invalidate,
+    onSuccess: () => {
+      invalidate()
+      reportSaved()
+    },
+    onError: reportFailed,
   })
 }
 
 export function useArchiveRecurring() {
   const invalidate = useRecurringInvalidation()
 
-  return useMutation({ mutationFn: archiveRecurring, onSuccess: invalidate })
+  return useMutation({
+    mutationFn: archiveRecurring,
+    onSuccess: () => {
+      invalidate()
+      reportSaved()
+    },
+    onError: reportFailed,
+  })
 }
 
 export function useUnarchiveRecurring() {
   const invalidate = useRecurringInvalidation()
 
-  return useMutation({ mutationFn: unarchiveRecurring, onSuccess: invalidate })
+  return useMutation({
+    mutationFn: unarchiveRecurring,
+    onSuccess: () => {
+      invalidate()
+      reportSaved()
+    },
+    onError: reportFailed,
+  })
 }
 
 /** Posts the pending entries into the ledger. */

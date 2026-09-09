@@ -6,6 +6,9 @@
  */
 const en = {
   common: {
+    saved: 'Saved',
+    deleted: 'Deleted',
+    failed: 'Something went wrong',
     close: 'Close',
     cancel: 'Cancel',
     save: 'Save',

@@ -2,6 +2,8 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tansta
 import { computed, toValue } from 'vue'
 import type { MaybeRefOrGetter } from 'vue'
 
+import { reportDeleted, reportFailed, reportSaved } from '@/shared/lib/report'
+
 import {
   countTransactions,
   createTransaction,
@@ -80,7 +82,11 @@ export function useCreateTransaction() {
 
   return useMutation({
     mutationFn: createTransaction,
-    onSuccess: invalidate,
+    onSuccess: () => {
+      invalidate()
+      reportSaved()
+    },
+    onError: reportFailed,
   })
 }
 
@@ -91,7 +97,11 @@ export function useUpdateTransaction() {
   return useMutation({
     mutationFn: ({ id, patch }: { id: string; patch: TransactionPatch }) =>
       updateTransaction(id, patch),
-    onSuccess: invalidate,
+    onSuccess: () => {
+      invalidate()
+      reportSaved()
+    },
+    onError: reportFailed,
   })
 }
 
@@ -120,10 +130,16 @@ export function useDeleteTransaction() {
 
       return { previous }
     },
+    onSuccess: reportDeleted,
     onError: (_error, _id, context) => {
       for (const [key, data] of context?.previous ?? []) {
         queryClient.setQueryData(key, data)
       }
+
+      // The row is back on screen, so the toast is the only thing telling the
+      // reader the delete did not take. Without it the row reappearing looks
+      // like the tap simply missed.
+      reportFailed()
     },
     onSettled: invalidate,
   })

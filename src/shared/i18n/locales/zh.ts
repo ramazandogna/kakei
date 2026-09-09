@@ -2,6 +2,9 @@ import type { MessageSchema } from '../index'
 
 const zh: MessageSchema = {
   common: {
+    saved: '已保存',
+    deleted: '已删除',
+    failed: '出错了',
     close: '关闭',
     cancel: '取消',
     save: '保存',

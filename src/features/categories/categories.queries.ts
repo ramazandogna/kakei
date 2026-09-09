@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { computed } from 'vue'
 
+import { reportDeleted, reportFailed, reportSaved } from '@/shared/lib/report'
+
 import {
   archiveCategory,
   createCategory,
@@ -78,7 +80,11 @@ export function useCreateCategory() {
 
   return useMutation({
     mutationFn: createCategory,
-    onSuccess: invalidate,
+    onSuccess: () => {
+      invalidate()
+      reportSaved()
+    },
+    onError: reportFailed,
   })
 }
 
@@ -88,7 +94,11 @@ export function useUpdateCategory() {
 
   return useMutation({
     mutationFn: ({ id, patch }: { id: string; patch: CategoryPatch }) => updateCategory(id, patch),
-    onSuccess: invalidate,
+    onSuccess: () => {
+      invalidate()
+      reportSaved()
+    },
+    onError: reportFailed,
   })
 }
 
@@ -98,7 +108,11 @@ export function useArchiveCategory() {
 
   return useMutation({
     mutationFn: archiveCategory,
-    onSuccess: invalidate,
+    onSuccess: () => {
+      invalidate()
+      reportSaved()
+    },
+    onError: reportFailed,
   })
 }
 
@@ -108,7 +122,11 @@ export function useUnarchiveCategory() {
 
   return useMutation({
     mutationFn: unarchiveCategory,
-    onSuccess: invalidate,
+    onSuccess: () => {
+      invalidate()
+      reportSaved()
+    },
+    onError: reportFailed,
   })
 }
 
@@ -118,7 +136,11 @@ export function useDeleteCategory() {
 
   return useMutation({
     mutationFn: deleteCategory,
-    onSuccess: invalidate,
+    onSuccess: () => {
+      invalidate()
+      reportDeleted()
+    },
+    onError: reportFailed,
   })
 }
 

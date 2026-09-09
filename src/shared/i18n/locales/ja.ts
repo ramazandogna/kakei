@@ -2,6 +2,9 @@ import type { MessageSchema } from '../index'
 
 const ja: MessageSchema = {
   common: {
+    saved: '保存しました',
+    deleted: '削除しました',
+    failed: 'エラーが発生しました',
     close: '閉じる',
     cancel: 'キャンセル',
     save: '保存',

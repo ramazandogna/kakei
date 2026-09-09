@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ToastHost } from 'rei-kit'
 import { RouterView, useRoute } from 'vue-router'
 import UpdatePrompt from '@/features/pwa/components/UpdatePrompt.vue'
 import AppLayout from '@/layouts/AppLayout.vue'
@@ -64,6 +65,9 @@ const layoutComponent = computed(() => {
     </div>
   </div>
 
+  <!-- Bottom, not top: the top of a phone shell is a status bar and a header,
+       and the thumb is nowhere near it. One host for the whole app. -->
+  <ToastHost bottom :close-label="$t('common.close')" />
   <VueQueryDevtools />
 </template>
 

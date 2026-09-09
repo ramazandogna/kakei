@@ -2,6 +2,9 @@ import type { MessageSchema } from '../index'
 
 const tr: MessageSchema = {
   common: {
+    saved: 'Kaydedildi',
+    deleted: 'Silindi',
+    failed: 'Bir şeyler ters gitti',
     close: 'Kapat',
     cancel: 'Vazgeç',
     save: 'Kaydet',
