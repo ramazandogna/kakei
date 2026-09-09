@@ -4,6 +4,11 @@
    Everything below only redefines values; nothing is renamed. */
 @import 'rei-kit/tokens.css';
 
+/* The phone shell: shell-frame, the page scroll containers and the slide
+   between screens. Split out of the tokens in rei-kit 0.9.0, because a wide
+   app was downloading a 430px column in order to ignore it. */
+@import 'rei-kit/shell/mobile.css';
+
 /* Scoped styles of the kit's components (BaseSheet, TabBar, ...). They ship as
    plain [data-v-*] rules, so nothing here can collide with Kakei's own CSS. */
 @import 'rei-kit/styles.css';
