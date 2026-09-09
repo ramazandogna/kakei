@@ -159,6 +159,10 @@ async function addCategory() {
   <div class="flex flex-col gap-3">
     <!-- Above the chips, because typing is the fastest route once the list is
          longer than the six that fit on a row. -->
+    <!-- Raw, and structurally rather than by preference: `.search-field` is the
+         flex row and the icon and the input are its two children, so the input
+         has to be a direct child. `BaseInput` wraps its control in FormField's
+         div even when unstyled, which would put a block between them. -->
     <div class="search-field">
       <Search class="text-ink-soft size-4 shrink-0" aria-hidden="true" />
       <input

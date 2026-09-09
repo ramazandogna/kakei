@@ -145,8 +145,14 @@ async function confirmDelete() {
   <form class="flex flex-col gap-5" novalidate @submit.prevent="submit">
     <SegmentedControl v-model="direction" :options="DIRECTION_OPTIONS" />
 
-    <!-- Not BaseInput: this field is the reason the sheet exists, and it needs
-         to be large enough to hit without looking and to read at arm's length. -->
+    <!-- Not BaseInput, and it now has a second reason. The first is size: this
+         field is why the sheet exists, and it has to be large enough to hit
+         without looking and to read at arm's length.
+
+         The second is the `ref`. The sheet focuses this input on open and
+         again after an error, and a `ref` on a component gives the component
+         rather than the element — `BaseInput` exposes no way to reach it. If
+         that changes, so can this. -->
     <div class="flex flex-col gap-1">
       <label class="text-ink-soft text-xs font-medium" for="amount-field">
         {{ $t('transaction.amount') }}
