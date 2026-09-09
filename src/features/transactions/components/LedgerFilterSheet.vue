@@ -142,19 +142,21 @@ function toggle(id: string, withChildren: boolean) {
     />
 
     <section class="flex gap-3">
-      <div class="flex flex-1 flex-col gap-1">
-        <label class="text-ink-soft text-xs font-medium" for="filter-from">
-          {{ $t('ledger.dateFrom') }}
-        </label>
-        <input id="filter-from" v-model="fromModel" type="date" class="date-field" />
-      </div>
+      <BaseInput
+        v-model="fromModel"
+        type="date"
+        size="sm"
+        class="flex-1"
+        :label="$t('ledger.dateFrom')"
+      />
 
-      <div class="flex flex-1 flex-col gap-1">
-        <label class="text-ink-soft text-xs font-medium" for="filter-to">
-          {{ $t('ledger.dateTo') }}
-        </label>
-        <input id="filter-to" v-model="toModel" type="date" class="date-field" />
-      </div>
+      <BaseInput
+        v-model="toModel"
+        type="date"
+        size="sm"
+        class="flex-1"
+        :label="$t('ledger.dateTo')"
+      />
     </section>
 
     <section class="flex flex-col gap-2">
@@ -201,10 +203,6 @@ function toggle(id: string, withChildren: boolean) {
 
 <style scoped>
 @reference "@/assets/main.css";
-
-.date-field {
-  @apply border-hair bg-surface text-ink rounded-card h-11 w-full border px-3 text-sm;
-}
 
 .tree-row {
   @apply hover:bg-muted/60 flex w-full items-center gap-2 px-3 py-2.5 transition-colors;

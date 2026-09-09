@@ -223,17 +223,7 @@ async function confirmDelete() {
       </BaseButton>
 
       <div v-if="detailsOpen" class="flex flex-col gap-3">
-        <div class="flex flex-col gap-1">
-          <label class="text-ink-soft text-xs font-medium" for="date-field">
-            {{ $t('transaction.date') }}
-          </label>
-          <input
-            id="date-field"
-            v-model="occurredOn"
-            type="date"
-            class="border-hair bg-surface text-ink rounded-card h-11 border px-3"
-          />
-        </div>
+        <BaseInput v-model="occurredOn" type="date" size="sm" :label="$t('transaction.date')" />
 
         <BaseInput
           v-model="merchant"
