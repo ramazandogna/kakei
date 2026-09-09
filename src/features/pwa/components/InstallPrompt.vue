@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { Download, Share } from 'lucide-vue-next'
 
 import { useInstall } from '../install'
-import { addDays, todayKey } from 'rei-kit'
+import { BaseButton, addDays, todayKey } from 'rei-kit'
 
 const { canPrompt, needsManualSteps, prompt } = useInstall()
 
@@ -70,22 +70,13 @@ async function install() {
         <div class="flex items-center gap-2">
           <!-- No button on iOS: Safari exposes no way to open the Share sheet
                from script, so a button here could only fail. -->
-          <button
-            v-if="canPrompt"
-            type="button"
-            class="bg-primary rounded-full px-3.5 py-2 text-xs font-semibold text-white transition-transform duration-100 active:scale-95"
-            @click="install"
-          >
+          <BaseButton v-if="canPrompt" pill size="xs" @click="install">
             {{ $t('install.action') }}
-          </button>
+          </BaseButton>
 
-          <button
-            type="button"
-            class="text-ink-soft hover:text-ink rounded-full px-3 py-2 text-xs font-medium transition-colors"
-            @click="snooze"
-          >
+          <BaseButton pill size="xs" variant="quiet" @click="snooze">
             {{ $t('install.later') }}
-          </button>
+          </BaseButton>
         </div>
       </div>
     </section>

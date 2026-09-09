@@ -268,14 +268,15 @@ async function addCategory() {
       </ul>
     </div>
 
-    <button
+    <BaseButton
       v-if="selected !== null"
-      type="button"
-      class="text-ink-soft hover:text-ink self-start text-xs underline"
+      variant="link"
+      size="xs"
+      class="text-ink-soft hover:text-ink self-start"
       @click="select(null)"
     >
       {{ $t('transaction.noCategory') }}
-    </button>
+    </BaseButton>
   </div>
 </template>
 

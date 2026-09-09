@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { PiggyBank } from 'lucide-vue-next'
 
-import { BaseSheet, EmptyState, SectionHeading, SkeletonList, useToday } from 'rei-kit'
+import { BaseButton, BaseSheet, EmptyState, SectionHeading, SkeletonList, useToday } from 'rei-kit'
 
 import CategoryDonut from '@/features/reports/components/CategoryDonut.vue'
 import MoversList from '@/features/reports/components/MoversList.vue'
@@ -201,13 +201,9 @@ function openLedgerForPeriod() {
             :label="$t('month.recent')"
           />
 
-          <button
-            type="button"
-            class="text-primary text-xs font-medium"
-            @click="openLedgerForPeriod"
-          >
+          <BaseButton variant="link" size="xs" class="text-primary" @click="openLedgerForPeriod">
             {{ $t('month.seeAll') }}
-          </button>
+          </BaseButton>
         </div>
 
         <div class="border-hair bg-surface rounded-card flex flex-col border p-1">

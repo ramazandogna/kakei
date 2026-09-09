@@ -91,13 +91,9 @@ function onKeydown(event: KeyboardEvent) {
               {{ $t('onboarding.progress', { current: tour.index.value + 1, total }) }}
             </span>
 
-            <button
-              type="button"
-              class="text-ink-soft hover:text-ink rounded-full px-3 py-1.5 text-sm font-medium transition-colors"
-              @click="tour.dismiss()"
-            >
+            <BaseButton pill size="sm" variant="quiet" @click="tour.dismiss()">
               {{ $t('onboarding.skip') }}
-            </button>
+            </BaseButton>
           </header>
 
           <!-- min-h-0 keeps the body inside the shell so long slides scroll here

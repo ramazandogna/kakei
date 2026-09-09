@@ -207,9 +207,10 @@ async function confirmDelete() {
 
     <!-- Collapsed, because none of it is needed to record that money moved. -->
     <section class="flex flex-col gap-3">
-      <button
-        type="button"
-        class="text-ink-soft hover:text-ink flex items-center gap-1 self-start text-xs font-medium transition-colors"
+      <BaseButton
+        variant="quiet"
+        size="xs"
+        class="self-start"
         :aria-expanded="detailsOpen"
         @click="detailsOpen = !detailsOpen"
       >
@@ -219,7 +220,7 @@ async function confirmDelete() {
           aria-hidden="true"
         />
         {{ $t('transaction.details') }}
-      </button>
+      </BaseButton>
 
       <div v-if="detailsOpen" class="flex flex-col gap-3">
         <div class="flex flex-col gap-1">
