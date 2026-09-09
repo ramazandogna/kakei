@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { LogOut, Settings, UserRound } from 'lucide-vue-next'
 
 import {
+  BaseButton,
   BaseInput,
   PageHeader,
   SettingsGroup,
@@ -79,14 +80,14 @@ async function logout() {
         </RouterLink>
       </template>
       <template #right>
-        <button
-          type="button"
+        <BaseButton
+          variant="unstyled"
           class="text-ink-soft hover:text-negative hover:bg-negative/10 flex size-10 items-center justify-center rounded-full transition-colors active:scale-90"
           :aria-label="$t('profile.signOut')"
           @click="logout"
         >
           <LogOut class="size-5" />
-        </button>
+        </BaseButton>
       </template>
     </PageHeader>
 

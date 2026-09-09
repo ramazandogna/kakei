@@ -92,22 +92,22 @@ function toneFor(entry: RecurringEntry): string {
         </span>
 
         <span class="flex shrink-0">
-          <button
-            type="button"
+          <BaseButton
+            variant="unstyled"
             class="icon-button"
             :aria-label="$t('common.edit')"
             @click="openEdit(entry)"
           >
             <Pencil class="size-4" />
-          </button>
-          <button
-            type="button"
+          </BaseButton>
+          <BaseButton
+            variant="unstyled"
             class="icon-button"
             :aria-label="$t('recurring.pause')"
             @click="archive.mutate(entry.id)"
           >
             <Pause class="size-4" />
-          </button>
+          </BaseButton>
         </span>
       </li>
     </ul>
@@ -133,14 +133,14 @@ function toneFor(entry: RecurringEntry): string {
           class="flex items-center gap-2 px-3 py-2.5"
         >
           <span class="text-ink-soft min-w-0 flex-1 truncate text-sm">{{ nameFor(entry) }}</span>
-          <button
-            type="button"
+          <BaseButton
+            variant="unstyled"
             class="icon-button"
             :aria-label="$t('recurring.resume')"
             @click="unarchive.mutate(entry.id)"
           >
             <Play class="size-4" />
-          </button>
+          </BaseButton>
         </li>
       </ul>
     </section>

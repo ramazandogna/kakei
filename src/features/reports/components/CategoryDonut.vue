@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { BaseButton } from 'rei-kit'
 import { computed } from 'vue'
 
 import { toneColor } from '@/shared/lib/tones'
@@ -87,7 +88,7 @@ const arcs = computed(() => {
     <!-- The table. Every chart in this app carries one, or is one. -->
     <ul class="flex w-full flex-col">
       <li v-for="slice in slices" :key="slice.id ?? 'none'">
-        <button type="button" class="legend-row" @click="emit('select', slice.id)">
+        <BaseButton variant="unstyled" class="legend-row" @click="emit('select', slice.id)">
           <span
             class="size-2.5 shrink-0 rounded-full"
             :style="{ backgroundColor: toneColor(slice.tone) }"
@@ -105,7 +106,7 @@ const arcs = computed(() => {
           <span class="tnum text-ink w-24 shrink-0 text-right text-sm font-medium">
             <slot name="amount" :slice="slice" />
           </span>
-        </button>
+        </BaseButton>
       </li>
     </ul>
   </div>

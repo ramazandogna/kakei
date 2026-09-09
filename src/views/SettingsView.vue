@@ -21,14 +21,14 @@ const tour = useOnboarding()
   <div class="flex w-full flex-col gap-6">
     <PageHeader :title="$t('settings.title')">
       <template #left>
-        <button
-          type="button"
+        <BaseButton
+          variant="unstyled"
           class="text-ink-soft hover:text-ink hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors active:scale-90"
           :aria-label="$t('common.back')"
           @click="router.back()"
         >
           <ArrowLeft class="size-5" />
-        </button>
+        </BaseButton>
       </template>
     </PageHeader>
 

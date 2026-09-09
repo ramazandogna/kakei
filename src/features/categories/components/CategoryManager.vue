@@ -137,46 +137,46 @@ const showArchived = ref(false)
           </span>
 
           <div class="flex shrink-0 items-center">
-            <button
-              type="button"
+            <BaseButton
+              variant="unstyled"
               class="icon-button"
               :aria-label="$t('common.moveUp', { name: node.category.name })"
               @click="move(node.category, -1)"
             >
               <ChevronDown class="size-4 rotate-180" />
-            </button>
-            <button
-              type="button"
+            </BaseButton>
+            <BaseButton
+              variant="unstyled"
               class="icon-button"
               :aria-label="$t('common.moveDown', { name: node.category.name })"
               @click="move(node.category, 1)"
             >
               <ChevronDown class="size-4" />
-            </button>
-            <button
-              type="button"
+            </BaseButton>
+            <BaseButton
+              variant="unstyled"
               class="icon-button"
               :aria-label="$t('common.edit')"
               @click="openEdit(node.category)"
             >
               <Pencil class="size-4" />
-            </button>
-            <button
-              type="button"
+            </BaseButton>
+            <BaseButton
+              variant="unstyled"
               class="icon-button"
               :aria-label="$t('common.archive')"
               @click="archive.mutate(node.category.id)"
             >
               <ArchiveRestore class="size-4" />
-            </button>
-            <button
-              type="button"
+            </BaseButton>
+            <BaseButton
+              variant="unstyled"
               class="icon-button hover:text-negative"
               :aria-label="$t('common.delete')"
               @click="askDelete(node.category)"
             >
               <Trash2 class="size-4" />
-            </button>
+            </BaseButton>
           </div>
         </div>
 
@@ -184,46 +184,46 @@ const showArchived = ref(false)
           <span class="text-ink min-w-0 flex-1 truncate text-sm">{{ child.name }}</span>
 
           <div class="flex shrink-0 items-center">
-            <button
-              type="button"
+            <BaseButton
+              variant="unstyled"
               class="icon-button"
               :aria-label="$t('common.moveUp', { name: child.name })"
               @click="move(child, -1)"
             >
               <ChevronDown class="size-4 rotate-180" />
-            </button>
-            <button
-              type="button"
+            </BaseButton>
+            <BaseButton
+              variant="unstyled"
               class="icon-button"
               :aria-label="$t('common.moveDown', { name: child.name })"
               @click="move(child, 1)"
             >
               <ChevronDown class="size-4" />
-            </button>
-            <button
-              type="button"
+            </BaseButton>
+            <BaseButton
+              variant="unstyled"
               class="icon-button"
               :aria-label="$t('common.edit')"
               @click="openEdit(child)"
             >
               <Pencil class="size-4" />
-            </button>
-            <button
-              type="button"
+            </BaseButton>
+            <BaseButton
+              variant="unstyled"
               class="icon-button"
               :aria-label="$t('common.archive')"
               @click="archive.mutate(child.id)"
             >
               <ArchiveRestore class="size-4" />
-            </button>
-            <button
-              type="button"
+            </BaseButton>
+            <BaseButton
+              variant="unstyled"
               class="icon-button hover:text-negative"
               :aria-label="$t('common.delete')"
               @click="askDelete(child)"
             >
               <Trash2 class="size-4" />
-            </button>
+            </BaseButton>
           </div>
         </div>
       </li>
@@ -237,8 +237,8 @@ const showArchived = ref(false)
     <p class="text-ink-soft text-xs">{{ $t('category.archiveHint') }}</p>
 
     <section v-if="archivedForDirection.length > 0" class="flex flex-col gap-2">
-      <button
-        type="button"
+      <BaseButton
+        variant="unstyled"
         class="text-ink-soft hover:text-ink flex items-center gap-1 self-start text-xs font-medium transition-colors"
         :aria-expanded="showArchived"
         @click="showArchived = !showArchived"
@@ -249,7 +249,7 @@ const showArchived = ref(false)
           aria-hidden="true"
         />
         {{ $t('category.archived') }} ({{ archivedForDirection.length }})
-      </button>
+      </BaseButton>
 
       <p v-if="showArchived" class="text-ink-soft px-1 text-xs">
         {{ $t('category.archivedBody') }}

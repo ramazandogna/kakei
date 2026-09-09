@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, useTemplateRef } from 'vue'
 
-import { formatDate, fromDateKey, useDragScroll } from 'rei-kit'
+import { BaseButton, formatDate, fromDateKey, useDragScroll } from 'rei-kit'
 import { useMoney } from '@/features/profile/use-money'
 import type { MonthlyTotalRow } from '../report.types'
 
@@ -56,8 +56,8 @@ function select(periodStart: string) {
           :key="bar.period_start"
           class="flex flex-1 flex-col items-center gap-1"
         >
-          <button
-            type="button"
+          <BaseButton
+            variant="unstyled"
             class="group flex h-28 w-full min-w-8 items-end justify-center gap-0.5"
             :aria-label="`${bar.label}: ${$t('month.in')} ${format(bar.in_minor)}, ${$t('month.out')} ${format(bar.out_minor)}`"
             @click="select(bar.period_start)"
@@ -72,7 +72,7 @@ function select(periodStart: string) {
               :style="{ height: `${Math.max(bar.outHeight, bar.out_minor > 0 ? 2 : 0)}%` }"
               aria-hidden="true"
             />
-          </button>
+          </BaseButton>
 
           <span class="text-ink-soft text-[10px]">{{ bar.label }}</span>
         </li>

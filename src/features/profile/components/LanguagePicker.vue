@@ -4,7 +4,7 @@ import { Check, Languages } from 'lucide-vue-next'
 
 import { SUPPORTED_LOCALES, useLocalePreference } from '@/shared/i18n'
 import type { LocalePreference } from '@/shared/i18n'
-import { BaseSheet, SettingsRow } from 'rei-kit'
+import { BaseButton, BaseSheet, SettingsRow } from 'rei-kit'
 
 const preference = useLocalePreference()
 
@@ -58,10 +58,10 @@ function select(value: LocalePreference) {
   >
     <ul class="flex flex-col">
       <li v-for="option in options" :key="option.value">
-        <button
-          type="button"
+        <BaseButton
+          variant="unstyled"
           class="hover:bg-muted/60 flex w-full items-center gap-3 rounded-xl px-2 py-3.5 text-left transition-colors"
-          :aria-pressed="preference === option.value"
+          :pressed="preference === option.value"
           @click="select(option.value)"
         >
           <span class="text-ink flex-1 text-base">
@@ -72,7 +72,7 @@ function select(value: LocalePreference) {
             class="text-primary size-5 shrink-0"
             aria-hidden="true"
           />
-        </button>
+        </BaseButton>
       </li>
     </ul>
   </BaseSheet>

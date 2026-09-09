@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { BaseButton } from 'rei-kit'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { RefreshCw, X } from 'lucide-vue-next'
 
@@ -25,18 +26,18 @@ const { needRefresh, updateServiceWorker } = useRegisterSW()
         <p class="text-ink-soft text-xs leading-snug">{{ $t('pwa.updateBody') }}</p>
       </div>
 
-      <button type="button" class="update-action" @click="updateServiceWorker(true)">
+      <BaseButton variant="unstyled" class="update-action" @click="updateServiceWorker(true)">
         {{ $t('pwa.reload') }}
-      </button>
+      </BaseButton>
 
-      <button
-        type="button"
+      <BaseButton
+        variant="unstyled"
         class="text-ink-soft hover:text-ink flex size-9 shrink-0 items-center justify-center rounded-full transition-colors active:scale-90"
         :aria-label="$t('pwa.later')"
         @click="needRefresh = false"
       >
         <X class="size-4" />
-      </button>
+      </BaseButton>
     </aside>
   </Transition>
 </template>

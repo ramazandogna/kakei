@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 
-import { formatDate, fromDateKey, tapFeedback } from 'rei-kit'
+import { BaseButton, formatDate, fromDateKey, tapFeedback } from 'rei-kit'
 import type { Period } from '@/shared/lib/period'
 
 /**
@@ -44,26 +44,26 @@ function step(months: number) {
 
 <template>
   <header class="flex items-center justify-between gap-2">
-    <button
-      type="button"
+    <BaseButton
+      variant="unstyled"
       class="stepper"
       :aria-label="$t('month.previousPeriod')"
       @click="step(-1)"
     >
       <ChevronLeft class="size-5" />
-    </button>
+    </BaseButton>
 
     <h1 class="text-ink flex-1 text-center text-base font-semibold">{{ label }}</h1>
 
-    <button
-      type="button"
+    <BaseButton
+      variant="unstyled"
       class="stepper"
       :aria-label="$t('month.nextPeriod')"
       :disabled="!canStepForward"
       @click="step(1)"
     >
       <ChevronRight class="size-5" />
-    </button>
+    </BaseButton>
   </header>
 </template>
 

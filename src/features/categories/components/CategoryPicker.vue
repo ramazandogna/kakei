@@ -176,43 +176,53 @@ async function addCategory() {
     <!-- What the search found, flat: under a search the tree's shape is noise,
          and the answer is usually the first row. -->
     <div v-if="query" class="flex flex-wrap gap-1.5">
-      <button
+      <BaseButton
         v-for="match in matches"
         :key="match.id"
-        type="button"
+        variant="unstyled"
         class="chip"
         :class="selected === match.id ? 'chip-on' : 'chip-off'"
-        :aria-pressed="selected === match.id"
+        :pressed="selected === match.id"
         @click="select(match.id)"
       >
         <ToneDot :fill="toneClasses(match.tone).fill" />
         {{ match.name }}
-      </button>
+      </BaseButton>
 
-      <button v-if="matches.length === 0" type="button" class="chip chip-off" @click="addCategory">
+      <BaseButton
+        v-if="matches.length === 0"
+        variant="unstyled"
+        class="chip chip-off"
+        @click="addCategory"
+      >
         <Plus class="size-3.5" aria-hidden="true" />
         {{ $t('category.createNamed', { name: search.trim() }) }}
-      </button>
+      </BaseButton>
     </div>
 
     <div v-else class="flex flex-wrap gap-1.5">
-      <button
+      <BaseButton
         v-for="category in chips"
         :key="category.id"
-        type="button"
+        variant="unstyled"
         class="chip"
         :class="selected === category.id ? 'chip-on' : 'chip-off'"
-        :aria-pressed="selected === category.id"
+        :pressed="selected === category.id"
         @click="select(category.id)"
       >
         <ToneDot :fill="toneClasses(category.tone).fill" />
         {{ category.name }}
-      </button>
+      </BaseButton>
 
-      <button type="button" class="chip chip-off" :aria-expanded="adding" @click="adding = !adding">
+      <BaseButton
+        variant="unstyled"
+        class="chip chip-off"
+        :aria-expanded="adding"
+        @click="adding = !adding"
+      >
         <Plus class="size-3.5" aria-hidden="true" />
         {{ $t('common.add') }}
-      </button>
+      </BaseButton>
     </div>
 
     <div v-if="adding" class="flex items-end gap-2">
@@ -236,11 +246,11 @@ async function addCategory() {
     <div class="border-hair max-h-56 overflow-y-auto rounded-xl border">
       <ul class="divide-hair divide-y">
         <li v-for="node in visibleTree" :key="node.category.id">
-          <button
-            type="button"
+          <BaseButton
+            variant="unstyled"
             class="tree-row font-medium"
             :class="{ 'tree-row-on': selected === node.category.id }"
-            :aria-pressed="selected === node.category.id"
+            :pressed="selected === node.category.id"
             @click="select(node.category.id)"
           >
             <ToneDot :fill="toneClasses(node.category.tone).fill" />
@@ -250,20 +260,20 @@ async function addCategory() {
               class="text-primary size-4"
               aria-hidden="true"
             />
-          </button>
+          </BaseButton>
 
-          <button
+          <BaseButton
             v-for="child in node.children"
             :key="child.id"
-            type="button"
+            variant="unstyled"
             class="tree-row pl-9 text-sm"
             :class="{ 'tree-row-on': selected === child.id }"
-            :aria-pressed="selected === child.id"
+            :pressed="selected === child.id"
             @click="select(child.id)"
           >
             <span class="flex-1 text-left">{{ child.name }}</span>
             <Check v-if="selected === child.id" class="text-primary size-4" aria-hidden="true" />
-          </button>
+          </BaseButton>
         </li>
       </ul>
     </div>

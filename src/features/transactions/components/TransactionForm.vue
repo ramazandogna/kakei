@@ -181,25 +181,25 @@ async function confirmDelete() {
       <h3 class="text-ink-soft text-xs font-medium">{{ $t('necessity.label') }}</h3>
 
       <div class="flex gap-2">
-        <button
-          type="button"
+        <BaseButton
+          variant="unstyled"
           class="necessity"
           :class="necessity === 'need' ? 'necessity-need' : 'necessity-off'"
-          :aria-pressed="necessity === 'need'"
+          :pressed="necessity === 'need'"
           @click="toggleNecessity('need')"
         >
           {{ $t('necessity.need') }}
-        </button>
+        </BaseButton>
 
-        <button
-          type="button"
+        <BaseButton
+          variant="unstyled"
           class="necessity"
           :class="necessity === 'want' ? 'necessity-want' : 'necessity-off'"
-          :aria-pressed="necessity === 'want'"
+          :pressed="necessity === 'want'"
           @click="toggleNecessity('want')"
         >
           {{ $t('necessity.want') }}
-        </button>
+        </BaseButton>
       </div>
 
       <p class="text-ink-soft text-xs">{{ $t('necessity.hint') }}</p>

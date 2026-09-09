@@ -84,11 +84,11 @@ async function postAll() {
 
     <ul class="flex flex-col">
       <li v-for="entry in entries" :key="entry.id">
-        <button
-          type="button"
+        <BaseButton
+          variant="unstyled"
           class="row"
           :class="{ 'opacity-45': skipped.has(entry.id) }"
-          :aria-pressed="!skipped.has(entry.id)"
+          :pressed="!skipped.has(entry.id)"
           @click="toggle(entry.id)"
         >
           <span
@@ -114,7 +114,7 @@ async function postAll() {
           >
             {{ signed(entry.amount_minor, entry.direction) }}
           </span>
-        </button>
+        </BaseButton>
       </li>
     </ul>
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ArrowDownRight, ArrowUpRight, Sparkles } from 'lucide-vue-next'
 
-import { ToneDot } from 'rei-kit'
+import { BaseButton, ToneDot } from 'rei-kit'
 import { toneClasses } from '@/shared/lib/tones'
 import { useMoney } from '@/features/profile/use-money'
 import type { CategoryMover } from '../report.types'
@@ -23,7 +23,7 @@ const { format } = useMoney()
 <template>
   <ul class="flex flex-col gap-1">
     <li v-for="mover in movers" :key="mover.id ?? 'none'">
-      <button type="button" class="mover" @click="emit('select', mover.id)">
+      <BaseButton variant="unstyled" class="mover" @click="emit('select', mover.id)">
         <ToneDot :fill="toneClasses(mover.tone).fill" class="shrink-0" />
 
         <span class="min-w-0 flex-1 text-left">
@@ -64,7 +64,7 @@ const { format } = useMoney()
             }}
           </template>
         </span>
-      </button>
+      </BaseButton>
     </li>
   </ul>
 </template>

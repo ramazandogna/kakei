@@ -3,7 +3,7 @@ import { defineAsyncComponent, onMounted, ref, watch } from 'vue'
 
 import { Plus } from 'lucide-vue-next'
 
-import { BaseSheet, tapFeedback, useOnline } from 'rei-kit'
+import { BaseButton, BaseSheet, tapFeedback, useOnline } from 'rei-kit'
 import { useOnboarding } from '@/features/onboarding/onboarding'
 import AppNavbar from '@/layouts/components/app/AppNavbar.vue'
 import AppTopBar from '@/layouts/components/app/AppTopBar.vue'
@@ -73,10 +73,10 @@ function openCreate() {
     </main>
 
     <div class="fab-slot">
-      <button type="button" class="fab" @click="openCreate">
+      <BaseButton variant="unstyled" class="fab" @click="openCreate">
         <Plus class="fab-icon" aria-hidden="true" />
         <span class="fab-label">{{ $t('transaction.new') }}</span>
-      </button>
+      </BaseButton>
     </div>
 
     <OnboardingTour v-if="tourMounted" />

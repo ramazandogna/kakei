@@ -109,28 +109,28 @@ async function submit() {
       <h3 class="text-ink-soft text-xs font-medium">{{ $t('category.parent') }}</h3>
 
       <div class="flex flex-wrap gap-1.5">
-        <button
-          type="button"
+        <BaseButton
+          variant="unstyled"
           class="chip"
           :class="parentId === null ? 'chip-on' : 'chip-off'"
-          :aria-pressed="parentId === null"
+          :pressed="parentId === null"
           @click="parentId = null"
         >
           {{ $t('category.noParent') }}
-        </button>
+        </BaseButton>
 
-        <button
+        <BaseButton
           v-for="parent in parents"
           :key="parent.id"
-          type="button"
+          variant="unstyled"
           class="chip"
           :class="parentId === parent.id ? 'chip-on' : 'chip-off'"
-          :aria-pressed="parentId === parent.id"
+          :pressed="parentId === parent.id"
           @click="parentId = parent.id"
         >
           <ToneDot :fill="toneClasses(parent.tone).fill" />
           {{ parent.name }}
-        </button>
+        </BaseButton>
       </div>
     </section>
 
@@ -138,14 +138,14 @@ async function submit() {
       <h3 class="text-ink-soft text-xs font-medium">{{ $t('category.tone') }}</h3>
 
       <div class="flex flex-wrap gap-2">
-        <button
+        <BaseButton
           v-for="option in CATEGORY_TONES"
           :key="option"
-          type="button"
+          variant="unstyled"
           class="tone-swatch"
           :class="[toneClasses(option).fill, { 'tone-on': tone === option }]"
           :aria-label="$t(`tone.${option}`)"
-          :aria-pressed="tone === option"
+          :pressed="tone === option"
           @click="tone = option"
         />
       </div>

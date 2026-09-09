@@ -3,7 +3,15 @@ import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ChartNoAxesColumn } from 'lucide-vue-next'
 
-import { EmptyState, PageHeader, SegmentedControl, SkeletonList, ToneDot, useToday } from 'rei-kit'
+import {
+  BaseButton,
+  EmptyState,
+  PageHeader,
+  SegmentedControl,
+  SkeletonList,
+  ToneDot,
+  useToday,
+} from 'rei-kit'
 import { useI18n } from 'vue-i18n'
 
 import CategoryDeepDive from '@/features/reports/components/CategoryDeepDive.vue'
@@ -124,18 +132,18 @@ function openPeriod(periodStart: string) {
 
         <div v-if="diveSlices.length > 0" class="flex flex-col gap-3">
           <div class="no-scrollbar -mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1">
-            <button
+            <BaseButton
               v-for="slice in diveSlices"
               :key="slice.id ?? 'none'"
-              type="button"
+              variant="unstyled"
               class="chip"
               :class="selected?.id === slice.id ? 'chip-on' : 'chip-off'"
-              :aria-pressed="selected?.id === slice.id"
+              :pressed="selected?.id === slice.id"
               @click="selectedId = slice.id"
             >
               <ToneDot :fill="toneClasses(slice.tone).fill" />
               {{ slice.name ?? $t('transaction.uncategorised') }}
-            </button>
+            </BaseButton>
           </div>
 
           <CategoryDeepDive v-if="selected" :slice="selected" />

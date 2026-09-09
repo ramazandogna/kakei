@@ -9,9 +9,9 @@ import {
   EmptyState,
   PageHeader,
   SkeletonList,
-  relativeDayLabel,
   formatDate,
   fromDateKey,
+  relativeDayLabel,
   useToday,
 } from 'rei-kit'
 import { useI18n } from 'vue-i18n'
@@ -87,8 +87,8 @@ function dayDate(dateKey: string): string {
   <div class="flex w-full flex-col gap-4">
     <PageHeader :title="$t('ledger.title')">
       <template #right>
-        <button
-          type="button"
+        <BaseButton
+          variant="unstyled"
           class="filter-button"
           :class="activeCount > 0 ? 'filter-on' : 'filter-off'"
           :aria-label="
@@ -100,7 +100,7 @@ function dayDate(dateKey: string): string {
         >
           <SlidersHorizontal class="size-5" />
           <span v-if="activeCount > 0" class="filter-badge">{{ activeCount }}</span>
-        </button>
+        </BaseButton>
       </template>
     </PageHeader>
 

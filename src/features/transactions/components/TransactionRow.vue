@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import { ToneDot } from 'rei-kit'
+import { BaseButton, ToneDot } from 'rei-kit'
 import { toneClasses } from '@/shared/lib/tones'
 import { useMoney } from '@/features/profile/use-money'
 import { useCategories } from '@/features/categories/categories.queries'
@@ -39,7 +39,7 @@ const subtitle = computed(() => {
 </script>
 
 <template>
-  <button type="button" class="row" @click="$emit('edit', transaction)">
+  <BaseButton variant="unstyled" class="row" @click="$emit('edit', transaction)">
     <ToneDot :fill="toneClasses(category?.tone).fill" class="mt-1.5 shrink-0" />
 
     <span class="min-w-0 flex-1 text-left">
@@ -69,7 +69,7 @@ const subtitle = computed(() => {
         {{ transaction.necessity === 'need' ? $t('necessity.need') : $t('necessity.want') }}
       </span>
     </span>
-  </button>
+  </BaseButton>
 </template>
 
 <style scoped>

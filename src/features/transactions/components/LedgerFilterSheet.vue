@@ -163,28 +163,28 @@ function toggle(id: string, withChildren: boolean) {
       <div class="border-hair max-h-52 overflow-y-auto rounded-xl border">
         <ul class="divide-hair divide-y">
           <li v-for="node in trees" :key="node.category.id">
-            <button
-              type="button"
+            <BaseButton
+              variant="unstyled"
               class="tree-row font-medium"
               :class="{ 'tree-row-on': selected.has(node.category.id) }"
-              :aria-pressed="selected.has(node.category.id)"
+              :pressed="selected.has(node.category.id)"
               @click="toggle(node.category.id, true)"
             >
               <ToneDot :fill="toneClasses(node.category.tone).fill" />
               <span class="flex-1 text-left">{{ node.category.name }}</span>
-            </button>
+            </BaseButton>
 
-            <button
+            <BaseButton
               v-for="child in node.children"
               :key="child.id"
-              type="button"
+              variant="unstyled"
               class="tree-row pl-9 text-sm"
               :class="{ 'tree-row-on': selected.has(child.id) }"
-              :aria-pressed="selected.has(child.id)"
+              :pressed="selected.has(child.id)"
               @click="toggle(child.id, false)"
             >
               <span class="flex-1 text-left">{{ child.name }}</span>
-            </button>
+            </BaseButton>
           </li>
         </ul>
       </div>
