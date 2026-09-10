@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CheckCircle2, Download, Share } from 'lucide-vue-next'
 
-import { useInstall } from '../install'
+import { useInstall } from 'rei-kit/pwa'
 import { BaseButton, SettingsGroup, SettingsRow } from 'rei-kit'
 
 /**

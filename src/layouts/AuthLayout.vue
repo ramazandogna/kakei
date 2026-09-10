@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { LocaleLinks } from 'rei-kit'
+import { AuthShell } from 'rei-kit/app'
 
 import { SUPPORTED_LOCALES, useLocalePreference } from '@/shared/i18n'
 import BrandMark from '@/shared/ui/BrandMark.vue'
@@ -14,24 +15,21 @@ const preference = useLocalePreference()
 </script>
 
 <template>
-  <div
-    class="flex min-h-0 w-full flex-1 flex-col items-center gap-8 overflow-y-auto px-6 pt-10 pb-10"
-  >
-    <BrandMark size="lg" />
+  <AuthShell>
+    <template #brand><BrandMark size="lg" /></template>
 
-    <main class="w-full max-w-[22rem]">
-      <slot />
-    </main>
+    <slot />
 
     <!-- Sign-in is the first screen a new user sees, and Settings is behind it.
          Without this, someone who does not read the browser's language has no
          way to switch before creating an account. -->
-    <LocaleLinks
-      v-model="preference"
-      class="mt-auto"
-      :locales="SUPPORTED_LOCALES"
-      :labels="ENDONYM"
-      :label="$t('settings.language')"
-    />
-  </div>
+    <template #foot>
+      <LocaleLinks
+        v-model="preference"
+        :locales="SUPPORTED_LOCALES"
+        :labels="ENDONYM"
+        :label="$t('settings.language')"
+      />
+    </template>
+  </AuthShell>
 </template>

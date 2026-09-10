@@ -1,85 +1,30 @@
 <script setup lang="ts">
-import { BaseButton } from 'rei-kit'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
-import { RefreshCw, X } from 'lucide-vue-next'
+import { UpdatePrompt as KitUpdatePrompt } from 'rei-kit/pwa'
 
 /**
  * The update prompt for the installed app.
  *
  * `registerType: 'prompt'` means a new service worker waits rather than taking
  * over, so this is what actually applies it. Asking rather than reloading is
- * deliberate: an automatic swap mid-entry loses whatever was being
- * typed, and typing an entry is the whole app.
+ * deliberate: an automatic swap mid-entry loses whatever was being typed, and
+ * typing an entry is the whole app.
+ *
+ * The card is the kit's; the service worker cannot be. `virtual:pwa-register`
+ * is a build-time module and a library cannot import one — which is also the
+ * right seam, because whether an update is waiting is this app's business.
  */
 const { needRefresh, updateServiceWorker } = useRegisterSW()
 </script>
 
 <template>
-  <Transition name="update">
-    <aside v-if="needRefresh" class="update-card" role="status">
-      <span class="update-icon" aria-hidden="true">
-        <RefreshCw class="size-4" />
-      </span>
-
-      <div class="min-w-0 flex-1">
-        <p class="text-ink text-sm font-semibold">{{ $t('pwa.updateTitle') }}</p>
-        <p class="text-ink-soft text-xs leading-snug">{{ $t('pwa.updateBody') }}</p>
-      </div>
-
-      <BaseButton
-        variant="primary"
-        pill
-        size="xs"
-        class="shrink-0 font-semibold"
-        @click="updateServiceWorker(true)"
-      >
-        {{ $t('pwa.reload') }}
-      </BaseButton>
-
-      <BaseButton
-        variant="unstyled"
-        class="text-ink-soft hover:text-ink flex size-9 shrink-0 items-center justify-center rounded-full transition-colors active:scale-90"
-        :aria-label="$t('pwa.later')"
-        @click="needRefresh = false"
-      >
-        <X class="size-4" />
-      </BaseButton>
-    </aside>
-  </Transition>
+  <KitUpdatePrompt
+    :open="needRefresh"
+    :title="$t('pwa.updateTitle')"
+    :body="$t('pwa.updateBody')"
+    :action="$t('pwa.reload')"
+    :dismiss-label="$t('pwa.later')"
+    @update="updateServiceWorker(true)"
+    @dismiss="needRefresh = false"
+  />
 </template>
-
-<style scoped>
-@reference "@/assets/main.css";
-
-/* Sits above the tab bar and the action button, because it outranks both — but
-   inside the shell, so on desktop it does not float off into the page. */
-.update-card {
-  @apply border-hair bg-surface/95 absolute left-1/2 z-50 flex w-full max-w-[360px] -translate-x-1/2 items-center gap-3 border p-3 shadow-xl backdrop-blur-md;
-  border-radius: var(--radius-card);
-  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
-}
-
-.update-icon {
-  @apply bg-primary/15 text-primary flex size-9 shrink-0 items-center justify-center rounded-xl;
-}
-
-.update-enter-active,
-.update-leave-active {
-  transition:
-    opacity 250ms ease,
-    transform 250ms cubic-bezier(0.32, 0.72, 0, 1);
-}
-
-.update-enter-from,
-.update-leave-to {
-  opacity: 0;
-  transform: translate(-50%, 1rem);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .update-enter-from,
-  .update-leave-to {
-    transform: translate(-50%, 0);
-  }
-}
-</style>

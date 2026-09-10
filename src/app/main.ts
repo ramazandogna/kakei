@@ -3,6 +3,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { VueQueryPlugin } from '@tanstack/vue-query'
 import { queryClient } from '@/app/providers/query.ts'
+import { watchInstallability } from 'rei-kit/pwa'
 
 import App from './App.vue'
 import router from './router/router.ts'
@@ -11,12 +12,15 @@ import { i18n, loadActiveLocale } from '@/shared/i18n'
 import { setThemeStorageKey } from 'rei-kit'
 // Side-effect import: registers the beforeinstallprompt listener before Vue
 // mounts, because the event fires once and early.
-import '@/features/pwa/install'
 
 // Before anything reads the preference. Two rei-kit apps served from the same
 // origin — which, on localhost, they will be — would otherwise share one theme
 // setting. The inline script in index.html reads the same key.
 setThemeStorageKey('kakei-theme')
+
+/* Before Vue mounts: `beforeinstallprompt` fires once and early, so a listener
+   attached when a component mounts has usually already missed it. */
+watchInstallability()
 
 async function bootstrap() {
   const app = createApp(App)

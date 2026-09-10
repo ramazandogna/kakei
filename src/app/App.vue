@@ -7,7 +7,7 @@ import AuthLayout from '@/layouts/AuthLayout.vue'
 import { computed } from 'vue'
 import { Github, Mail } from 'lucide-vue-next'
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
-import { slideDirection } from '@/shared/lib/tab-transition'
+import { tabTransition } from '@/shared/lib/tabs'
 import { useThemeSync } from '@/features/profile/use-theme-sync'
 import AppErrorBoundary from '@/shared/ui/AppErrorBoundary.vue'
 
@@ -15,7 +15,7 @@ const route = useRoute()
 useThemeSync()
 
 const transitionName = computed(() =>
-  slideDirection.value === 'none' ? '' : `slide-${slideDirection.value}`,
+  tabTransition.direction.value === 'none' ? '' : `slide-${tabTransition.direction.value}`,
 )
 
 /** App screens clear the tab bar; auth screens must not inherit that padding. */
