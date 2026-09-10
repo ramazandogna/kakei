@@ -2,7 +2,15 @@
 import { computed, ref } from 'vue'
 import { ArchiveRestore, ChevronDown, Pencil, Plus, Trash2 } from 'lucide-vue-next'
 
-import { BaseButton, BaseSheet, EmptyState, SegmentedControl, SkeletonList, ToneDot } from 'rei-kit'
+import {
+  BaseButton,
+  BaseCard,
+  BaseSheet,
+  EmptyState,
+  SegmentedControl,
+  SkeletonList,
+  ToneDot,
+} from 'rei-kit'
 import { useI18n } from 'vue-i18n'
 
 import { toneClasses } from '@/shared/lib/tones'
@@ -128,7 +136,7 @@ const showArchived = ref(false)
       </template>
     </EmptyState>
 
-    <ul v-else class="border-hair bg-surface rounded-card divide-hair divide-y border">
+    <BaseCard as="ul" padding="none" class="divide-hair divide-y" v-else>
       <li v-for="node in tree" :key="node.category.id">
         <div class="manage-row">
           <ToneDot :fill="toneClasses(node.category.tone).fill" class="shrink-0" />
@@ -247,7 +255,7 @@ const showArchived = ref(false)
           </div>
         </div>
       </li>
-    </ul>
+    </BaseCard>
 
     <BaseButton variant="ghost" size="sm" class="self-start" @click="openNew">
       <Plus class="mr-1.5 inline size-4" aria-hidden="true" />
@@ -275,17 +283,14 @@ const showArchived = ref(false)
         {{ $t('category.archivedBody') }}
       </p>
 
-      <ul
-        v-if="showArchived"
-        class="border-hair bg-surface rounded-card divide-hair divide-y border"
-      >
+      <BaseCard as="ul" padding="none" class="divide-hair divide-y" v-if="showArchived">
         <li v-for="category in archivedForDirection" :key="category.id" class="manage-row">
           <span class="text-ink-soft min-w-0 flex-1 truncate text-sm">{{ category.name }}</span>
           <BaseButton variant="ghost" size="sm" @click="unarchive.mutate(category.id)">
             {{ $t('common.restore') }}
           </BaseButton>
         </li>
-      </ul>
+      </BaseCard>
     </section>
 
     <BaseSheet

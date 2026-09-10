@@ -5,6 +5,7 @@ import { LogOut, Settings, UserRound } from 'lucide-vue-next'
 
 import {
   BaseButton,
+  BaseCard,
   BaseInput,
   PageHeader,
   SettingsGroup,
@@ -96,7 +97,7 @@ async function logout() {
 
     <!-- The identity block carries the brand gradient because it is the one
          place in the app that is about the person rather than the money. -->
-    <section class="border-hair bg-surface rounded-card flex items-center gap-4 border p-4">
+    <BaseCard as="section" padding="md" class="flex items-center gap-4">
       <span
         class="brand-gradient flex size-14 shrink-0 items-center justify-center rounded-full text-xl font-semibold text-white"
         aria-hidden="true"
@@ -116,7 +117,7 @@ async function logout() {
           {{ $t('profile.trackingSince', { date: memberSince }) }}
         </p>
       </div>
-    </section>
+    </BaseCard>
 
     <InstallPrompt />
 

@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { Pause, Pencil, Play, Plus } from 'lucide-vue-next'
 
-import { BaseButton, BaseSheet, EmptyState, SkeletonList, ToneDot } from 'rei-kit'
+import { BaseButton, BaseCard, BaseSheet, EmptyState, SkeletonList, ToneDot } from 'rei-kit'
 import { useI18n } from 'vue-i18n'
 
 import { toneClasses } from '@/shared/lib/tones'
@@ -73,7 +73,7 @@ function toneFor(entry: RecurringEntry): string {
       </template>
     </EmptyState>
 
-    <ul v-else class="border-hair bg-surface rounded-card divide-hair divide-y border">
+    <BaseCard as="ul" padding="none" class="divide-hair divide-y" v-else>
       <li v-for="entry in active" :key="entry.id" class="flex items-center gap-2.5 px-3 py-2.5">
         <ToneDot :fill="toneFor(entry)" class="shrink-0" />
 
@@ -114,7 +114,7 @@ function toneFor(entry: RecurringEntry): string {
           </BaseButton>
         </span>
       </li>
-    </ul>
+    </BaseCard>
 
     <BaseButton
       v-if="active.length > 0"
@@ -130,7 +130,7 @@ function toneFor(entry: RecurringEntry): string {
     <section v-if="(entries ?? []).some((entry) => entry.archived_at)" class="flex flex-col gap-2">
       <h3 class="text-ink-soft px-1 text-xs font-medium">{{ $t('recurring.paused') }}</h3>
 
-      <ul class="border-hair bg-surface rounded-card divide-hair divide-y border">
+      <BaseCard as="ul" padding="none" class="divide-hair divide-y">
         <li
           v-for="entry in (entries ?? []).filter((row) => row.archived_at)"
           :key="entry.id"
@@ -148,7 +148,7 @@ function toneFor(entry: RecurringEntry): string {
             <Play class="size-4" />
           </BaseButton>
         </li>
-      </ul>
+      </BaseCard>
     </section>
 
     <BaseSheet

@@ -106,7 +106,7 @@ function dayDate(dateKey: string): string {
     </PageHeader>
 
     <!-- The running in/out for whatever the filters currently select. -->
-    <section class="border-hair bg-surface rounded-card flex items-center gap-4 border px-4 py-3">
+    <BaseCard as="section" padding="none" class="flex items-center gap-4 px-4 py-3">
       <span class="flex flex-1 flex-col">
         <span class="text-ink-soft text-[11px] font-medium">{{ $t('month.in') }}</span>
         <span class="tnum text-positive text-sm font-semibold">{{ format(loaded.inMinor) }}</span>
@@ -118,7 +118,7 @@ function dayDate(dateKey: string): string {
         <span class="text-ink-soft text-[11px] font-medium">{{ $t('month.out') }}</span>
         <span class="tnum text-ink text-sm font-semibold">{{ format(loaded.outMinor) }}</span>
       </span>
-    </section>
+    </BaseCard>
 
     <SkeletonList v-if="query.isPending.value" :rows="6" :label="$t('common.loading')" />
 

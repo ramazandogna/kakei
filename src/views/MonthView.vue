@@ -137,7 +137,7 @@ function openLedgerForPeriod() {
     <PendingRecurringCard :period="period" />
 
     <!-- Three figures. Net is the headline, so it gets the row to itself. -->
-    <section class="border-hair bg-surface rounded-card flex flex-col gap-3 border p-4">
+    <BaseCard as="section" padding="md" class="flex flex-col gap-3">
       <div class="flex items-center gap-4">
         <span class="flex flex-1 flex-col">
           <span class="text-ink-soft text-[11px] font-medium">{{ $t('month.in') }}</span>
@@ -161,7 +161,7 @@ function openLedgerForPeriod() {
           {{ signed(Math.abs(netMinor), netMinor < 0 ? 'out' : 'in') }}
         </span>
       </div>
-    </section>
+    </BaseCard>
 
     <SkeletonList v-if="report.isPending.value" :rows="4" :label="$t('common.loading')" />
 
