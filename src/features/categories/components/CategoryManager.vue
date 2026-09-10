@@ -136,7 +136,7 @@ const showArchived = ref(false)
       </template>
     </EmptyState>
 
-    <BaseCard as="ul" padding="none" class="divide-hair divide-y" v-else>
+    <BaseCard v-else as="ul" padding="none" class="divide-hair divide-y">
       <li v-for="node in tree" :key="node.category.id">
         <div class="manage-row">
           <ToneDot :fill="toneClasses(node.category.tone).fill" class="shrink-0" />
@@ -283,7 +283,7 @@ const showArchived = ref(false)
         {{ $t('category.archivedBody') }}
       </p>
 
-      <BaseCard as="ul" padding="none" class="divide-hair divide-y" v-if="showArchived">
+      <BaseCard v-if="showArchived" as="ul" padding="none" class="divide-hair divide-y">
         <li v-for="category in archivedForDirection" :key="category.id" class="manage-row">
           <span class="text-ink-soft min-w-0 flex-1 truncate text-sm">{{ category.name }}</span>
           <BaseButton variant="ghost" size="sm" @click="unarchive.mutate(category.id)">

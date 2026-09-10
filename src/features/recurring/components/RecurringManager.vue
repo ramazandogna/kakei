@@ -73,7 +73,7 @@ function toneFor(entry: RecurringEntry): string {
       </template>
     </EmptyState>
 
-    <BaseCard as="ul" padding="none" class="divide-hair divide-y" v-else>
+    <BaseCard v-else as="ul" padding="none" class="divide-hair divide-y">
       <li v-for="entry in active" :key="entry.id" class="flex items-center gap-2.5 px-3 py-2.5">
         <ToneDot :fill="toneFor(entry)" class="shrink-0" />
 

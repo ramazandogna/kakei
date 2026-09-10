@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { Check, Languages } from 'lucide-vue-next'
+import { computed } from 'vue'
+import { LocaleSheet } from 'rei-kit/app'
 
 import { SUPPORTED_LOCALES, useLocalePreference } from '@/shared/i18n'
-import type { LocalePreference } from '@/shared/i18n'
-import { BaseButton, BaseSheet, SettingsRow } from 'rei-kit'
-
-const preference = useLocalePreference()
 
 /**
  * Endonyms: a language is always listed in its own language, so someone who
- * cannot read the current interface can still find theirs.
+ * cannot read the current interface can still find theirs. The kit cannot know
+ * them, which is why they live here.
  */
 const ENDONYM: Record<(typeof SUPPORTED_LOCALES)[number], string> = {
   en: 'English',
@@ -19,61 +16,20 @@ const ENDONYM: Record<(typeof SUPPORTED_LOCALES)[number], string> = {
   zh: '中文',
 }
 
-const open = ref(false)
+const preference = useLocalePreference()
 
-/** Five options is past the point where a segmented control still reads. */
-const options = computed<{ value: LocalePreference; label: string }[]>(() => [
-  { value: 'system', label: '' },
-  ...SUPPORTED_LOCALES.map((locale) => ({ value: locale, label: ENDONYM[locale] })),
-])
-
-const currentLabel = computed(() =>
-  preference.value === 'system' ? '' : ENDONYM[preference.value],
+const options = computed(() =>
+  SUPPORTED_LOCALES.map((locale) => ({ value: locale, label: ENDONYM[locale] })),
 )
-
-function select(value: LocalePreference) {
-  preference.value = value
-  open.value = false
-}
 </script>
 
 <template>
-  <SettingsRow
+  <LocaleSheet
+    v-model="preference"
     :label="$t('settings.language')"
-    :description="$t('settings.languageHint')"
-    :icon="Languages"
-    interactive
-    @click="open = true"
-  >
-    <span class="text-ink-soft text-sm">
-      {{ currentLabel || $t('settings.languageSystem') }}
-    </span>
-  </SettingsRow>
-
-  <BaseSheet
-    v-model="open"
-    :title="$t('settings.language')"
-    :subtitle="$t('settings.languageHint')"
+    :hint="$t('settings.languageHint')"
+    :system-label="$t('settings.languageSystem')"
     :close-label="$t('common.close')"
-  >
-    <ul class="flex flex-col">
-      <li v-for="option in options" :key="option.value">
-        <BaseButton
-          variant="unstyled"
-          class="hover:bg-muted/60 flex w-full items-center gap-3 rounded-xl px-2 py-3.5 text-left transition-colors"
-          :pressed="preference === option.value"
-          @click="select(option.value)"
-        >
-          <span class="text-ink flex-1 text-base">
-            {{ option.label || $t('settings.languageSystem') }}
-          </span>
-          <Check
-            v-if="preference === option.value"
-            class="text-primary size-5 shrink-0"
-            aria-hidden="true"
-          />
-        </BaseButton>
-      </li>
-    </ul>
-  </BaseSheet>
+    :options="options"
+  />
 </template>

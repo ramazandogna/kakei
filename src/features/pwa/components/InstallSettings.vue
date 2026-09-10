@@ -1,34 +1,21 @@
 <script setup lang="ts">
-import { CheckCircle2, Download, Share } from 'lucide-vue-next'
-
-import { useInstall } from 'rei-kit/pwa'
-import { BaseButton, SettingsGroup, SettingsRow } from 'rei-kit'
+import { InstallSettings as KitInstallSettings } from 'rei-kit/pwa'
 
 /**
- * The way back to installing after the card has been dismissed.
+ * The way back to installing, in this app's words.
  *
- * The card snoozes for a week; without this row, someone who tapped "Not now"
- * and then changed their mind would have nowhere to go.
+ * The row and its three-way platform check are the kit's (rei-kit 0.14.0);
+ * both phone apps had the same thirty-four lines, with no difference at all.
  */
-const { isInstalled, canPrompt, needsManualSteps, prompt } = useInstall()
 </script>
 
 <template>
-  <SettingsGroup
-    v-if="isInstalled || canPrompt || needsManualSteps"
+  <KitInstallSettings
     :title="$t('install.settingsRow')"
-  >
-    <SettingsRow
-      :label="isInstalled ? $t('install.installed') : $t('install.title')"
-      :description="
-        isInstalled ? '' : needsManualSteps ? $t('install.iosBody') : $t('install.body')
-      "
-      :icon="isInstalled ? CheckCircle2 : needsManualSteps ? Share : Download"
-      stacked
-    >
-      <BaseButton v-if="canPrompt" variant="primary" size="sm" class="self-start" @click="prompt">
-        {{ $t('install.action') }}
-      </BaseButton>
-    </SettingsRow>
-  </SettingsGroup>
+    :label="$t('install.title')"
+    :installed-label="$t('install.installed')"
+    :body="$t('install.body')"
+    :ios-body="$t('install.iosBody')"
+    :action="$t('install.action')"
+  />
 </template>
