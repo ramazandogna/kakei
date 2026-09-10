@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { BaseCard } from 'rei-kit'
 import { computed } from 'vue'
 import { ArrowDownRight, ArrowUpRight, Minus } from 'lucide-vue-next'
 
@@ -34,7 +35,7 @@ const icon = computed(() => {
 </script>
 
 <template>
-  <div class="border-hair bg-surface rounded-card flex flex-col gap-4 border p-4">
+  <BaseCard padding="md" class="flex flex-col gap-4">
     <header class="flex items-center gap-2">
       <span
         class="size-3 shrink-0 rounded-full"
@@ -99,5 +100,5 @@ const icon = computed(() => {
     <p class="text-ink-soft text-center text-xs">
       {{ format(slice.previousMinor) }} → {{ format(slice.currentMinor) }}
     </p>
-  </div>
+  </BaseCard>
 </template>

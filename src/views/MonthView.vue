@@ -3,7 +3,15 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { PiggyBank } from 'lucide-vue-next'
 
-import { BaseButton, BaseSheet, EmptyState, SectionHeading, SkeletonList, useToday } from 'rei-kit'
+import {
+  BaseButton,
+  BaseCard,
+  BaseSheet,
+  EmptyState,
+  SectionHeading,
+  SkeletonList,
+  useToday,
+} from 'rei-kit'
 
 import CategoryDonut from '@/features/reports/components/CategoryDonut.vue'
 import MoversList from '@/features/reports/components/MoversList.vue'
@@ -206,14 +214,14 @@ function openLedgerForPeriod() {
           </BaseButton>
         </div>
 
-        <div class="border-hair bg-surface rounded-card flex flex-col border p-1">
+        <BaseCard padding="none" class="flex flex-col p-1">
           <TransactionRow
             v-for="transaction in latest"
             :key="transaction.id"
             :transaction="transaction"
             @edit="openEdit"
           />
-        </div>
+        </BaseCard>
       </section>
     </template>
 

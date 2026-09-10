@@ -5,6 +5,7 @@ import { ReceiptText, SlidersHorizontal } from 'lucide-vue-next'
 
 import {
   BaseButton,
+  BaseCard,
   BaseSheet,
   EmptyState,
   PageHeader,
@@ -151,14 +152,14 @@ function dayDate(dateKey: string): string {
           </span>
         </header>
 
-        <div class="border-hair bg-surface rounded-card flex flex-col border p-1">
+        <BaseCard padding="none" class="flex flex-col p-1">
           <TransactionRow
             v-for="transaction in day.rows"
             :key="transaction.id"
             :transaction="transaction"
             @edit="openEdit"
           />
-        </div>
+        </BaseCard>
       </section>
 
       <BaseButton
