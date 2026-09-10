@@ -93,16 +93,20 @@ function toneFor(entry: RecurringEntry): string {
 
         <span class="flex shrink-0">
           <BaseButton
-            variant="unstyled"
-            class="icon-button"
+            variant="quiet"
+            icon
+            size="sm"
+            class="size-8 rounded-lg"
             :aria-label="$t('common.edit')"
             @click="openEdit(entry)"
           >
             <Pencil class="size-4" />
           </BaseButton>
           <BaseButton
-            variant="unstyled"
-            class="icon-button"
+            variant="quiet"
+            icon
+            size="sm"
+            class="size-8 rounded-lg"
             :aria-label="$t('recurring.pause')"
             @click="archive.mutate(entry.id)"
           >
@@ -134,8 +138,10 @@ function toneFor(entry: RecurringEntry): string {
         >
           <span class="text-ink-soft min-w-0 flex-1 truncate text-sm">{{ nameFor(entry) }}</span>
           <BaseButton
-            variant="unstyled"
-            class="icon-button"
+            variant="quiet"
+            icon
+            size="sm"
+            class="size-8 rounded-lg"
             :aria-label="$t('recurring.resume')"
             @click="unarchive.mutate(entry.id)"
           >
@@ -158,8 +164,4 @@ function toneFor(entry: RecurringEntry): string {
 
 <style scoped>
 @reference "@/assets/main.css";
-
-.icon-button {
-  @apply text-ink-soft hover:bg-muted hover:text-ink flex size-8 items-center justify-center rounded-lg transition-colors active:scale-90;
-}
 </style>

@@ -135,9 +135,10 @@ function openPeriod(periodStart: string) {
             <BaseButton
               v-for="slice in diveSlices"
               :key="slice.id ?? 'none'"
-              variant="unstyled"
-              class="chip"
-              :class="selected?.id === slice.id ? 'chip-on' : 'chip-off'"
+              variant="secondary"
+              pill
+              size="xs"
+              class="shrink-0 gap-1.5 whitespace-nowrap"
               :pressed="selected?.id === slice.id"
               @click="selectedId = slice.id"
             >
@@ -159,16 +160,4 @@ function openPeriod(periodStart: string) {
 
 <style scoped>
 @reference "@/assets/main.css";
-
-.chip {
-  @apply flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors;
-}
-
-.chip-on {
-  @apply border-primary bg-primary text-white;
-}
-
-.chip-off {
-  @apply border-hair bg-surface text-ink hover:bg-muted;
-}
 </style>

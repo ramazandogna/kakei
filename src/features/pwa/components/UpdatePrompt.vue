@@ -26,7 +26,13 @@ const { needRefresh, updateServiceWorker } = useRegisterSW()
         <p class="text-ink-soft text-xs leading-snug">{{ $t('pwa.updateBody') }}</p>
       </div>
 
-      <BaseButton variant="unstyled" class="update-action" @click="updateServiceWorker(true)">
+      <BaseButton
+        variant="primary"
+        pill
+        size="xs"
+        class="shrink-0 font-semibold"
+        @click="updateServiceWorker(true)"
+      >
         {{ $t('pwa.reload') }}
       </BaseButton>
 
@@ -55,10 +61,6 @@ const { needRefresh, updateServiceWorker } = useRegisterSW()
 
 .update-icon {
   @apply bg-primary/15 text-primary flex size-9 shrink-0 items-center justify-center rounded-xl;
-}
-
-.update-action {
-  @apply bg-primary shrink-0 rounded-full px-3.5 py-2 text-xs font-semibold text-white transition-transform duration-100 active:scale-95;
 }
 
 .update-enter-active,

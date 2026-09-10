@@ -110,9 +110,10 @@ async function submit() {
 
       <div class="flex flex-wrap gap-1.5">
         <BaseButton
-          variant="unstyled"
-          class="chip"
-          :class="parentId === null ? 'chip-on' : 'chip-off'"
+          variant="secondary"
+          pill
+          size="xs"
+          class="gap-1.5"
           :pressed="parentId === null"
           @click="parentId = null"
         >
@@ -122,9 +123,10 @@ async function submit() {
         <BaseButton
           v-for="parent in parents"
           :key="parent.id"
-          variant="unstyled"
-          class="chip"
-          :class="parentId === parent.id ? 'chip-on' : 'chip-off'"
+          variant="secondary"
+          pill
+          size="xs"
+          class="gap-1.5"
           :pressed="parentId === parent.id"
           @click="parentId = parent.id"
         >
@@ -162,14 +164,6 @@ async function submit() {
 
 .chip {
   @apply flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors;
-}
-
-.chip-on {
-  @apply border-primary bg-primary text-white;
-}
-
-.chip-off {
-  @apply border-hair bg-surface text-ink hover:bg-muted;
 }
 
 .tone-swatch {

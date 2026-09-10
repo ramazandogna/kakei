@@ -85,8 +85,8 @@ async function postAll() {
     <ul class="flex flex-col">
       <li v-for="entry in entries" :key="entry.id">
         <BaseButton
-          variant="unstyled"
-          class="row"
+          variant="row"
+          class="rounded-xl"
           :class="{ 'opacity-45': skipped.has(entry.id) }"
           :pressed="!skipped.has(entry.id)"
           @click="toggle(entry.id)"
@@ -129,10 +129,6 @@ async function postAll() {
 
 .card {
   @apply border-primary/25 bg-primary/5 rounded-card flex flex-col gap-3 border p-3.5;
-}
-
-.row {
-  @apply hover:bg-surface/60 flex w-full items-center gap-2.5 rounded-xl px-1.5 py-2 transition-all;
 }
 
 .tick {

@@ -138,40 +138,50 @@ const showArchived = ref(false)
 
           <div class="flex shrink-0 items-center">
             <BaseButton
-              variant="unstyled"
-              class="icon-button"
+              variant="quiet"
+              icon
+              size="sm"
+              class="size-8 rounded-lg"
               :aria-label="$t('common.moveUp', { name: node.category.name })"
               @click="move(node.category, -1)"
             >
               <ChevronDown class="size-4 rotate-180" />
             </BaseButton>
             <BaseButton
-              variant="unstyled"
-              class="icon-button"
+              variant="quiet"
+              icon
+              size="sm"
+              class="size-8 rounded-lg"
               :aria-label="$t('common.moveDown', { name: node.category.name })"
               @click="move(node.category, 1)"
             >
               <ChevronDown class="size-4" />
             </BaseButton>
             <BaseButton
-              variant="unstyled"
-              class="icon-button"
+              variant="quiet"
+              icon
+              size="sm"
+              class="size-8 rounded-lg"
               :aria-label="$t('common.edit')"
               @click="openEdit(node.category)"
             >
               <Pencil class="size-4" />
             </BaseButton>
             <BaseButton
-              variant="unstyled"
-              class="icon-button"
+              variant="quiet"
+              icon
+              size="sm"
+              class="size-8 rounded-lg"
               :aria-label="$t('common.archive')"
               @click="archive.mutate(node.category.id)"
             >
               <ArchiveRestore class="size-4" />
             </BaseButton>
             <BaseButton
-              variant="unstyled"
-              class="icon-button hover:text-negative"
+              variant="destructive"
+              icon
+              size="sm"
+              class="size-8 rounded-lg"
               :aria-label="$t('common.delete')"
               @click="askDelete(node.category)"
             >
@@ -185,40 +195,50 @@ const showArchived = ref(false)
 
           <div class="flex shrink-0 items-center">
             <BaseButton
-              variant="unstyled"
-              class="icon-button"
+              variant="quiet"
+              icon
+              size="sm"
+              class="size-8 rounded-lg"
               :aria-label="$t('common.moveUp', { name: child.name })"
               @click="move(child, -1)"
             >
               <ChevronDown class="size-4 rotate-180" />
             </BaseButton>
             <BaseButton
-              variant="unstyled"
-              class="icon-button"
+              variant="quiet"
+              icon
+              size="sm"
+              class="size-8 rounded-lg"
               :aria-label="$t('common.moveDown', { name: child.name })"
               @click="move(child, 1)"
             >
               <ChevronDown class="size-4" />
             </BaseButton>
             <BaseButton
-              variant="unstyled"
-              class="icon-button"
+              variant="quiet"
+              icon
+              size="sm"
+              class="size-8 rounded-lg"
               :aria-label="$t('common.edit')"
               @click="openEdit(child)"
             >
               <Pencil class="size-4" />
             </BaseButton>
             <BaseButton
-              variant="unstyled"
-              class="icon-button"
+              variant="quiet"
+              icon
+              size="sm"
+              class="size-8 rounded-lg"
               :aria-label="$t('common.archive')"
               @click="archive.mutate(child.id)"
             >
               <ArchiveRestore class="size-4" />
             </BaseButton>
             <BaseButton
-              variant="unstyled"
-              class="icon-button hover:text-negative"
+              variant="destructive"
+              icon
+              size="sm"
+              class="size-8 rounded-lg"
               :aria-label="$t('common.delete')"
               @click="askDelete(child)"
             >
@@ -311,9 +331,5 @@ const showArchived = ref(false)
 
 .manage-row {
   @apply flex items-center gap-2 px-3 py-2.5;
-}
-
-.icon-button {
-  @apply text-ink-soft hover:bg-muted hover:text-ink flex size-8 items-center justify-center rounded-lg transition-colors active:scale-90;
 }
 </style>

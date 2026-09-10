@@ -166,9 +166,8 @@ function toggle(id: string, withChildren: boolean) {
         <ul class="divide-hair divide-y">
           <li v-for="node in trees" :key="node.category.id">
             <BaseButton
-              variant="unstyled"
-              class="tree-row font-medium"
-              :class="{ 'tree-row-on': selected.has(node.category.id) }"
+              variant="row"
+              class="font-medium"
               :pressed="selected.has(node.category.id)"
               @click="toggle(node.category.id, true)"
             >
@@ -179,9 +178,9 @@ function toggle(id: string, withChildren: boolean) {
             <BaseButton
               v-for="child in node.children"
               :key="child.id"
-              variant="unstyled"
-              class="tree-row pl-9 text-sm"
-              :class="{ 'tree-row-on': selected.has(child.id) }"
+              variant="row"
+              size="sm"
+              class="pl-9"
               :pressed="selected.has(child.id)"
               @click="toggle(child.id, false)"
             >
@@ -203,12 +202,4 @@ function toggle(id: string, withChildren: boolean) {
 
 <style scoped>
 @reference "@/assets/main.css";
-
-.tree-row {
-  @apply hover:bg-muted/60 flex w-full items-center gap-2 px-3 py-2.5 transition-colors;
-}
-
-.tree-row-on {
-  @apply bg-muted;
-}
 </style>

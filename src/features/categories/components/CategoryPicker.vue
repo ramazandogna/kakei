@@ -183,9 +183,10 @@ async function addCategory() {
       <BaseButton
         v-for="match in matches"
         :key="match.id"
-        variant="unstyled"
-        class="chip"
-        :class="selected === match.id ? 'chip-on' : 'chip-off'"
+        variant="secondary"
+        pill
+        size="xs"
+        class="gap-1.5"
         :pressed="selected === match.id"
         @click="select(match.id)"
       >
@@ -195,8 +196,10 @@ async function addCategory() {
 
       <BaseButton
         v-if="matches.length === 0"
-        variant="unstyled"
-        class="chip chip-off"
+        variant="secondary"
+        pill
+        size="xs"
+        class="gap-1.5"
         @click="addCategory"
       >
         <Plus class="size-3.5" aria-hidden="true" />
@@ -208,9 +211,10 @@ async function addCategory() {
       <BaseButton
         v-for="category in chips"
         :key="category.id"
-        variant="unstyled"
-        class="chip"
-        :class="selected === category.id ? 'chip-on' : 'chip-off'"
+        variant="secondary"
+        pill
+        size="xs"
+        class="gap-1.5"
         :pressed="selected === category.id"
         @click="select(category.id)"
       >
@@ -219,8 +223,10 @@ async function addCategory() {
       </BaseButton>
 
       <BaseButton
-        variant="unstyled"
-        class="chip chip-off"
+        variant="secondary"
+        pill
+        size="xs"
+        class="gap-1.5"
         :aria-expanded="adding"
         @click="adding = !adding"
       >
@@ -251,9 +257,8 @@ async function addCategory() {
       <ul class="divide-hair divide-y">
         <li v-for="node in visibleTree" :key="node.category.id">
           <BaseButton
-            variant="unstyled"
-            class="tree-row font-medium"
-            :class="{ 'tree-row-on': selected === node.category.id }"
+            variant="row"
+            class="font-medium"
             :pressed="selected === node.category.id"
             @click="select(node.category.id)"
           >
@@ -269,9 +274,9 @@ async function addCategory() {
           <BaseButton
             v-for="child in node.children"
             :key="child.id"
-            variant="unstyled"
-            class="tree-row pl-9 text-sm"
-            :class="{ 'tree-row-on': selected === child.id }"
+            variant="row"
+            size="sm"
+            class="pl-9"
             :pressed="selected === child.id"
             @click="select(child.id)"
           >
@@ -308,21 +313,5 @@ async function addCategory() {
 
 .chip {
   @apply flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors;
-}
-
-.chip-on {
-  @apply border-primary bg-primary text-white;
-}
-
-.chip-off {
-  @apply border-hair bg-surface text-ink hover:bg-muted;
-}
-
-.tree-row {
-  @apply hover:bg-muted/60 flex w-full items-center gap-2 px-3 py-2.5 transition-colors;
-}
-
-.tree-row-on {
-  @apply bg-muted;
 }
 </style>

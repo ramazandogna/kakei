@@ -39,7 +39,7 @@ const subtitle = computed(() => {
 </script>
 
 <template>
-  <BaseButton variant="unstyled" class="row" @click="$emit('edit', transaction)">
+  <BaseButton variant="row" class="rounded-xl" @click="$emit('edit', transaction)">
     <ToneDot :fill="toneClasses(category?.tone).fill" class="mt-1.5 shrink-0" />
 
     <span class="min-w-0 flex-1 text-left">
@@ -74,8 +74,4 @@ const subtitle = computed(() => {
 
 <style scoped>
 @reference "@/assets/main.css";
-
-.row {
-  @apply hover:bg-muted/50 flex w-full items-start gap-2.5 rounded-xl px-2 py-2.5 transition-colors;
-}
 </style>

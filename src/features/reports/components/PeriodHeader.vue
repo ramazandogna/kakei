@@ -45,8 +45,11 @@ function step(months: number) {
 <template>
   <header class="flex items-center justify-between gap-2">
     <BaseButton
-      variant="unstyled"
-      class="stepper"
+      variant="quiet"
+      icon
+      pill
+      size="sm"
+      class="size-10 disabled:pointer-events-none disabled:opacity-30"
       :aria-label="$t('month.previousPeriod')"
       @click="step(-1)"
     >
@@ -56,8 +59,11 @@ function step(months: number) {
     <h1 class="text-ink flex-1 text-center text-base font-semibold">{{ label }}</h1>
 
     <BaseButton
-      variant="unstyled"
-      class="stepper"
+      variant="quiet"
+      icon
+      pill
+      size="sm"
+      class="size-10 disabled:pointer-events-none disabled:opacity-30"
       :aria-label="$t('month.nextPeriod')"
       :disabled="!canStepForward"
       @click="step(1)"
@@ -69,8 +75,4 @@ function step(months: number) {
 
 <style scoped>
 @reference "@/assets/main.css";
-
-.stepper {
-  @apply text-ink-soft hover:text-ink hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors active:scale-90 disabled:pointer-events-none disabled:opacity-30;
-}
 </style>

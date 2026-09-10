@@ -81,8 +81,11 @@ async function logout() {
       </template>
       <template #right>
         <BaseButton
-          variant="unstyled"
-          class="text-ink-soft hover:text-negative hover:bg-negative/10 flex size-10 items-center justify-center rounded-full transition-colors active:scale-90"
+          variant="destructive"
+          icon
+          pill
+          size="sm"
+          class="size-10"
           :aria-label="$t('profile.signOut')"
           @click="logout"
         >
