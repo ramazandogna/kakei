@@ -310,8 +310,4 @@ async function addCategory() {
 .search-field input::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }
-
-.chip {
-  @apply flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors;
-}
 </style>
