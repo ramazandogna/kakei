@@ -30,7 +30,7 @@
     "@tanstack/vue-query": "^5.101.4",
     "lucide-vue-next": "^1.0.0",
     "pinia": "^4.0.2",
-    "rei-kit": "^0.16.1",
+    "rei-kit": "^1.0.0",
     "tailwindcss": "^4.3.3",
     "vue": "^3.5.40",
     "vue-i18n": "^11.4.10",
