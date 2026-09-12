@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ToastHost } from 'rei-kit'
+import { TabShell } from 'rei-kit/app'
 import { RouterView, useRoute } from 'vue-router'
 import UpdatePrompt from '@/features/pwa/components/UpdatePrompt.vue'
 import AppLayout from '@/layouts/AppLayout.vue'
@@ -14,10 +15,6 @@ import AppErrorBoundary from '@/shared/ui/AppErrorBoundary.vue'
 const route = useRoute()
 useThemeSync()
 
-const transitionName = computed(() =>
-  tabTransition.direction.value === 'none' ? '' : `slide-${tabTransition.direction.value}`,
-)
-
 /** App screens clear the tab bar; auth screens must not inherit that padding. */
 const pageClass = computed(() => (route.meta.layout === 'app' ? 'page-slide' : 'page-auth'))
 
@@ -31,10 +28,10 @@ const layoutComponent = computed(() => {
 </script>
 
 <template>
-  <div class="screen-view">
+  <TabShell>
     <!-- Desktop-only: on a phone the shell fills the screen and this would be
          hidden behind it anyway. The address is split so scrapers miss it. -->
-    <aside class="credits">
+    <template #aside>
       <p>© 2026 Kakei</p>
       <a class="credit-link" href="https://github.com/ramazandogna" target="_blank" rel="noopener">
         <Github class="size-3.5" />
@@ -44,26 +41,26 @@ const layoutComponent = computed(() => {
         <Mail class="size-3.5" />
         doganrmzn40 [ at ] gmail.com
       </span>
-    </aside>
+    </template>
 
-    <div class="shell-frame mobile-screen-view">
-      <!-- Inside the shell and above everything in it: an update outranks the
-           tab bar, and it has to appear on the auth screens too. -->
+    <!-- Inside the shell and above everything in it: an update outranks the
+         tab bar, and it has to appear on the auth screens too. -->
+    <template #chrome>
       <UpdatePrompt />
+    </template>
 
-      <component :is="layoutComponent">
-        <!-- Inside the layout on purpose: a page that throws must not take the
-             tab bar with it, because switching tabs is the way out. -->
-        <AppErrorBoundary>
-          <RouterView v-slot="{ Component, route: matched }">
-            <Transition :name="transitionName">
-              <component :is="Component" :key="matched.path" :class="pageClass" />
-            </Transition>
-          </RouterView>
-        </AppErrorBoundary>
-      </component>
-    </div>
-  </div>
+    <component :is="layoutComponent">
+      <!-- Inside the layout on purpose: a page that throws must not take the
+           tab bar with it, because switching tabs is the way out. -->
+      <AppErrorBoundary>
+        <RouterView v-slot="{ Component, route: matched }">
+          <Transition :name="tabTransition.name.value">
+            <component :is="Component" :key="matched.path" :class="pageClass" />
+          </Transition>
+        </RouterView>
+      </AppErrorBoundary>
+    </component>
+  </TabShell>
 
   <!-- Bottom, not top: the top of a phone shell is a status bar and a header,
        and the thumb is nowhere near it. One host for the whole app. -->
@@ -74,47 +71,18 @@ const layoutComponent = computed(() => {
 <style>
 @reference "@/assets/main.css";
 
-/* A barely-there diamond lattice so the area around the shell is not a flat
-   slab. Both layers are theme colours at very low alpha, so it reads as texture
-   rather than decoration and inverts with the theme for free. */
-.screen-view {
-  @apply bg-canvas fixed inset-0 flex items-center justify-center;
-  background-image:
-    repeating-linear-gradient(
-      45deg,
-      color-mix(in srgb, var(--color-fukami) 5%, transparent) 0 1px,
-      transparent 1px 56px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      color-mix(in srgb, var(--color-fukami) 5%, transparent) 0 1px,
-      transparent 1px 56px
-    );
+/* The frame's texture, in Kakei's colours. TabShell defaults to the ink colour;
+   these are the two the app had before it owned the frame. */
+.rk-screen {
+  --rk-lattice: var(--color-fukami);
 }
 
-.dark .screen-view {
-  background-image:
-    repeating-linear-gradient(
-      45deg,
-      color-mix(in srgb, var(--color-wakanae) 7%, transparent) 0 1px,
-      transparent 1px 56px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      color-mix(in srgb, var(--color-wakanae) 7%, transparent) 0 1px,
-      transparent 1px 56px
-    );
-}
-
-.credits {
-  @apply text-ink-soft absolute bottom-6 left-6 hidden flex-col gap-1 text-[11px] md:flex;
+.dark .rk-screen {
+  --rk-lattice: var(--color-wakanae);
+  --rk-lattice-alpha: 7%;
 }
 
 .credit-link {
   @apply hover:text-primary flex items-center gap-1.5 transition-colors;
-}
-
-.mobile-screen-view {
-  @apply bg-surface border-hair md:rounded-shell relative m-auto flex flex-col overflow-hidden md:border md:shadow-xl;
 }
 </style>

@@ -1,37 +1,23 @@
-import { useToast } from 'rei-kit'
+import { createWriteReport } from 'rei-kit/app'
 
 import { t } from '@/shared/i18n'
 
 /**
  * Saying that a write happened.
  *
- * Here rather than at each call site so every mutation reports the same way:
- * before this, none of them reported at all — a transaction was added, a
- * category was deleted, and the only evidence was that nothing had visibly
- * broken.
- *
- * Deliberately generic. A message naming the thing that was saved reads better
- * once and worse every time after, and a ledger is a screen somebody uses
- * dozens of times in a sitting.
+ * The kit's report, with this app's wording. Functions rather than strings, so
+ * a language switch is followed rather than frozen at startup.
  *
  * Form validation does **not** come through here: a rejected field says so
- * beside itself, where the eye already is and where it stays until fixed.
- * These are for what has already happened.
+ * beside itself, where the eye already is and where it stays until fixed. These
+ * are for what has already happened.
  */
-export function reportSaved(): void {
-  useToast().success(t('common.saved'))
-}
+const report = createWriteReport({
+  saved: () => t('common.saved'),
+  deleted: () => t('common.deleted'),
+  failed: () => t('common.failed'),
+})
 
-export function reportDeleted(): void {
-  useToast().success(t('common.deleted'))
-}
-
-/**
- * A write that did not land.
- *
- * `danger` rather than `warning`: the user's change is not in the database and
- * they are the only one who can decide what to do about it.
- */
-export function reportFailed(): void {
-  useToast().danger(t('common.failed'))
-}
+export const reportSaved = report.saved
+export const reportDeleted = report.deleted
+export const reportFailed = report.failed
