@@ -1,19 +1,20 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
+import { safeRedirect } from 'rei-kit'
+import { toAuthMessageKey } from 'rei-kit/supabase'
+import { AuthForm, fieldErrors } from 'rei-kit/app'
+import type { AuthFormValues } from 'rei-kit/app'
 
-import { toAuthMessageKey } from '@/features/auth/auth.errors'
 import { loginSchema } from '@/features/auth/auth.schema'
 import { useAuthStore } from '@/features/auth/auth.store'
-import { BaseButton, BaseCheckbox, BaseInput, GoogleButton, safeRedirect } from 'rei-kit'
 
 const auth = useAuthStore()
 const router = useRouter()
 const route = useRoute()
 
 const serverError = ref('')
+const busy = ref(false)
 const rememberMe = ref(true)
 
 /**
@@ -25,89 +26,76 @@ const rememberMe = ref(true)
 const returnError = ref(auth.oauthError)
 auth.oauthError = ''
 
-const { defineField, errors, handleSubmit, isSubmitting } = useForm({
-  validationSchema: toTypedSchema(loginSchema()),
-})
+const validate = (values: AuthFormValues) => fieldErrors(loginSchema(), values)
 
-const [email, emailAttrs] = defineField('email', { validateOnModelUpdate: false })
-const [password, passwordAttrs] = defineField('password', { validateOnModelUpdate: false })
-
-const onSubmit = handleSubmit(async (values) => {
+async function onSubmit(values: AuthFormValues) {
   serverError.value = ''
+  busy.value = true
 
   try {
     await auth.signIn(values.email, values.password, rememberMe.value)
     await router.push(safeRedirect(route.query.redirect))
   } catch (error) {
     serverError.value = toAuthMessageKey(error)
+  } finally {
+    busy.value = false
   }
-})
+}
 
 async function signInWithGoogle() {
   serverError.value = ''
   returnError.value = ''
+  busy.value = true
 
   try {
     await auth.signInWithGoogle(rememberMe.value)
   } catch (error) {
     serverError.value = toAuthMessageKey(error)
+    busy.value = false
   }
+  // No `finally`: on success the browser is already leaving for Google.
 }
 </script>
 
 <template>
-  <div class="flex flex-col gap-5">
-    <header class="flex flex-col gap-1 text-center">
-      <h2 class="text-ink text-lg font-semibold">{{ $t('auth.welcomeBack') }}</h2>
-      <p class="text-ink-soft text-sm">{{ $t('auth.pickUp') }}</p>
-    </header>
+  <AuthForm
+    v-model:remember="rememberMe"
+    mode="signIn"
+    :busy="busy"
+    :error="serverError ? $t(serverError) : ''"
+    :validate="validate"
+    :labels="{
+      email: $t('auth.email'),
+      password: $t('auth.password'),
+      confirmPassword: $t('auth.confirmPassword'),
+      submit: $t('auth.signIn'),
+      submitBusy: $t('auth.signingIn'),
+      google: $t('auth.google'),
+      or: $t('auth.or'),
+      rememberMe: $t('auth.rememberMe'),
+      emailPlaceholder: $t('auth.emailPlaceholder'),
+    }"
+    @submit="onSubmit"
+    @google="signInWithGoogle"
+  >
+    <template #header>
+      <header class="flex flex-col gap-1 text-center">
+        <h2 class="text-ink text-lg font-semibold">{{ $t('auth.welcomeBack') }}</h2>
+        <p class="text-ink-soft text-sm">{{ $t('auth.pickUp') }}</p>
+      </header>
 
-    <p v-if="returnError && !serverError" role="alert" class="text-negative text-center text-sm">
-      {{ returnError.includes(' ') ? returnError : $t(returnError) }}
-    </p>
+      <p v-if="returnError && !serverError" role="alert" class="text-negative text-center text-sm">
+        {{ returnError.includes(' ') ? returnError : $t(returnError) }}
+      </p>
+    </template>
 
-    <GoogleButton :label="$t('auth.google')" @click="signInWithGoogle" />
-
-    <div class="flex items-center gap-3">
-      <span class="bg-hair h-px flex-1" />
-      <span class="text-ink-soft text-xs">{{ $t('auth.or') }}</span>
-      <span class="bg-hair h-px flex-1" />
-    </div>
-
-    <form novalidate class="flex flex-col gap-4" @submit="onSubmit">
-      <BaseInput
-        v-model="email"
-        v-bind="emailAttrs"
-        :label="$t('auth.email')"
-        type="email"
-        autocomplete="email"
-        :placeholder="$t('auth.emailPlaceholder')"
-        :error="errors.email"
-      />
-
-      <BaseInput
-        v-model="password"
-        v-bind="passwordAttrs"
-        :label="$t('auth.password')"
-        type="password"
-        autocomplete="current-password"
-        :error="errors.password"
-      />
-
-      <BaseCheckbox v-model="rememberMe" size="sm" :label="$t('auth.rememberMe')" />
-
-      <p v-if="serverError" role="alert" class="text-negative text-sm">{{ $t(serverError) }}</p>
-
-      <BaseButton type="submit" :loading="isSubmitting">
-        {{ isSubmitting ? $t('auth.signingIn') : $t('auth.signIn') }}
-      </BaseButton>
-    </form>
-
-    <p class="text-ink-soft text-center text-sm">
-      {{ $t('auth.noAccount') }}
-      <RouterLink to="/signup" class="text-primary font-medium">{{
-        $t('auth.createOne')
-      }}</RouterLink>
-    </p>
-  </div>
+    <template #foot>
+      <p class="text-ink-soft text-center text-sm">
+        {{ $t('auth.noAccount') }}
+        <RouterLink to="/signup" class="text-primary font-medium">{{
+          $t('auth.createOne')
+        }}</RouterLink>
+      </p>
+    </template>
+  </AuthForm>
 </template>
