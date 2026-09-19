@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { CalendarCog, Coins, Palette } from 'lucide-vue-next'
+import { CalendarCog, Coins, Palette, Layers } from 'lucide-vue-next'
 
-import { BaseSelect, SegmentedControl, SettingsGroup, SettingsRow, useTheme } from 'rei-kit'
-import type { ThemePreference } from 'rei-kit'
+import {
+  BaseSelect,
+  SegmentedControl,
+  SettingsGroup,
+  SettingsRow,
+  MATERIALS,
+  useMaterial,
+  useTheme,
+} from 'rei-kit'
+import type { Material, ThemePreference } from 'rei-kit'
 import { useI18n } from 'vue-i18n'
 
 import LanguagePicker from './LanguagePicker.vue'
@@ -15,12 +23,25 @@ const { t } = useI18n()
 const { data: profile } = useProfile()
 const update = useUpdateProfile()
 const theme = useTheme()
+const material = useMaterial()
 
 const THEME_OPTIONS = computed(() => [
   { value: 'system' as ThemePreference, label: t('settings.themeSystem') },
   { value: 'light' as ThemePreference, label: t('settings.themeLight') },
   { value: 'dark' as ThemePreference, label: t('settings.themeDark') },
 ])
+
+/* rei-kit's materials. Stored on the device rather than the profile: how the
+   app looks on this phone is not a fact about the account. */
+const MATERIAL_LABEL: Record<Material, string> = {
+  quiet: 'settings.materialQuiet',
+  glass: 'settings.materialGlass',
+  brutal: 'settings.materialBrutal',
+  soft: 'settings.materialSoft',
+}
+const MATERIAL_OPTIONS = computed(() =>
+  MATERIALS.map((value) => ({ value, label: t(MATERIAL_LABEL[value]) })),
+)
 
 const CURRENCY_OPTIONS = SUPPORTED_CURRENCIES.map((code) => ({ value: code, label: code }))
 
@@ -65,6 +86,9 @@ const monthStartModel = computed<number>({
     <SettingsGroup :title="$t('settings.appearance')">
       <SettingsRow :label="$t('settings.theme')" :icon="Palette" stacked>
         <SegmentedControl v-model="themeModel" :options="THEME_OPTIONS" />
+      </SettingsRow>
+      <SettingsRow :label="$t('settings.material')" :icon="Layers" stacked>
+        <SegmentedControl v-model="material" :options="MATERIAL_OPTIONS" />
       </SettingsRow>
     </SettingsGroup>
 

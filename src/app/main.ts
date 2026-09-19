@@ -9,7 +9,7 @@ import App from './App.vue'
 import router from './router/router.ts'
 import { useAuthStore } from '@/features/auth/auth.store'
 import { i18n, loadActiveLocale } from '@/shared/i18n'
-import { setThemeStorageKey } from 'rei-kit'
+import { setMaterialStorageKey, setThemeStorageKey, useMaterial } from 'rei-kit'
 // Side-effect import: registers the beforeinstallprompt listener before Vue
 // mounts, because the event fires once and early.
 
@@ -17,6 +17,10 @@ import { setThemeStorageKey } from 'rei-kit'
 // origin — which, on localhost, they will be — would otherwise share one theme
 // setting. The inline script in index.html reads the same key.
 setThemeStorageKey('kakei-theme')
+setMaterialStorageKey('kakei-material')
+// Applied here rather than in Settings, so the choice holds on every screen
+// from the first paint, not only after Settings has been opened.
+useMaterial()
 
 /* Before Vue mounts: `beforeinstallprompt` fires once and early, so a listener
    attached when a component mounts has usually already missed it. */
