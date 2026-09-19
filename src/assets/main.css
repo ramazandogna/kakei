@@ -71,6 +71,17 @@
   --color-positive: var(--color-midori);
   --color-negative: var(--color-akane);
   --color-warning: var(--color-kohaku);
+
+  /* The text on each filled role, measured rather than assumed. White on the
+     young-shoot green read at 2:1, so an accent button's label was barely
+     there; rei-kit 2 made these roles, and these are the values that clear
+     WCAG AA against Kakei's own pigments. */
+  --color-on-primary: #ffffff;
+  --color-on-accent: #061518;
+  --color-on-positive: #ffffff;
+  --color-on-negative: #ffffff;
+  --color-on-warning: #ffffff;
+
   --color-muted: var(--color-wakaba);
   --color-canvas: var(--color-usugiri);
 
@@ -107,6 +118,13 @@
      `src/shared/__tests__/kit-styling.spec.ts` fails if a role is missed. */
   --color-canvas: var(--color-usugiri);
   --color-muted: var(--color-wakaba);
+
+  /* The pigments lighten at night, so the text on them darkens. */
+  --color-on-primary: #061518;
+  --color-on-accent: #061518;
+  --color-on-positive: #061518;
+  --color-on-negative: #061518;
+  --color-on-warning: #061518;
 }
 
 /* ── Shell basics ───────────────────────────────────────────────────────── */
