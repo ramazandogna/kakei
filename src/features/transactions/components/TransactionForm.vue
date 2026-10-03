@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, useTemplateRef, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, useTemplateRef, watch } from 'vue'
 import { ChevronDown, Trash2 } from 'lucide-vue-next'
 
 import { BaseButton, BaseInput, SegmentedControl, todayKey } from 'rei-kit'
@@ -70,7 +70,7 @@ watch(direction, (next) => {
   if (next === 'in') necessity.value = null
 })
 
-const amountInput = useTemplateRef<HTMLInputElement>('amountInput')
+const amountInput = useTemplateRef<{ focus: () => void }>('amountInput')
 
 onMounted(() => {
   // BaseSheet focuses its own panel on the tick after it opens, so this waits
@@ -93,6 +93,14 @@ async function submit() {
   if (minor === null) {
     amountError.value =
       amount.value.trim() === '' ? 'validation.amountRequired' : 'validation.amountInvalid'
+
+    /* The message has to be in the DOM before the focus lands on the field,
+       or `aria-describedby` points at nothing and the rejection is announced
+       to nobody. The hand-written field used `role="alert"`, which fires when
+       the element appears and did not care about this order; the kit's field
+       is described rather than announced, which is right — a message read at
+       somebody whose focus has not moved is worse — but it does care. */
+    await nextTick()
     amountInput.value?.focus()
     return
   }
@@ -145,38 +153,30 @@ async function confirmDelete() {
   <form class="flex flex-col gap-5" novalidate @submit.prevent="submit">
     <SegmentedControl v-model="direction" :options="DIRECTION_OPTIONS" />
 
-    <!-- Not BaseInput, and it now has a second reason. The first is size: this
-         field is why the sheet exists, and it has to be large enough to hit
-         without looking and to read at arm's length.
-
-         The second is the `ref`. The sheet focuses this input on open and
-         again after an error, and a `ref` on a component gives the component
-         rather than the element — `BaseInput` exposes no way to reach it. If
-         that changes, so can this. -->
-    <div class="flex flex-col gap-1">
-      <label class="text-ink-soft text-xs font-medium" for="amount-field">
-        {{ $t('transaction.amount') }}
-      </label>
-
-      <input
-        id="amount-field"
-        ref="amountInput"
-        v-model="amount"
-        class="amount-field tnum"
-        :class="direction === 'in' ? 'text-positive' : 'text-ink'"
-        type="text"
-        inputmode="decimal"
-        autocomplete="off"
-        enterkeyhint="done"
-        :aria-invalid="amountError !== ''"
-        :aria-describedby="amountError ? 'amount-error' : undefined"
-        placeholder="0"
-      />
-
-      <p v-if="amountError" id="amount-error" role="alert" class="text-negative text-xs">
-        {{ $t(amountError) }}
-      </p>
-    </div>
+    <!-- The kit's field now, since rei-kit 3.6.0. It was hand-written for two
+         reasons and both of them closed: `focus()` is exposed, so the sheet
+         can still put the keyboard here on open and after a rejection, and
+         `control-class` paints the control rather than the field around it.
+         `control` rather than a hand-painted border and ground, so this field
+         follows the material like everything else. -->
+    <BaseInput
+      ref="amountInput"
+      v-model="amount"
+      :label="$t('transaction.amount')"
+      size="sm"
+      variant="unstyled"
+      :control-class="
+        [
+          'control rounded-card focus-ring tnum h-16 w-full px-4 text-3xl font-semibold',
+          direction === 'in' ? 'text-positive' : 'text-ink',
+        ].join(' ')
+      "
+      :error="amountError ? $t(amountError) : ''"
+      inputmode="decimal"
+      autocomplete="off"
+      enterkeyhint="done"
+      placeholder="0"
+    />
 
     <section class="flex flex-col gap-2">
       <h3 class="text-ink-soft text-xs font-medium">{{ $t('transaction.category') }}</h3>
@@ -290,14 +290,6 @@ async function confirmDelete() {
 
 <style scoped>
 @reference "@/assets/main.css";
-
-.amount-field {
-  @apply border-hair bg-surface rounded-card h-16 w-full border px-4 text-3xl font-semibold;
-}
-
-.amount-field::placeholder {
-  @apply text-ink-soft/40;
-}
 
 .necessity {
   @apply flex-1 rounded-full border py-2.5 text-sm font-medium transition-colors;

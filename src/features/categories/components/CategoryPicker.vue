@@ -159,23 +159,31 @@ async function addCategory() {
   <div class="flex flex-col gap-3">
     <!-- Above the chips, because typing is the fastest route once the list is
          longer than the six that fit on a row. -->
-    <!-- Raw, and structurally rather than by preference: `.search-field` is the
-         flex row and the icon and the input are its two children, so the input
-         has to be a direct child. `BaseInput` wraps its control in FormField's
-         div even when unstyled, which would put a block between them. -->
-    <div class="search-field">
-      <Search class="text-ink-soft size-4 shrink-0" aria-hidden="true" />
-      <input
-        v-model="search"
-        type="search"
-        class="min-w-0 flex-1 bg-transparent text-sm outline-none"
-        :placeholder="$t('category.searchPlaceholder')"
-        :aria-label="$t('category.searchPlaceholder')"
-        autocomplete="off"
-        enterkeyhint="done"
-        @keydown.enter.prevent="selectFirstMatch"
-      />
-    </div>
+    <!-- The kit's field, since rei-kit 3.1.0 gave it a `#prefix` slot: the
+         icon and the input are one row inside one border, which is what the
+         hand-written version was for. `--radius-card` is scoped here rather
+         than a class, because a utility would lose to the kit's own — the
+         token is the documented way to reshape one component.
+
+         Adopting it also fixed something: the hand-written input was
+         `text-sm`, and iOS zooms the viewport when it focuses anything under
+         16px and never zooms back. The kit's field holds the floor. -->
+    <BaseInput
+      v-model="search"
+      type="search"
+      :label="$t('category.searchPlaceholder')"
+      label-hidden
+      size="sm"
+      class="[--radius-card:9999px]"
+      :placeholder="$t('category.searchPlaceholder')"
+      autocomplete="off"
+      enterkeyhint="done"
+      @keydown.enter.prevent="selectFirstMatch"
+    >
+      <template #prefix>
+        <Search class="text-ink-soft size-4 shrink-0" aria-hidden="true" />
+      </template>
+    </BaseInput>
 
     <!-- What the search found, flat: under a search the tree's shape is noise,
          and the answer is usually the first row. -->
@@ -302,12 +310,8 @@ async function addCategory() {
 <style scoped>
 @reference "@/assets/main.css";
 
-.search-field {
-  @apply border-hair bg-surface focus-within:border-primary flex h-11 items-center gap-2 rounded-full border px-3.5 transition-colors;
-}
-
 /* Safari draws its own clear button, which lands on top of the border. */
-.search-field input::-webkit-search-cancel-button {
+input[type='search']::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }
 </style>
