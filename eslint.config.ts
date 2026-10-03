@@ -24,6 +24,16 @@ export default defineConfigWithVueTs(
   {
     ...pluginVitest.configs.recommended,
     files: ['src/**/__tests__/*'],
+    rules: {
+      ...pluginVitest.configs.recommended.rules,
+      // A spec declares throwaway components -- one that throws, one that does
+      // not -- to drive the component under test. The rule is about keeping
+      // SFCs to a single component, which a .ts test file is not. Hibi turned
+      // it off for the same file; this one had been printing three warnings on
+      // every run instead, and a warning that is always there is one nobody
+      // reads.
+      'vue/one-component-per-file': 'off',
+    },
   },
 
   {
