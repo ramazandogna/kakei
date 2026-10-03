@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
-import { assertPublishableKey } from './src/shared/lib/api-key'
+import { assertPublishableKey } from './src/shared/lib/api-key.ts'
 
 // https://vite.dev/config/
 export default defineConfig({
