@@ -20,7 +20,7 @@ const ROWS = ['Salary', 'Rent', 'Phone'] as const
       :style="{ animationDelay: `${index * 160}ms` }"
     >
       <span
-        class="bg-primary flex size-5 shrink-0 items-center justify-center rounded-md text-white"
+        class="bg-primary text-on-primary flex size-5 shrink-0 items-center justify-center rounded-md"
       >
         <Check class="size-3 stroke-[3]" />
       </span>

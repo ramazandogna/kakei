@@ -93,7 +93,9 @@ async function postAll() {
         >
           <span
             class="tick"
-            :class="skipped.has(entry.id) ? 'border-hair' : 'border-primary bg-primary text-white'"
+            :class="
+              skipped.has(entry.id) ? 'border-hair' : 'border-primary bg-primary text-on-primary'
+            "
             aria-hidden="true"
           >
             <Check v-if="!skipped.has(entry.id)" class="size-3 stroke-[3]" />

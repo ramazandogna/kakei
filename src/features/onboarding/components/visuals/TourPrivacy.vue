@@ -20,7 +20,7 @@ import { ShieldCheck } from 'lucide-vue-next'
     />
 
     <span
-      class="bg-primary absolute -right-1 bottom-0 flex size-12 items-center justify-center rounded-2xl text-white shadow-lg"
+      class="bg-primary text-on-primary absolute -right-1 bottom-0 flex size-12 items-center justify-center rounded-2xl shadow-lg"
     >
       <ShieldCheck class="size-6" />
     </span>

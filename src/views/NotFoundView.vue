@@ -12,7 +12,7 @@ import { EmptyState } from 'rei-kit'
       <template #action>
         <RouterLink
           to="/"
-          class="bg-primary rounded-card flex h-11 items-center justify-center px-4 text-base font-medium text-white transition-transform duration-100 active:scale-95"
+          class="bg-primary rounded-card text-on-primary flex h-11 items-center justify-center px-4 text-base font-medium transition-transform duration-100 active:scale-95"
         >
           {{ $t('notFound.action') }}
         </RouterLink>

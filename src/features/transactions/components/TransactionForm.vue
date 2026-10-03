@@ -300,10 +300,10 @@ async function confirmDelete() {
 }
 
 .necessity-need {
-  @apply border-positive bg-positive text-white;
+  @apply border-positive bg-positive text-on-positive;
 }
 
 .necessity-want {
-  @apply border-warning bg-warning text-white;
+  @apply border-warning bg-warning text-on-warning;
 }
 </style>

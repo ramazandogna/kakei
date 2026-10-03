@@ -214,6 +214,6 @@ function dayDate(dateKey: string): string {
 }
 
 .filter-badge {
-  @apply bg-primary absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full text-[10px] font-bold text-white;
+  @apply bg-primary text-on-primary absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full text-[10px] font-bold;
 }
 </style>

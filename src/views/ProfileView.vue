@@ -99,7 +99,7 @@ async function logout() {
          place in the app that is about the person rather than the money. -->
     <BaseCard as="section" padding="md" class="flex items-center gap-4">
       <span
-        class="brand-gradient flex size-14 shrink-0 items-center justify-center rounded-full text-xl font-semibold text-white"
+        class="brand-gradient text-on-primary flex size-14 shrink-0 items-center justify-center rounded-full text-xl font-semibold"
         aria-hidden="true"
       >
         <template v-if="initial">{{ initial }}</template>
