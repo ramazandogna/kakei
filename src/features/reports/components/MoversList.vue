@@ -73,6 +73,6 @@ const { format } = useMoney()
 @reference "@/assets/main.css";
 
 .mover {
-  @apply border-hair bg-surface rounded-card hover:bg-muted/40 flex w-full items-center gap-2.5 border px-3 py-2.5 transition-colors;
+  @apply control rounded-card hover:bg-muted/40 flex w-full items-center gap-2.5 px-3 py-2.5 transition-colors;
 }
 </style>

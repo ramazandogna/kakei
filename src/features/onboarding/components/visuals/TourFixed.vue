@@ -16,7 +16,7 @@ const ROWS = ['Salary', 'Rent', 'Phone'] as const
     <div
       v-for="(row, index) in ROWS"
       :key="row"
-      class="tick-row border-hair bg-surface flex items-center gap-2.5 rounded-xl border px-3 py-2.5"
+      class="tick-row surface rounded-control flex items-center gap-2.5 px-3 py-2.5"
       :style="{ animationDelay: `${index * 160}ms` }"
     >
       <span

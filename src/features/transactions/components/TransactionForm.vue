@@ -296,7 +296,7 @@ async function confirmDelete() {
 }
 
 .necessity-off {
-  @apply border-hair bg-surface text-ink-soft hover:bg-muted;
+  @apply control text-ink-soft hover:bg-muted;
 }
 
 .necessity-need {

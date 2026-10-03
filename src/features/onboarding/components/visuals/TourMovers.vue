@@ -26,7 +26,7 @@ const MOVERS = [
     <div
       v-for="(mover, index) in MOVERS"
       :key="mover.name"
-      class="mover border-hair bg-surface flex items-center gap-2.5 rounded-xl border px-3 py-2.5"
+      class="mover surface rounded-control flex items-center gap-2.5 px-3 py-2.5"
       :style="{ animationDelay: `${index * 130}ms` }"
     >
       <span class="size-2.5 shrink-0 rounded-full" :class="mover.tone" />
